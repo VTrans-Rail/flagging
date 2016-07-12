@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VTrans Flagging Review</title>
+  <!--esri jsapi-->
+  <script src="https://js.arcgis.com/3.17/"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <!-- font Awesome -->
+  <script src="https://use.fontawesome.com/bea74d97a4.js"></script>
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="http://getbootstrap.com/examples/jumbotron/jumbotron.css" rel="stylesheet">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="http://bootswatch.com/sandstone/bootstrap.min.css" crossorigin="anonymous">
+
+  <script type="text/javascript" src="vtrans.js"></script>
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  <script type="text/javascript" src="http://localhost:35729/livereload.js"></script>
+  <style media="screen">
+    .btn-lg { font-size: 1.33em; }
+  </style>
+</head>
+
+<body>
+  <!-- top navbar -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <span class="navbar-brand">VTrans Approval</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main jumbotron -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Flagging Request</h1>
+      <p id="head-info">
+
+      </p>
+      <p>
+        <strong>Please decide:</strong>
+      </p>
+      <a class="btn btn-success btn-lg" href="#"
+      role="button">Approve <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></a>
+
+      <a class="btn btn-danger btn-lg" href="#"
+      role="button">Reject <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+    </div>
+  </div><!-- end jumbotron -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div id="info"></div>
+      </div>
+    </div>
+  </div><!-- container -->
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</body>
+
+</html>
