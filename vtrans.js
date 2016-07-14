@@ -24,7 +24,7 @@ require([
 
   var FormNo = getParameterByName("FormNo");
 
-  var RRWCUrl = "http://services1.arcgis.com/NXmBVyW5TaiCXqFs/ArcGIS/rest/services/Flaggging_Request_ALL/FeatureServer/0"
+  var RRWCUrl = "https://services1.arcgis.com/NXmBVyW5TaiCXqFs/ArcGIS/rest/services/Flaggging_Request_ALL/FeatureServer/0"
 
   // -------------------------------------------------------------------
   // ------------Set Query Parameters -------------------------------
