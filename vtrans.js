@@ -15,52 +15,79 @@ function getParameterByName(name) {
 // ----------------- Initialize ArcGIS Javascript API Functions -----------
 // --------------------------------------------------------------------
 require([
-      "dojo/dom", "dojo/on",
-      "esri/tasks/query", "esri/tasks/QueryTask",
-      "esri/layers/FeatureLayer",
-      "dojo/domReady!"
-    ], function(dom, on, Query, QueryTask, FeatureLayer) {
-      // ---------------------------------------------------------------------
+  "dojo/dom", "dojo/on",
+  "esri/tasks/query", "esri/tasks/QueryTask",
+  "esri/layers/FeatureLayer",
+  "dojo/domReady!"
+], function(dom, on, Query, QueryTask, FeatureLayer) {
+  // ---------------------------------------------------------------------
 
-      var FormNo = getParameterByName("FormNo");
+  var FormNo = getParameterByName("FormNo");
 
-      var RRWCUrl = "http://services1.arcgis.com/NXmBVyW5TaiCXqFs/ArcGIS/rest/services/Flaggging_Request_ALL/FeatureServer/0"
+  var RRWCUrl = "http://services1.arcgis.com/NXmBVyW5TaiCXqFs/ArcGIS/rest/services/Flaggging_Request_ALL/FeatureServer/0"
 
-      // -------------------------------------------------------------------
-      // ------------Set Query Parameters -------------------------------
-      // -------------------------------------------------------------
-      var queryTask = new QueryTask(RRWCUrl);
+  // -------------------------------------------------------------------
+  // ------------Set Query Parameters -------------------------------
+  // -------------------------------------------------------------
+  var queryTask = new QueryTask(RRWCUrl);
 
-      var query = new Query();
+  var query = new Query();
 
-      query.returnGeometry = false; // do not need for report page
-      query.outFields = [
-        'OBJECTID', 'FormNo', 'AppDate',
-        'CompName', 'WorkReason', 'BillAddress', 'BillTown', 'BillState', 'BillZIP',
-        'CompType', 'AppName', 'AppPhone', 'AppEmail', 'WorkRR', 'VRLID', 'WorkTown',
-        'WorkFromMP', 'WorkToMP', 'WorkDuration', 'WorkStartDate', 'WorkDescription',
-        'WorkEquipment', 'WorkCompletionDate', 'WorkAsset', 'WorkAssetID', 'RPMApproveDate',
-        'RPMApprovalBy', 'RPMComment', 'RRApproveDate', 'RRApprovedBy', 'RRFlagger'
-      ];
+  var outFields = [
+    'AppDate',
+    'CompName', 'WorkReason', 'BillAddress', 'BillTown', 'BillState', 'BillZIP',
+    'CompType', 'AppName', 'AppPhone', 'AppEmail', 'WorkRR', 'WorkTown',
+    'WorkFromMP', 'WorkToMP', 'WorkDuration', 'WorkStartDate', 'WorkDescription',
+    'WorkEquipment', 'WorkCompletionDate', 'WorkAsset'
+  ];
 
-      query.where = "FormNo=" + FormNo;
+  query.returnGeometry = false; // do not need for report page
+  query.outFields = outFields;
 
-      //execute query and then pass result into getPhotos func and initiate
-      queryTask.execute(query, showResults);
-      //-----------------------------------------------------
+  query.where = "FormNo=" + FormNo;
 
-    function showResults (results) {
-        var resultItems = [];
-        var resultCount = results.features.length;
-        for (var i = 0; i < resultCount; i++) {
-            var featureAttributes = results.features[i].attributes;
-            for (var attr in featureAttributes) {
-                resultItems.push(attr + ": " + featureAttributes[attr] + "<br>");
-            }
-            resultItems.push("<br>");
-        }
-        dom.byId("head-info").innerHTML = resultItems.join("");
-        dom.byId("info").innerHTML = resultItems.join("");
+  //execute query and then pass result into getPhotos func and initiate
+  queryTask.execute(query, showResults);
+  //-----------------------------------------------------
+
+  function showResults(results) {
+    var makeSpans = [];
+    var resultItems = [];
+    var resultCount = results.features.length;
+
+    for (var fields in results.fields) {
+      makeSpans.push('<strong>' + results.fields[fields].alias + ': </strong>' + '<span class="data" id="' + results.fields[fields].name + '"></span><br>');
     }
+    dom.byId("full-info").innerHTML = makeSpans.join("");
+
+    for (var i = 0; i < resultCount; i++) {
+      var featureAttributes = results.features[i].attributes;
+      for (var attr in featureAttributes) {
+        var domInsert = [];
+        if (featureAttributes[attr]) {
+          if (attr.includes("Date")) {
+            var d = new Date(featureAttributes[attr]);
+            var n = document.querySelectorAll("#" + attr);
+            for (var i = 0; i < n.length; i++) {
+              n[i].innerHTML = d.format("dddd, mmmm dS, yyyy");
+            }
+          } else {
+            resultItems.push("<strong>" + attr + ": </strong>" + featureAttributes[attr] + "</br>");
+            var n = document.querySelectorAll("#" + attr);
+            for (var i = 0; i < n.length; i++) {
+              n[i].innerHTML = featureAttributes[attr];
+            }
+          }
+        } else {
+          for (var i = 0; i < n.length; i++) {
+            var n = document.querySelectorAll("#" + attr);
+            n[i].innerHTML = "<em> not specified </em>";
+          }
+        }
+      }
+    }
+    // dom.byId("head-info").innerHTML = resultItems.join("");
+    // dom.byId("info").innerHTML = resultItems.join("");
+  }
 
 });
