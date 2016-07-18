@@ -17,14 +17,32 @@ function getParameterByName(name) {
 require([
   "dojo/dom", "dojo/on",
   "esri/tasks/query", "esri/tasks/QueryTask",
-  "esri/layers/FeatureLayer",
+  "esri/layers/FeatureLayer", "esri/map", "esri/symbols/SimpleMarkerSymbol",
+  "esri/renderers/SimpleRenderer","esri/graphic",
   "dojo/domReady!"
-], function(dom, on, Query, QueryTask, FeatureLayer) {
+], function(dom, on, Query, QueryTask, FeatureLayer, Map, SimpleMarkerSymbol, SimpleRenderer, Graphic) {
   // ---------------------------------------------------------------------
 
   var FormNo = getParameterByName("FormNo");
 
   var RRWCUrl = "https://services1.arcgis.com/NXmBVyW5TaiCXqFs/ArcGIS/rest/services/Flaggging_Request_ALL/FeatureServer/0"
+
+  // -------------------------------------------------------------------
+  // ------------Setup Map & symbol -------------------------------
+  // -------------------------------------------------------------
+
+  var symbol = new SimpleMarkerSymbol();
+  symbol.setStyle(SimpleMarkerSymbol.STYLE_SQUARE);
+  symbol.setSize(10);
+  symbol.setColor([255,255,0,.5]);
+
+  var map = new Map("map", {
+    center: [-72, 44],
+    zoom: 5,
+    basemap: "streets-relief-vector"
+  });
+
+  //-----------------------------------------------------
 
   // -------------------------------------------------------------------
   // ------------Set Query Parameters -------------------------------
@@ -41,8 +59,9 @@ require([
     'WorkEquipment', 'WorkCompletionDate', 'WorkAsset'
   ];
 
-  query.returnGeometry = false; // do not need for report page
   query.outFields = outFields;
+  query.returnGeometry = true;
+  query.outSpatialReference = {"wkid":4326};
 
   query.where = "FormNo=" + FormNo;
 
@@ -50,10 +69,24 @@ require([
   queryTask.execute(query, showResults);
   //-----------------------------------------------------
 
+
+
   function showResults(results) {
     var makeSpans = [];
     var resultItems = [];
     var resultCount = results.features.length;
+
+    var resultFeature = results.features;
+    var graphic = new Graphic();
+    graphic.setSymbol(symbol);
+    graphic.geometry = results.geometry;
+
+    var centerlon = results.features[0].geometry.x.toFixed(2);
+    var centerlat = results.features[0].geometry.y.toFixed(2);
+
+    map.centerAt([centerlon, centerlat]);
+    map.setLevel(13);
+    map.graphics.add(graphic);
 
     for (var fields in results.fields) {
       makeSpans.push('<strong>' + results.fields[fields].alias + ': </strong>' + '<span class="data" id="' + results.fields[fields].name + '"></span><br>');
