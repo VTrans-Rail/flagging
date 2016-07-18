@@ -32,8 +32,8 @@ require([
   // -------------------------------------------------------------
 
   var symbol = new SimpleMarkerSymbol();
-  symbol.setStyle(SimpleMarkerSymbol.STYLE_SQUARE);
-  symbol.setSize(10);
+  symbol.setStyle(SimpleMarkerSymbol.STYLE_DIAMOND);
+  symbol.setSize(25);
   symbol.setColor([255,255,0,.5]);
 
   var map = new Map("map", {
@@ -76,10 +76,10 @@ require([
     var resultItems = [];
     var resultCount = results.features.length;
 
-    var resultFeature = results.features;
+    var resultFeature = results.features[0];
     var graphic = new Graphic();
     graphic.setSymbol(symbol);
-    graphic.geometry = results.geometry;
+    graphic.geometry = resultFeature.geometry;
 
     var centerlon = results.features[0].geometry.x.toFixed(2);
     var centerlat = results.features[0].geometry.y.toFixed(2);
