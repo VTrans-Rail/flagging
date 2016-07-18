@@ -86,7 +86,6 @@ require([
 
     map.centerAt([centerlon, centerlat]);
     map.setLevel(13);
-    map.graphics.add(graphic);
 
     for (var fields in results.fields) {
       makeSpans.push('<strong>' + results.fields[fields].alias + ': </strong>' + '<span class="data" id="' + results.fields[fields].name + '"></span><br>');
@@ -119,8 +118,9 @@ require([
         }
       }
     }
-    // dom.byId("head-info").innerHTML = resultItems.join("");
-    // dom.byId("info").innerHTML = resultItems.join("");
+    map.on("load", function(){
+      map.graphics.add(graphic);
+    });
   }
 
 });
