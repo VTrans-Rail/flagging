@@ -6,5 +6,7 @@ Site for reviewing and approving flagging requests
 - Bootstrap
 - jQuery
 - Bootswatch theme
-- date.format.js 
+- date.format.js
 - FontAwesome
+- eslint courtesy @steveoh and https://github.com/agrc/AGRCJavaScriptProjectBoilerPlate
+- getParameterByName() from http://stackoverflow.com/questions/9501690/javascript-documentation-on-getparameterbyname
