@@ -3,10 +3,15 @@
 // the url so that it can be used for query tasks in the report page
 // -----------------------------------------------------------------------
 function getParameterByName (name) {
-  name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]')
-  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
-    results = regex.exec(location.search)
-  return results == null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '))
+  if (name !== '' && name !== null && name !== undefined) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)')
+    var results = regex.exec(location.search)
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '))
+  } else {
+    var arr = location.href.split('/')
+    return arr[arr.length - 1]
+  }
 }
 // ----------------------------------------------------------------
 
@@ -78,10 +83,8 @@ require([
     graphic.setSymbol(symbol)
     graphic.geometry = resultFeature.geometry
 
-    var centerlon = results.features[0].geometry.x.toFixed(4)
-    var centerlat = results.features[0].geometry.y.toFixed(4)
-
-    map.setLevel(16)
+    var x = Number(results.features[0].geometry.x.toFixed(4))
+    var y = Number(results.features[0].geometry.y.toFixed(4))
 
     for (var fields in results.fields) {
       makeSpans.push('<strong>' + results.fields[fields].alias + ': </strong>' + '<span class="data" id="' + results.fields[fields].name + '"></span><br>')
@@ -92,6 +95,7 @@ require([
       var featureAttributes = results.features[i].attributes
       for (var attr in featureAttributes) {
         if (featureAttributes[attr]) {
+          resultItems = []
           if (attr.includes('Date')) {
             var d = new Date(featureAttributes[attr])
             var n = document.querySelectorAll('#' + attr)
@@ -101,21 +105,21 @@ require([
           } else {
             resultItems.push('<strong>' + attr + ': </strong>' + featureAttributes[attr] + '</br>')
             var o = document.querySelectorAll('#' + attr)
-            for (var k = 0; k < n.length; k++) {
+            for (var k = 0; k < o.length; k++) {
               o[k].innerHTML = featureAttributes[attr]
             }
           }
         } else {
-          for (var l = 0; l < n.length; l++) {
-            var p = document.querySelectorAll('#' + attr)
+          var p = document.querySelectorAll('#' + attr)
+          for (var l = 0; l < p.length; l++) {
             p[l].innerHTML = '<em> not specified </em>'
           }
         }
       }
     }
     map.on('load', function () {
+      map.centerAndZoom([x, y], 16)
       map.graphics.add(graphic)
-      map.centerAt([centerlon, centerlat])
     })
   }
 })
