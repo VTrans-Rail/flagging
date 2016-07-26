@@ -28,8 +28,18 @@ require([
   // ---------------------------------------------------------------------
 
   var FormNo = getParameterByName('FormNo')
+  // -------------------------------------------------------------------
+  // ----------------- Feature URLs and variables -----------
+  // --------------------------------------------------------------------
 
+  var railLinesURL = 'http://vtransmap01.aot.state.vt.us/arcgis/rest/services/Rail/Rail_Lines/MapServer/0'
   var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/ArcGIS/rest/services/Flaggging_Request_ALL/FeatureServer/0'
+
+  var railLines = new FeatureLayer(railLinesURL, {
+    id: 'raillines',
+    opacity: 0.50,
+    definitionExpression: "StateOwned = 'Y'"
+  })
 
   // -------------------------------------------------------------------
   // ------------Setup Map & symbol -------------------------------
@@ -120,6 +130,7 @@ require([
     map.on('load', function () {
       map.centerAndZoom([x, y], 16)
       map.graphics.add(graphic)
+      map.addLayers([railLines])
     })
   }
 })
