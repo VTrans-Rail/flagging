@@ -88,28 +88,38 @@
         <form>
           <h4>Property Management details:</h4>
           <div class="form-group">
-            <label for="name">ROW Agent Name:</label>
+            <label for="name" class="control-label">ROW Agent Name:</label>
             <select name="name" class="form-control">
+              <option value="">&nbsp</option>
               <option value="Kevin Clairmont">Kevin Clairmont</option>
               <option value="Mark Fitzgerald">Mark Fitzgerald</option>
               <option value="Ludwig Pulaski">Ludwig Pulaski</option>
               <option value="Guy Tapper">Guy Tapper</option>
             </select>
+            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
           </div>
           <div class="form-group">
-            <label for="AgreementNum">Agreement Number:</label>
-            <input type="text" name="AgreementNum" value="" class="form-control">
+            <label for="AgreementNum" class="control-label">Agreement Number:</label>
+            <input type="text" name="AgreementNum" value="" class="form-control" id="agmtNum">
+            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
           </div>
           <div class="form-group">
-            <label for="comments">Comments</label>
+            <label for="comments" class="control-label">Comments</label>
             <textarea name="comments" rows="2" class="form-control"></textarea>
+            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
           </div>
         </form>
 
         <h3>Please Decide:</h3>
-        <a class="btn btn-success btn-lg" href="#" role="button">Approve <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+        <div id="incomplete">
+          <p>
+            <strong>Please fill out all fields above</strong>
+          </p>
 
-        <a class="btn btn-danger btn-lg" href="#" role="button">Reject <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+        </div>
+        <a class="btn btn-success btn-lg" role="button" id="approve" onclick="submit('approve')">Approve <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+
+        <a class="btn btn-danger btn-lg" role="button" id="reject" onclick="submit('reject')">Reject <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
       </div>
     </div>
   </div>
@@ -119,6 +129,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <!-- submit script -->
+  <script type="text/javascript" src="submit.js"></script>
 </body>
 
 </html>
