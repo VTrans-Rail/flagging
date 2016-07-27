@@ -17,3 +17,5 @@
 }
 
 #incomplete { display: none; color: red}
+
+.form-control-feedback { display: none;}
