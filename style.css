@@ -15,3 +15,5 @@
 #full-info {
   padding-bottom: 50px;
 }
+
+#incomplete { display: none; color: red}
