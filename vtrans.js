@@ -86,28 +86,28 @@ require([
     for (var fields in results.fields) {
       makeSpans.push('<strong>' + results.fields[fields].alias + ': </strong>' + '<span class="data" id="' + results.fields[fields].name + '"></span><br>')
     }
-    dom.byId('full-info').innerHTML = makeSpans.join('')
+    dom.byId('full-info').innerHTML = makeSpans.join('') // populate the dom with the makeSpans and join each element with a ''
 
-    var resultCount = results.features.length
-    for (var i = 0; i < resultCount; i++) {
-      var featureAttributes = results.features[i].attributes
+    var resultCount = results.features.length // number of attributes returned
+    for (var i = 0; i < resultCount; i++) { // loop through each attribute
+      var featureAttributes = results.features[i].attributes // populate the value of the current position
       for (var attr in featureAttributes) {
-        if (featureAttributes[attr]) {
-          resultItems = []
-          if (attr.includes('Date')) {
+        if (featureAttributes[attr]) { // if not blank
+          var resultItems = [] // clear out the array each loop
+          if (attr.includes('Date')) { // if date, then format it accordingly
             var d = new Date(featureAttributes[attr])
             var n = document.querySelectorAll('#' + attr)
             for (var j = 0; j < n.length; j++) {
               n[j].innerHTML = d.format('dddd, mmmm dS, yyyy')
             }
-          } else {
+          } else { // handle all other cases like this
             resultItems.push('<strong>' + attr + ': </strong>' + featureAttributes[attr] + '</br>')
             var o = document.querySelectorAll('#' + attr)
             for (var k = 0; k < o.length; k++) {
               o[k].innerHTML = featureAttributes[attr]
             }
           }
-        } else {
+        } else { // if blank, set the _not specified_
           var p = document.querySelectorAll('#' + attr)
           for (var l = 0; l < p.length; l++) {
             p[l].innerHTML = '<em> not specified </em>'
@@ -115,19 +115,19 @@ require([
         }
       }
     }
-    var x = Number(results.features[0].geometry.x.toFixed(4))
+    var x = Number(results.features[0].geometry.x.toFixed(4)) // get the coordinates of the result
     var y = Number(results.features[0].geometry.y.toFixed(4))
-    map.on('load', function () {
+    map.on('load', function () { // once the map is loaded, center and zoom and add point
       map.centerAndZoom([x, y], 16)
       map.graphics.add(graphic)
     })
   }
 
-  function createGraphic (formAttributes) {
+  function createGraphic (formAttributes) { // this will be for creating the attribute info to push back into the service
 
   }
 
-  function sendUpdate (data) {
+  function sendUpdate (data) { // this will hold the function that pushes the update
     console.log(data + ' update sent')
   }
 })
