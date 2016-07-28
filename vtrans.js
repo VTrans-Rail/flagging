@@ -37,7 +37,7 @@ require([
   // ------------Setup Map & symbol -------------------------------
   // -------------------------------------------------------------
 
-  var symbol = new SimpleMarkerSymbol({
+  var symbol = new SimpleMarkerSymbol({ // symbol setup using JSON object from http://help.arcgis.com/en/arcgisserver/10.0/apis/rest/symbol.html
     'color': [20, 175, 200, 150],
     'size': 17,
     'type': 'esriSMS',
@@ -79,23 +79,16 @@ require([
   // -----------------------------------------------------
 
   function showResults (results) {
-    var makeSpans = []
-    var resultItems = []
-    var resultCount = results.features.length
+    // setup the graphic of the one result feature
+    var graphic = new Graphic(results.features[0].geometry, symbol)
 
-    var resultFeature = results.features[0]
-    var graphic = new Graphic()
-    graphic.setSymbol(symbol)
-    graphic.geometry = resultFeature.geometry
-
-    var x = Number(results.features[0].geometry.x.toFixed(4))
-    var y = Number(results.features[0].geometry.y.toFixed(4))
-
+    var makeSpans = [] // create one <span> for each `outField`
     for (var fields in results.fields) {
       makeSpans.push('<strong>' + results.fields[fields].alias + ': </strong>' + '<span class="data" id="' + results.fields[fields].name + '"></span><br>')
     }
     dom.byId('full-info').innerHTML = makeSpans.join('')
 
+    var resultCount = results.features.length
     for (var i = 0; i < resultCount; i++) {
       var featureAttributes = results.features[i].attributes
       for (var attr in featureAttributes) {
@@ -122,6 +115,8 @@ require([
         }
       }
     }
+    var x = Number(results.features[0].geometry.x.toFixed(4))
+    var y = Number(results.features[0].geometry.y.toFixed(4))
     map.on('load', function () {
       map.centerAndZoom([x, y], 16)
       map.graphics.add(graphic)
