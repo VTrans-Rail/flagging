@@ -27,17 +27,23 @@ require([
 ], function (dom, on, Query, QueryTask, FeatureLayer, Map, SimpleMarkerSymbol, SimpleRenderer, Graphic) {
   // ---------------------------------------------------------------------
 
-  var FormNo = getParameterByName('FormNo')
-  var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/ArcGIS/rest/services/Flaggging_Request_ALL/FeatureServer/0'
+  var FormNo = getParameterByName('FormNo') // fetch form number from URL
+
+  var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/ArcGIS/rest/services/Flaggging_Request_ALL/FeatureServer/0' // feature service url
+
+  var RRWCFeatureLayer = new FeatureLayer(RRWCUrl, 'RRWC') // create FeatureLayer for updating later
 
   // -------------------------------------------------------------------
   // ------------Setup Map & symbol -------------------------------
   // -------------------------------------------------------------
 
-  var symbol = new SimpleMarkerSymbol()
-  symbol.setStyle(SimpleMarkerSymbol.STYLE_DIAMOND)
-  symbol.setSize(25)
-  symbol.setColor([255, 255, 0, 0.5])
+  var symbol = new SimpleMarkerSymbol({
+    'color': [20, 175, 200, 150],
+    'size': 17,
+    'type': 'esriSMS',
+    'style': 'esriSMSDiamond',
+    'outline': { 'color': [255, 255, 255, 255], 'width': 1 }
+  })
 
   var map = new Map('map', {
     center: [-72, 44],
@@ -120,5 +126,13 @@ require([
       map.centerAndZoom([x, y], 16)
       map.graphics.add(graphic)
     })
+  }
+
+  function createGraphic (formAttributes) {
+
+  }
+
+  function sendUpdate (data) {
+    console.log(data + ' update sent')
   }
 })
