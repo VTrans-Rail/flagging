@@ -6,10 +6,10 @@ function getParameterByName (name) {
   if (name !== '' && name !== null && name !== undefined) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)')
-    var results = regex.exec(location.search)
+    var results = regex.exec(window.location.search)
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '))
   } else {
-    var arr = location.href.split('/')
+    var arr = window.location.href.split('/')
     return arr[arr.length - 1]
   }
 }
@@ -33,6 +33,11 @@ require([
 
   var RRWCFeatureLayer = new FeatureLayer(RRWCUrl, 'RRWC') // create FeatureLayer for updating later
 
+  var feature = ''
+
+  on(dom.byId('approve'), 'click', function () { submit('approved') })
+  on(dom.byId('reject'), 'click', function () { submit('rejected') })
+
   // -------------------------------------------------------------------
   // ------------Setup Map & symbol -------------------------------
   // -------------------------------------------------------------
@@ -44,12 +49,13 @@ require([
     'style': 'esriSMSDiamond',
     'outline': { 'color': [255, 255, 255, 255], 'width': 1 }
   })
-
-  var map = new Map('map', {
-    center: [-72, 44],
-    zoom: 5,
-    basemap: 'hybrid'
-  })
+  if (document.getElementById('map')) { // only show if there is a map div
+    var map = new Map('map', {
+      center: [-72, 44],
+      zoom: 5,
+      basemap: 'hybrid'
+    })
+  }
 
   // -----------------------------------------------------
 
@@ -80,11 +86,16 @@ require([
 
   function showResults (results) {
     // setup the graphic of the one result feature
+    feature = results.features[0]
     var graphic = new Graphic(results.features[0].geometry, symbol)
 
     var makeSpans = [] // create one <span> for each `outField`
     for (var fields in results.fields) {
-      makeSpans.push('<strong>' + results.fields[fields].alias + ': </strong>' + '<span class="data" id="' + results.fields[fields].name + '"></span><br>')
+      if (document.getElementById('full-info')) { // for the vtrans page
+        makeSpans.push('<strong>' + results.fields[fields].alias + ': </strong>' + '<span class="data" id="' + results.fields[fields].name + '"></span><br>')
+      } else if (document.getElementById('status-info')) {
+
+      }
     }
     dom.byId('full-info').innerHTML = makeSpans.join('') // populate the dom with the makeSpans and join each element with a ''
 
@@ -115,16 +126,62 @@ require([
         }
       }
     }
-    var x = Number(results.features[0].geometry.x.toFixed(4)) // get the coordinates of the result
-    var y = Number(results.features[0].geometry.y.toFixed(4))
-    map.on('load', function () { // once the map is loaded, center and zoom and add point
-      map.centerAndZoom([x, y], 16)
-      map.graphics.add(graphic)
-    })
+    if (document.getElementById('map')) {
+      var x = Number(results.features[0].geometry.x.toFixed(4)) // get the coordinates of the result
+      var y = Number(results.features[0].geometry.y.toFixed(4))
+      if (map.loaded) {
+        map.centerAndZoom([x, y], 16)
+        map.graphics.add(graphic)
+      } else {
+        map.on('load', function () { // once the map is loaded, center and zoom and add point
+          map.centerAndZoom([x, y], 16)
+          map.graphics.add(graphic)
+        })
+      }
+    }
   }
 
-  function createGraphic (formAttributes) { // this will be for creating the attribute info to push back into the service
+  // -------------------------------------------------------
+  // Tool for gathering data from the form
+  // calculating some new values
+  // passing them back into the featureclass
+  // and kicking off the email submit process
+  // -------------------------------------------------------
 
+  function submit (decision) {
+    var formFields = document.getElementsByClassName('form-control')
+
+  // verify that the form is filled out
+  // show error warnings if left blank
+  // remove error warnings if filled out
+
+    for (var i = 0; i < formFields.length; i++) {
+      if (formFields[i].value) {
+        var exes = document.getElementsByClassName('form-control-feedback')
+        for (var l = 0; l < exes.length; l++) {
+          exes[l].style.display = 'none'
+        }
+        formFields[i].parentElement.className = 'form-group'
+        document.getElementById('incomplete').style.display = 'none'
+      } else {
+        formFields[i].parentElement.className += ' has-error has-feedback'
+        document.getElementById('incomplete').style.display = 'block'
+        var xes = document.getElementsByClassName('form-control-feedback')
+        for (var j = 0; j < xes.length; j++) {
+          xes[j].style.display = 'block'
+        }
+      }
+    }
+
+    // fetch values from the form
+    // set today's date
+
+    var agentName = document.getElementById('agentName').value
+    var agmtNum = document.getElementById('agmtNum').value
+    var comments = document.getElementById('comments').value
+    var approveDate = new Date().format('m/dd/yy')
+
+    // submit data to REST endpoint
   }
 
   function sendUpdate (data) { // this will hold the function that pushes the update
