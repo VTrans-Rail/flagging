@@ -31,9 +31,11 @@ require([
 
   var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/ArcGIS/rest/services/Flaggging_Request_ALL/FeatureServer/0' // feature service url
 
-  var RRWCFeatureLayer = new FeatureLayer(RRWCUrl, 'RRWC') // create FeatureLayer for updating later
+  var RRWCFeatureLayer = new FeatureLayer(RRWCUrl, {
+    outFields: ['*']
+  }) // create FeatureLayer for updating later
 
-  var feature = ''
+  var feature = '' // make the feature var in the global scope to allow access later
 
   on(dom.byId('approve'), 'click', function () { submit('approved') })
   on(dom.byId('reject'), 'click', function () { submit('rejected') })
@@ -67,7 +69,7 @@ require([
   var query = new Query()
 
   var outFields = [
-    'AppDate',
+    'OBJECTID', 'AppDate',
     'CompName', 'WorkReason', 'BillAddress', 'BillTown', 'BillState', 'BillZIP',
     'CompType', 'AppName', 'AppPhone', 'AppEmail', 'WorkRR', 'WorkTown',
     'WorkFromMP', 'WorkToMP', 'WorkDuration', 'WorkStartDate', 'WorkDescription',
@@ -173,18 +175,39 @@ require([
       }
     }
 
+    var formData = {} // set blank object for holding data from the form
+
     // fetch values from the form
     // set today's date
+    formData.AgentName = document.getElementById('agentName').value
+    formData.Comments = document.getElementById('comments').value
+    formData.ApproveDate = new Date().format('m/dd/yy')
+    formData.Decision = decision
 
-    var agentName = document.getElementById('agentName').value
-    var agmtNum = document.getElementById('agmtNum').value
-    var comments = document.getElementById('comments').value
-    var approveDate = new Date().format('m/dd/yy')
-
-    // submit data to REST endpoint
+    sendUpdate(formData) // submit data to REST endpoint
   }
 
-  function sendUpdate (data) { // this will hold the function that pushes the update
-    console.log(data + ' update sent')
+  function sendUpdate (formData) { // this will hold the function that pushes the update
+    // updated attributes of the feature returned by the query layer
+    feature.attributes.RPMApprovalBy = formData.AgentName
+    feature.attributes.RPMComment = formData.Comments
+    feature.attributes.RPMDecisionDate = formData.ApproveDate
+    feature.attributes.RRDecision = formData.Decision
+
+    // run the applyEdits tool against the featureclass with the feature data
+    try {
+      RRWCFeatureLayer.applyEdits(null, feature, null, clearForm, errback)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      RRWCFeatureLayer.on('edits-complete', function () { console.log('edits complete') })
+    }
+  }
+
+  function clearForm () { // a function to clear the form after successful submission
+    console.log('successful callback')
+  }
+  function errback () {
+    console.error('error')
   }
 })
