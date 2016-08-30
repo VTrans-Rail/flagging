@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flagging Request Status</title>
+  <!--esri jsapi-->
+  <script src="https://js.arcgis.com/3.17/"></script>
+
+  <!-- esri css -->
+  <link rel="stylesheet" href="https://js.arcgis.com/3.17/esri/css/esri.css">
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="https://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="https://getbootstrap.com/examples/jumbotron/jumbotron.css" rel="stylesheet">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://bootswatch.com/sandstone/bootstrap.min.css" crossorigin="anonymous">
+
+  <!-- custom sytles -->
+  <link rel="stylesheet" href="style.css" media="screen" title="no title" charset="utf-8">
+
+  <script type="text/javascript" src="vtrans.js"></script>
+  <script type="text/javascript" src="date.format.js"></script>
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  <script type="text/javascript" src="http://localhost:35729/livereload.js"></script>
+  <!-- style overrides -->
+  <style media="screen">
+
+  </style>
+</head>
+
+<body>
+  <!-- top navbar -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <span class="navbar-brand">Flagging Request Status</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main jumbotron -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Flagging Request Status</h1>
+      <div class="brief-description">
+        <p>
+          <em>Brief Description</em>
+        </p>
+        <p>
+          On <span class="data" id="AppDate"></span>, <span class="data" id="AppName"></span> from <span class="data" id="CompName"></span> submitted a request for flagging protection for "<span class="data" id="WorkDescription"></span>."
+        </p>
+      </div>
+      <p>
+        <strong>Below is the current state of the request.</strong>
+      </p>
+
+    </div>
+  </div>
+  <!-- end jumbotron -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <h2>Status:</h2>
+        <div id="status-info"></div>
+      </div>
+    </div>
+  </div>
+  <!-- container -->
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <!-- submit script -->
+  <script type="text/javascript" src="submit.js"></script>
+</body>
+
+</html>
