@@ -189,11 +189,12 @@ require([
 
   function sendUpdate (formData) { // this will hold the function that pushes the update
     // updated attributes of the feature returned by the query layer
-    feature.attributes.RPMApprovalBy = formData.AgentName
-    feature.attributes.RPMComment = formData.Comments
-    feature.attributes.RPMDecisionDate = formData.ApproveDate
-    feature.attributes.RRDecision = formData.Decision
-
+    feature.setAttributes({
+      RPMApprovalBy: formData.AgentName,
+      RPMComment: formData.Comments,
+      RPMDecisionDate: formData.ApproveDate,
+      RRDecision: formData.Decision
+    })
     // run the applyEdits tool against the featureclass with the feature data
     try {
       RRWCFeatureLayer.applyEdits(null, [feature], null, clearForm, errback)
