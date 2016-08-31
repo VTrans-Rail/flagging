@@ -196,7 +196,7 @@ require([
 
     // run the applyEdits tool against the featureclass with the feature data
     try {
-      RRWCFeatureLayer.applyEdits(null, feature, null, clearForm, errback)
+      RRWCFeatureLayer.applyEdits(null, [feature], null, clearForm, errback)
     } catch (e) {
       console.error(e)
     } finally {
