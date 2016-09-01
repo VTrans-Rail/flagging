@@ -29,7 +29,9 @@ require([
 
   var FormNo = getParameterByName('FormNo') // fetch form number from URL
 
-  var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/ArcGIS/rest/services/Flaggging_Request_ALL/FeatureServer/0' // feature service url
+  // TODO: handle when FormNo is not valid
+
+  var RRWCUrl = 'http://vtransmap01.aot.state.vt.us/arcgis/rest/services/Rail/PM_FlaggingRequest_ALL/FeatureServer/0' // feature service url
 
   var RRWCFeatureLayer = new FeatureLayer(RRWCUrl, {
     outFields: ['*']
@@ -37,8 +39,8 @@ require([
 
   var feature = '' // make the feature var in the global scope to allow access later
 
-  on(dom.byId('approve'), 'click', function () { submit('approved') })
-  on(dom.byId('reject'), 'click', function () { submit('rejected') })
+  on(dom.byId('approve'), 'click', function () { submit('Approve') })
+  on(dom.byId('reject'), 'click', function () { submit('Reject') })
 
   // -------------------------------------------------------------------
   // ------------Setup Map & symbol -------------------------------
@@ -70,9 +72,18 @@ require([
 
   var outFields = [
     'OBJECTID', 'AppDate',
-    'CompName', 'WorkReason', 'BillAddress', 'BillTown', 'BillState', 'BillZIP',
+    'CompName', 'VTransProject', 'BillAddress', 'BillTown', 'BillState', 'BillZIP',
     'CompType', 'AppName', 'AppPhone', 'AppEmail', 'WorkRR', 'WorkTown',
-    'WorkFromMP', 'WorkToMP', 'WorkDuration', 'WorkStartDate', 'WorkDescription',
+    'WorkFromMP', 'WorkToMP', 'WorkDuration', 'WorkStartDate', 'WorkCompletionDate', 'WorkDescription',
+    'WorkEquipment', 'WorkCompletionDate', 'WorkAsset', 'RPMDecision', 'RPMDecisionDate',
+    'RPMApprovalBy', 'RPMComment', 'RRDecision', 'RRDecisionDate', 'RRApprovedBy'
+  ]
+
+  var displayFields = [
+    'AppDate',
+    'CompName', 'VTransProject', 'BillAddress', 'BillTown', 'BillState', 'BillZIP',
+    'CompType', 'AppName', 'AppPhone', 'AppEmail', 'WorkRR', 'WorkTown',
+    'WorkFromMP', 'WorkToMP', 'WorkDuration', 'WorkStartDate', 'WorkCompletionDate', 'WorkDescription',
     'WorkEquipment', 'WorkCompletionDate', 'WorkAsset'
   ]
 //  var outFields = ['*']
@@ -91,7 +102,7 @@ require([
     feature = new Graphic(results.features[0].geometry, symbol, results.features[0].attributes)
 
     var makeSpans = [] // create one <span> for each `outField`
-    for (var fields in results.fields) {
+    for (var fields in displayFields) {
       if (document.getElementById('full-info')) { // for the vtrans page
         makeSpans.push('<strong>' + results.fields[fields].alias + ': </strong>' + '<span class="data" id="' + results.fields[fields].name + '"></span><br>')
       } else if (document.getElementById('status-info')) {
@@ -191,7 +202,7 @@ require([
     feature.attributes.RPMApprovalBy = formData.AgentName
     feature.attributes.RPMComment = formData.Comments
     feature.attributes.RPMDecisionDate = formData.ApproveDate
-    feature.attributes.RRDecision = formData.Decision
+    feature.attributes.RPMDecision = formData.Decision
     // run the applyEdits tool against the featureclass with the feature data
     try {
       RRWCFeatureLayer.applyEdits(null, [feature], null, clearForm, errback)
