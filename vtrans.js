@@ -88,8 +88,7 @@ require([
 
   function showResults (results) {
     // setup the graphic of the one result feature
-    feature = results.features[0]
-    var graphic = new Graphic(results.features[0].geometry, symbol)
+    feature = new Graphic(results.features[0].geometry, symbol, results.features[0].attributes)
 
     var makeSpans = [] // create one <span> for each `outField`
     for (var fields in results.fields) {
@@ -133,11 +132,11 @@ require([
       var y = Number(results.features[0].geometry.y.toFixed(4))
       if (map.loaded) {
         map.centerAndZoom([x, y], 16)
-        map.graphics.add(graphic)
+        map.graphics.add(feature)
       } else {
         map.on('load', function () { // once the map is loaded, center and zoom and add point
           map.centerAndZoom([x, y], 16)
-          map.graphics.add(graphic)
+          map.graphics.add(feature)
         })
       }
     }
