@@ -1,7 +1,13 @@
 function sendEmail (emailSubmission) {
     // parameters: service_id, template_id, template_parameters
+  console.log('did this run')
   try {
-    emailjs.send('sendgrid', 'vrs', emailSubmission)
+    // emailjs.send('sendgrid', 'vrs', emailSubmission)
+    // .then(function (response) {
+      console.log('successful email')
+    }, function (err) {
+      console.error('failed - error = ', err)
+    })
   } catch (e) {
     console.error(e)
   } finally {

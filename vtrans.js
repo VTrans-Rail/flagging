@@ -246,9 +246,10 @@ require([
     }, function (err) {
       console.error('failed - error = ', err)
     })
+    return true
   };
 
-  function errback () {
-    console.error('err')
+  function errback (e) {
+    console.error(e)
   }
 })
