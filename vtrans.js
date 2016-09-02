@@ -29,9 +29,17 @@ require([
 
   var FormNo = getParameterByName('FormNo') // fetch form number from URL
 
-  // TODO: handle when FormNo is not valid
+  if (!FormNo) { // don't display the data for a blank form number
+    var mains = document.getElementsByClassName('main')
+    for (var i = 0; i < mains.length; i++) {
+      mains[i].style.display = 'none'
+    }
+    document.getElementById('noFormNo').style.display = 'block'
+  }
 
-  var RRWCUrl = 'http://services1.arcgis.com/NXmBVyW5TaiCXqFs/arcgis/rest/services/PM_FlaggingRequest_ALL_Hosted/FeatureServer/0' // feature service url
+  // TODO: handle when FormNo is not valid or not present
+
+  var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/arcgis/rest/services/PM_FlaggingRequest_ALL_Hosted/FeatureServer/0' // feature service url
 
   var RRWCFeatureLayer = new FeatureLayer(RRWCUrl, {
     outFields: ['*']
