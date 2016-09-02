@@ -29,15 +29,21 @@ require([
 
   var FormNo = getParameterByName('FormNo') // fetch form number from URL
 
-  if (!FormNo) { // don't display the data for a blank form number
+  if (!FormNo) {
+    badFormNo('blank') // run this after getting formNo from the URL
+  }
+
+  function badFormNo (problem) {
     var mains = document.getElementsByClassName('main')
     for (var i = 0; i < mains.length; i++) {
       mains[i].style.display = 'none'
     }
-    document.getElementById('noFormNo').style.display = 'block'
+    if (problem === 'blank') {
+      document.getElementById('noFormNo').style.display = 'block'
+    } else if (problem === 'noResults') {
+      document.getElementById('badFormNo').style.display = 'block'
+    }
   }
-
-  // TODO: handle when FormNo is not valid or not present
 
   var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/arcgis/rest/services/PM_FlaggingRequest_ALL_Hosted/FeatureServer/0' // feature service url
 
@@ -99,6 +105,11 @@ require([
   // -----------------------------------------------------
 
   function showResults (results) {
+    // check if the formNo is invalid, returning null results
+    if (results.features.length === 0) {
+      badFormNo('noResults')
+      return
+    }
     // setup the graphic of the one result feature
     feature = new Graphic(results.features[0].geometry, symbol, results.features[0].attributes)
 
