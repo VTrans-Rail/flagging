@@ -56,6 +56,16 @@
   <!-- Main jumbotron -->
   <div class="jumbotron">
     <div class="container">
+      <!-- Alert navbar -->
+      <div id="alert" style="display: none">
+        <div class="alert alert-danger" role="alert">
+          <p>
+            <strong>Notice:</strong>
+            This request has already been approved.
+          </p>
+        </div>
+      </div>
+
       <h1>Flagging Request</h1>
       <div class="brief-description">
         <p>
@@ -111,6 +121,13 @@
         </form>
 
         <h3>Please Decide:</h3>
+        <div id="alert">
+          <p style="color: red">
+            <strong>
+            Are you sure you want to change the decision? This will restart the approval process.
+          </strong>
+          </p>
+        </div>
         <div id="incomplete">
           <p>
             <strong>Please fill out all fields above</strong>
