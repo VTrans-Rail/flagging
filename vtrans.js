@@ -22,10 +22,12 @@ require([
   'dojo/dom', 'dojo/on',
   'esri/tasks/query', 'esri/tasks/QueryTask',
   'esri/layers/FeatureLayer', 'esri/map', 'esri/symbols/SimpleMarkerSymbol',
-  'esri/renderers/SimpleRenderer', 'esri/graphic',
+  'esri/renderers/SimpleRenderer', 'esri/graphic', 'esri/config',
   'dojo/domReady!'
-], function (dom, on, Query, QueryTask, FeatureLayer, Map, SimpleMarkerSymbol, SimpleRenderer, Graphic) {
+], function (dom, on, Query, QueryTask, FeatureLayer, Map, SimpleMarkerSymbol, SimpleRenderer, Graphic, esriConfig) {
   // ---------------------------------------------------------------------
+
+  esriConfig.defaults.io.corsEnabledServers.push('vtransmap01.aot.state.vt.us')
 
   var FormNo = getParameterByName('FormNo') // fetch form number from URL
 
@@ -70,14 +72,7 @@ require([
 
   var query = new Query()
 
-  var outFields = [
-    'OBJECTID', 'AppDate',
-    'CompName', 'VTransProject', 'BillAddress', 'BillTown', 'BillState', 'BillZIP',
-    'CompType', 'AppName', 'AppPhone', 'AppEmail', 'WorkRR', 'WorkTown',
-    'WorkFromMP', 'WorkToMP', 'WorkDuration', 'WorkStartDate', 'WorkCompletionDate', 'WorkDescription',
-    'WorkEquipment', 'WorkCompletionDate', 'WorkAsset', 'RPMDecision', 'RPMDecisionDate',
-    'RPMApprovalBy', 'RPMComment', 'RRDecision', 'RRDecisionDate', 'RRApprovedBy'
-  ]
+  var outFields = ['*']
 
   var displayFields = [
     'AppDate',
@@ -217,6 +212,6 @@ require([
     console.log('successful callback')
   }
   function errback () {
-    console.error('error')
+    console.error('err')
   }
 })
