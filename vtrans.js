@@ -22,12 +22,10 @@ require([
   'dojo/dom', 'dojo/on',
   'esri/tasks/query', 'esri/tasks/QueryTask',
   'esri/layers/FeatureLayer', 'esri/map', 'esri/symbols/SimpleMarkerSymbol',
-  'esri/renderers/SimpleRenderer', 'esri/graphic', 'esri/config',
+  'esri/renderers/SimpleRenderer', 'esri/graphic',
   'dojo/domReady!'
-], function (dom, on, Query, QueryTask, FeatureLayer, Map, SimpleMarkerSymbol, SimpleRenderer, Graphic, esriConfig) {
+], function (dom, on, Query, QueryTask, FeatureLayer, Map, SimpleMarkerSymbol, SimpleRenderer, Graphic) {
   // ---------------------------------------------------------------------
-
-  esriConfig.defaults.io.corsEnabledServers.push('vtransmap01.aot.state.vt.us')
 
   var FormNo = getParameterByName('FormNo') // fetch form number from URL
 
