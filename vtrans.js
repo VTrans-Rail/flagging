@@ -33,7 +33,7 @@ require([
 
   // TODO: handle when FormNo is not valid
 
-  var RRWCUrl = 'http://vtransmap01.aot.state.vt.us/arcgis/rest/services/Rail/PM_FlaggingRequest_ALL/FeatureServer/0' // feature service url
+  var RRWCUrl = 'http://services1.arcgis.com/NXmBVyW5TaiCXqFs/arcgis/rest/services/PM_FlaggingRequest_ALL_Hosted/FeatureServer/0' // feature service url
 
   var RRWCFeatureLayer = new FeatureLayer(RRWCUrl, {
     outFields: ['*']
