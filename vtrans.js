@@ -241,12 +241,6 @@ require([
     console.log(emailSubmission)
 
     sendEmail(emailSubmission)
-    .then(function (response) {
-      console.log('successful email')
-    }, function (err) {
-      console.error('failed - error = ', err)
-    })
-    return true
   };
 
   function errback (e) {
