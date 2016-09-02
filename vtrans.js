@@ -233,7 +233,21 @@ require([
 
   function clearForm () { // a function to clear the form after successful submission
     console.log('successful callback')
-  }
+    var emailSubmission = {
+      rpm_list: 'stephen.smith@vermont.gov',
+      requester: 'Stephen',
+      form_no: '2016999'
+    }
+    console.log(emailSubmission)
+
+    sendEmail(emailSubmission)
+    .then(function (response) {
+      console.log('successful email')
+    }, function (err) {
+      console.error('failed - error = ', err)
+    })
+  };
+
   function errback () {
     console.error('err')
   }
