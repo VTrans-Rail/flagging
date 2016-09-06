@@ -120,6 +120,7 @@ require([
     }
 
     var makeSpans = [] // create one <span> for each `outField`
+    // TODO: Fix which fields are displayed (rather than ouftields = *)
     for (var fields in displayFields) {
       if (document.getElementById('full-info')) { // for the vtrans page
         makeSpans.push('<strong>' + results.fields[fields].alias + ': </strong>' + '<span class="data" id="' + results.fields[fields].name + '"></span><br>')
@@ -228,7 +229,7 @@ require([
     feature.attributes.RPMDecision = formData.Decision
     // run the applyEdits tool against the featureclass with the feature data
     try {
-      RRWCFeatureLayer.applyEdits(null, [feature], null, clearForm, errback)
+      RRWCFeatureLayer.applyEdits(null, [feature], null, null, errback)
     } catch (e) {
       console.error(e)
     }
@@ -256,15 +257,16 @@ require([
       window.alert('Error editing features: ' + messages.join('\n'))
     } else {
       document.getElementById('editSuccess').style.display = 'block'
+      prepEmail()
     }
   }
+  var rpmList = 'stephen.smith@vermont.gov' // TODO: Change this to RPM users before finalizng
 
-  function clearForm () { // a function to clear the form after successful submission
-    // TODO: Show a confirmation that the data was updated
+  function prepEmail () { // a function to fetch data to send in the email
     var emailSubmission = {
-      rpm_list: 'stephen.smith@vermont.gov',
-      requester: 'Stephen',
-      form_no: '2016999'
+      rpm_list: rpmList,
+      requester: feature.attributes.AppName,
+      form_no: feature.attributes.FormNo
     }
     sendEmail(emailSubmission)
   };
