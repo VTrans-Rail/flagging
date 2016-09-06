@@ -255,10 +255,7 @@ require([
       })
       window.alert('Error editing features: ' + messages.join('\n'))
     } else {
-      var s = document.getElementsByClassName('editSuccess')
-      for (var i = 0; i < s.length; i++) {
-        s[i].style.display = 'block'
-      }
+      document.getElementById('editSuccess').style.display = 'block'
     }
   }
 

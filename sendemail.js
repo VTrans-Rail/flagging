@@ -1,6 +1,7 @@
 function sendEmail (emailSubmission) {
     // parameters: service_id, template_id, template_parameters
   console.log('email test sent')
+  document.getElementById('emailSuccess').style.display = 'block'
   // try {
   //   emailjs.send('sendgrid', 'vrs', emailSubmission)
   //   .then(function (response) {

@@ -1,21 +1,37 @@
-.btn { margin-bottom: 10px;}
-
-.btn-lg { font-size: 1.33em; }
-
+.btn {
+    margin-bottom: 10px;
+}
+.btn-lg {
+    font-size: 1.33em;
+}
 .data {
-  color: red;
+    color: red;
 }
-
 #map {
-  width: 100%;
-  height: auto;
-  margin: 0; padding: 0;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
 }
-
 #full-info {
-  padding-bottom: 50px;
+    padding-bottom: 50px;
 }
-
-#incomplete { display: none; color: red}
-
-.form-control-feedback { display: none;}
+#incomplete {
+    display: none;
+    color: red
+}
+.form-control-feedback {
+    display: none;
+}
+.editsComplete {
+    text-align: center;
+    /*display: none;*/
+}
+#editSuccess {
+    color: green;
+    display: none;
+}
+#emailSuccess {
+    color: green;
+    display: none;
+}
