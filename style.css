@@ -25,13 +25,14 @@
 }
 .editsComplete {
     text-align: center;
-    /*display: none;*/
 }
 #editSuccess {
-    color: green;
     display: none;
 }
 #emailSuccess {
-    color: green;
     display: none;
+}
+
+#editFail {
+  display: none;
 }

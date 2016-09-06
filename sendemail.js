@@ -8,6 +8,7 @@ function sendEmail (emailSubmission) {
   //     console.log('successful email')
   //   }, function (err) {
   //     console.error('failed - error = ', err)
+  //     document.getElementById('emailFail').style.display = 'block'
   //   })
   // } catch (e) {
   //   console.error(e)
