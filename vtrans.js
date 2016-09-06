@@ -114,7 +114,8 @@ require([
     feature = new Graphic(results.features[0].geometry, symbol, results.features[0].attributes)
 
     if (feature.attributes.RPMDecision) { // check is the request has been previously approved
-      document.getElementById('alert').style.display = 'block'
+      document.getElementById('alertTop').style.display = 'block'
+      document.getElementById('alertBot').style.display = 'block'
       document.getElementById('agentName').value = feature.attributes.RPMApprovalBy
       document.getElementById('comments').value = feature.attributes.RPMComment
     }

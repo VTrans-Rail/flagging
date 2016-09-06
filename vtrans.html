@@ -82,7 +82,7 @@
         </div>
         <div class="container main">
             <!-- Alert navbar -->
-            <div id="alert" style="display: none">
+            <div id="alertTop" style="display: none">
                 <div class="alert alert-danger" role="alert">
                     <p>
                         <strong>Notice:</strong> This request has already been approved.
@@ -122,7 +122,7 @@
                 <form>
                     <h4>Property Management details:</h4>
                     <div class="form-group">
-                        <label for="name" class="control-label">ROW Agent Name:</label>
+                        <label for="name" class="control-label">Agent Name:</label>
                         <select name="name" class="form-control" id="agentName">
                             <option value="">&nbsp</option>
                             <option value="Kevin Clairmont">Kevin Clairmont</option>
@@ -145,7 +145,7 @@
                 </form>
 
                 <h3>Please Decide:</h3>
-                <div id="alert">
+                <div id="alertBot" style="display: none;">
                     <p style="color: red">
                         <strong>
                           Are you sure you want to change the decision? This will restart the approval process.

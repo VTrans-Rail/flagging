@@ -24,6 +24,11 @@
     display: none;
     color: red
 }
+form {
+  background-color: rgb(0,121,52);
+  padding: 25px;
+  color: white;
+}
 .form-control-feedback {
     display: none;
 }
