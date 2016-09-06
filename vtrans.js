@@ -226,20 +226,39 @@ require([
       RRWCFeatureLayer.applyEdits(null, [feature], null, clearForm, errback)
     } catch (e) {
       console.error(e)
-    } finally {
-      RRWCFeatureLayer.on('edits-complete', function () { console.log('edits complete') })
+    }
+  }
+
+  RRWCFeatureLayer.on('edits-complete', handleEditsComplete)
+
+  function handleEditsComplete (evt) {
+        // Check for errors after online edits complete
+    var errors = Array.prototype.concat(
+            evt.adds.filter(function (r) {
+              return !r.success
+            }),
+            evt.updates.filter(function (r) {
+              return !r.success
+            }),
+            evt.deletes.filter(function (r) {
+              return !r.success
+            })
+        )
+    if (errors.length) {
+      var messages = errors.map(function (e) {
+        return e.error.message
+      })
+      alert('Error editing features: ' + messages.join('\n'))
     }
   }
 
   function clearForm () { // a function to clear the form after successful submission
-    console.log('successful callback')
+    // TODO: Show a confirmation that the data was updated
     var emailSubmission = {
       rpm_list: 'stephen.smith@vermont.gov',
       requester: 'Stephen',
       form_no: '2016999'
     }
-    console.log(emailSubmission)
-
     sendEmail(emailSubmission)
   };
 
