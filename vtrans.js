@@ -185,6 +185,8 @@ require([
   // show error warnings if left blank
   // remove error warnings if filled out
 
+    var formError = 0 // bool var for detecting form blanks
+
     for (var i = 0; i < formFields.length; i++) {
       if (formFields[i].value) {
         var exes = document.getElementsByClassName('form-control-feedback')
@@ -194,6 +196,7 @@ require([
         formFields[i].parentElement.className = 'form-group'
         document.getElementById('incomplete').style.display = 'none'
       } else {
+        formError++ // bool var for detecting form blanks
         formFields[i].parentElement.className += ' has-error has-feedback'
         document.getElementById('incomplete').style.display = 'block'
         var xes = document.getElementsByClassName('form-control-feedback')
@@ -212,7 +215,9 @@ require([
     formData.ApproveDate = new Date().format('m/dd/yy')
     formData.Decision = decision
 
-    sendUpdate(formData) // submit data to REST endpoint
+    if (formError === 0) {
+      sendUpdate(formData) // submit data to REST endpoint
+    }
   }
 
   function sendUpdate (formData) { // this will hold the function that pushes the update
@@ -248,7 +253,12 @@ require([
       var messages = errors.map(function (e) {
         return e.error.message
       })
-      alert('Error editing features: ' + messages.join('\n'))
+      window.alert('Error editing features: ' + messages.join('\n'))
+    } else {
+      var s = document.getElementsByClassName('editSuccess')
+      for (var i = 0; i < s.length; i++) {
+        s[i].style.display = 'block'
+      }
     }
   }
 
