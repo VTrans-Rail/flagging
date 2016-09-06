@@ -252,6 +252,7 @@ require([
         )
     if (errors.length) {
       var messages = errors.map(function (e) {
+        document.getElementById('editFail').style.display = 'block'
         return e.error.message
       })
       window.alert('Error editing features: ' + messages.join('\n'))
