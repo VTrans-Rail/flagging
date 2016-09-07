@@ -181,33 +181,8 @@ require([
   // -------------------------------------------------------
 
   function submit (decision) {
-    var formFields = document.getElementsByClassName('form-control')
-
-  // verify that the form is filled out
-  // show error warnings if left blank
-  // remove error warnings if filled out
-
-    var formError = 0 // bool var for detecting form blanks
-
-    for (var i = 0; i < formFields.length; i++) {
-      if (formFields[i].value) {
-        var exes = document.getElementsByClassName('form-control-feedback')
-        for (var l = 0; l < exes.length; l++) {
-          exes[l].style.display = 'none'
-        }
-        formFields[i].parentElement.className = 'form-group'
-        document.getElementById('incomplete').style.display = 'none'
-      } else {
-        formError++ // bool var for detecting form blanks
-        formFields[i].parentElement.className += ' has-error has-feedback'
-        document.getElementById('incomplete').style.display = 'block'
-        var xes = document.getElementsByClassName('form-control-feedback')
-        for (var j = 0; j < xes.length; j++) {
-          xes[j].style.display = 'block'
-        }
-      }
-    }
-
+    var agentField = document.getElementById('agentName')
+    var formStatus = checkForm(agentField)
     var formData = {} // set blank object for holding data from the form
 
     // fetch values from the form
@@ -217,8 +192,34 @@ require([
     formData.ApproveDate = new Date().format('m/dd/yy')
     formData.Decision = decision
 
-    if (formError === 0) {
+    if (formStatus) { // if the checkForm returned true then the fields were filled out
       sendUpdate(formData) // submit data to REST endpoint
+    } else {
+      console.log('Not everything was filled out.')
+    }
+  }
+
+  function checkForm (agentField) {
+    // verify that the form is filled out
+    // show error warnings if left blank
+    // remove error warnings if filled out
+
+    if (agentField.value) { // if the agent name is filled out
+      var exes = document.getElementsByClassName('form-control-feedback') // find all instances of feedback
+      for (var l = 0; l < exes.length; l++) {
+        exes[l].style.display = 'none' // set them to display none
+      }
+      agentField.parentElement.className = 'form-group' // change the class of the parent group to remove has-error has-fedback
+      document.getElementById('incomplete').style.display = 'none' // warning note text above buttons
+      return true// go back to submit()
+    } else { // if the agent name isn't filled out
+      agentField.parentElement.className += ' has-error has-feedback' // add the feedback classes to the parent
+      document.getElementById('incomplete').style.display = 'block' // turn on feedback text above button
+      var xes = document.getElementsByClassName('form-control-feedback') // turn on all feedback
+      for (var j = 0; j < xes.length; j++) {
+        xes[j].style.display = 'block'
+      }
+      return false
     }
   }
 
