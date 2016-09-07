@@ -49,6 +49,10 @@
     <!-- <script type="text/javascript" src="http://localhost:35729/livereload.js"></script> -->
     <!-- style overrides -->
     <style media="screen">
+    .navbar-inverse {
+      background-color: #ba2439;
+      border-color: #ba2439;
+    }
 
     </style>
 </head>
@@ -59,7 +63,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <span class="navbar-brand">VTrans Approval</span>
+                <span class="navbar-brand">VRS Approval</span>
             </div>
         </div>
     </nav>
@@ -96,7 +100,11 @@
                     <em>Brief Description</em>
                 </p>
                 <p>
-                    On <span class="data" id="AppDate"></span>, <span class="data" id="AppName"></span> from <span class="data" id="CompName"></span> submitted a request for flagging protection for "<span class="data" id="WorkDescription"></span>."
+                    On <span class="data" id="RPMDecisionDate"></span>, <span class="data" id="RPMApprovalBy"></span>
+                    at VTrans approved a request from <span class="data" id="AppName"></span>
+                    from <span class="data" id="CompName"></span> who submitted
+                    a request for flagging protection for
+                    "<span class="data" id="WorkDescription"></span>."
                 </p>
             </div>
             <p>
