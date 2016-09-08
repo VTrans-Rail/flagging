@@ -24,7 +24,12 @@
     display: none;
     color: red
 }
-form {
+#vrs {
+  background-color: #ba2439;
+  padding: 25px;
+  color: white;
+}
+#vtrans {
   background-color: rgb(0,121,52);
   padding: 25px;
   color: white;
