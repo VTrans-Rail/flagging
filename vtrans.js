@@ -29,6 +29,8 @@ require([
 
   var FormNo = getParameterByName('FormNo') // fetch form number from URL
 
+  var formType = window.location.pathname.split(/(\w+)/)[1]
+
   if (!FormNo) {
     badFormNo('blank') // run this after getting formNo from the URL
   }
@@ -113,11 +115,18 @@ require([
     // setup the graphic of the one result feature
     feature = new Graphic(results.features[0].geometry, symbol, results.features[0].attributes)
 
-    if (feature.attributes.RPMDecision) { // check is the request has been previously approved
+    if (feature.attributes.RPMDecision && formType === 'vtrans') { // check is the request has been previously approved
       document.getElementById('alertTop').style.display = 'block'
       document.getElementById('alertBot').style.display = 'block'
       document.getElementById('agentName').value = feature.attributes.RPMApprovalBy
       document.getElementById('comments').value = feature.attributes.RPMComment
+    }
+
+    if (feature.attributes.RRDecision && formType === 'vrs') { // check is the request has been previously approved
+      document.getElementById('alertTop').style.display = 'block'
+      document.getElementById('alertBot').style.display = 'block'
+      document.getElementById('RRApprovedBy').value = feature.attributes.RRApprovedBy
+      document.getElementById('RRFlagger').value = feature.attributes.RRFlagger
     }
 
     var makeSpans = [] // create one <span> for each `outField`
@@ -187,10 +196,16 @@ require([
 
     // fetch values from the form
     // set today's date
-    formData.AgentName = document.getElementById('agentName').value
-    formData.Comments = document.getElementById('comments').value
-    formData.ApproveDate = new Date().format('m/dd/yy')
-    formData.Decision = decision
+    if (formType === 'vtrans') {
+      formData.AgentName = document.getElementById('agentName').value
+      formData.Comments = document.getElementById('comments').value
+      formData.ApproveDate = new Date().format('m/dd/yy')
+      formData.Decision = decision
+    } else if (formType === 'vrs') {
+      formData.RRApprovedBy = document.getElementById('agentName').value
+      formData.ApproveDate = new Date().format('m/dd/yy')
+      formData.Decision = decision
+    }
 
     if (formStatus) { // if the checkForm returned true then the fields were filled out
       sendUpdate(formData) // submit data to REST endpoint
