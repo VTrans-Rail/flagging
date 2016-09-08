@@ -95,7 +95,7 @@ require([
     'WorkFromMP', 'WorkToMP', 'WorkDuration', 'WorkStartDate', 'WorkCompletionDate', 'WorkDescription',
     'WorkEquipment', 'WorkCompletionDate', 'WorkAsset'
   ]
-//  var outFields = ['*']
+
   query.outFields = outFields
   query.returnGeometry = true
   query.outSpatialReference = {'wkid': 4326}
@@ -112,6 +112,7 @@ require([
       badFormNo('noResults')
       return
     }
+
     // setup the graphic of the one result feature
     feature = new Graphic(results.features[0].geometry, symbol, results.features[0].attributes)
 
