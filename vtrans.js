@@ -88,13 +88,23 @@ require([
 
   var outFields = ['*']
 
-  var displayFields = [
+  var displayFields = [ // fields as field names
     'AppDate',
     'CompName', 'VTransProject', 'BillAddress', 'BillTown', 'BillState', 'BillZIP',
     'CompType', 'AppName', 'AppPhone', 'AppEmail', 'WorkRR', 'WorkTown',
     'WorkFromMP', 'WorkToMP', 'WorkDuration', 'WorkStartDate', 'WorkCompletionDate', 'WorkDescription',
     'WorkEquipment', 'WorkCompletionDate', 'WorkAsset'
   ]
+
+  // var displayFields = [ // fields with alias names
+  //   'OBJECTID', 'Form Number', 'Application Date', 'Company', 'VTrans Project?',
+  //   'Billing Address', 'City', 'State', 'Zip', 'Company Type', 'Applicant Name',
+  //   'Applicant Phone Number', 'Applicant E-mail', 'Railroad', 'VRLID', 'Work Town',
+  //   'Starting Mile Post', 'Ending Mile Post', 'Duration in Foul Zone', 'Work Start Date',
+  //   'Brief Work Description', 'Equipment in foul zone', 'Expected Completion Date',
+  //   'Asset Type', 'Asset Number', 'RPM Decision', 'RPM Decision Date', 'RPM Approver',
+  //   'RPM Comment', 'RR Decision ', 'RR Decision Date', 'RR Approver', 'Assigned Flagger'
+  // ]
 
   query.outFields = outFields
   query.returnGeometry = true
@@ -132,7 +142,7 @@ require([
 
     var makeSpans = [] // create one <span> for each `outField`
     // TODO: Fix which fields are displayed (rather than ouftields = *)
-    for (var fields in displayFields) {
+    for (var fields in results.fields) {
       if (document.getElementById('full-info')) { // for the vtrans page
         makeSpans.push('<strong>' + results.fields[fields].alias + ': </strong>' + '<span class="data" id="' + results.fields[fields].name + '"></span><br>')
       } else if (document.getElementById('status-info')) {
@@ -191,8 +201,19 @@ require([
   // -------------------------------------------------------
 
   function submit (decision) {
-    var agentField = document.getElementById('agentName')
-    var formStatus = checkForm(agentField)
+    var agentField = document.getElementById('agentName') // grab agentName DOM node
+    var formStatus = false
+    if (formType === 'vrs') { // for VRS: check flaggerName DOM node too
+      formStatus = checkForm(agentField) // check that it has a value
+      if (formStatus) {
+        var flaggerField = document.getElementById('flaggerName')
+        formStatus = checkForm(flaggerField)
+      }
+    } else {
+      formStatus = checkForm(agentField) // check that it has a value
+    }
+    console.log(formStatus)
+
     var formData = {} // set blank object for holding data from the form
 
     // fetch values from the form
@@ -215,27 +236,37 @@ require([
     }
   }
 
-  function checkForm (agentField) {
+  function checkForm (input) {
     // verify that the form is filled out
     // show error warnings if left blank
     // remove error warnings if filled out
 
-    if (agentField.value) { // if the agent name is filled out
+    if (input.value) { // if the agent name is filled out
+      removeWarns()
+      return checkResult
+    } else { // if the agent name isn't filled out
+      addWarns()
+      return checkResult
+    }
+
+    function removeWarns () {
       var exes = document.getElementsByClassName('form-control-feedback') // find all instances of feedback
       for (var l = 0; l < exes.length; l++) {
         exes[l].style.display = 'none' // set them to display none
       }
-      agentField.parentElement.className = 'form-group' // change the class of the parent group to remove has-error has-fedback
+      input.parentElement.className = 'form-group' // change the class of the parent group to remove has-error has-fedback
       document.getElementById('incomplete').style.display = 'none' // warning note text above buttons
-      return true// go back to submit()
-    } else { // if the agent name isn't filled out
-      agentField.parentElement.className += ' has-error has-feedback' // add the feedback classes to the parent
+      checkResult = true // go back to submit()
+    }
+
+    function addWarns () {
+      input.parentElement.className += ' has-error has-feedback' // add the feedback classes to the parent
       document.getElementById('incomplete').style.display = 'block' // turn on feedback text above button
       var xes = document.getElementsByClassName('form-control-feedback') // turn on all feedback
       for (var j = 0; j < xes.length; j++) {
         xes[j].style.display = 'block'
       }
-      return false
+      checkResult = false
     }
   }
 
