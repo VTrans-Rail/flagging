@@ -136,8 +136,8 @@ require([
     if (feature.attributes.RRDecision && formType === 'vrs') { // check is the request has been previously approved
       document.getElementById('alertTop').style.display = 'block'
       document.getElementById('alertBot').style.display = 'block'
-      document.getElementById('RRApprovedBy').value = feature.attributes.RRApprovedBy
-      document.getElementById('RRFlagger').value = feature.attributes.RRFlagger
+      document.getElementById('agentName').value = feature.attributes.RRApprovedBy
+      document.getElementById('flaggerName').value = feature.attributes.RRFlagger
     }
 
     var makeSpans = [] // create one <span> for each `outField`
@@ -224,7 +224,8 @@ require([
       formData.ApproveDate = new Date().format('m/dd/yy')
       formData.Decision = decision
     } else if (formType === 'vrs') {
-      formData.RRApprovedBy = document.getElementById('agentName').value
+      formData.AgentName = document.getElementById('agentName').value
+      formData.RRFlagger = document.getElementById('flaggerName').value
       formData.ApproveDate = new Date().format('m/dd/yy')
       formData.Decision = decision
     }
@@ -240,6 +241,8 @@ require([
     // verify that the form is filled out
     // show error warnings if left blank
     // remove error warnings if filled out
+
+    var checkResult = false
 
     if (input.value) { // if the agent name is filled out
       removeWarns()
@@ -272,10 +275,17 @@ require([
 
   function sendUpdate (formData) { // this will hold the function that pushes the update
     // updated attributes of the feature returned by the query layer
-    feature.attributes.RPMApprovalBy = formData.AgentName
-    feature.attributes.RPMComment = formData.Comments
-    feature.attributes.RPMDecisionDate = formData.ApproveDate
-    feature.attributes.RPMDecision = formData.Decision
+    if (formType === 'vtrans') {
+      feature.attributes.RPMApprovalBy = formData.AgentName
+      feature.attributes.RPMComment = formData.Comments
+      feature.attributes.RPMDecisionDate = formData.ApproveDate
+      feature.attributes.RPMDecision = formData.Decision
+    } else {
+      feature.attributes.RRApprovedBy = formData.AgentName
+      feature.attributes.RRFlagger = formData.RRFlagger
+      feature.attributes.RRDecisionDate = formData.ApproveDate
+      feature.attributes.RRDecision = formData.Decision
+    }
     // run the applyEdits tool against the featureclass with the feature data
     try {
       RRWCFeatureLayer.applyEdits(null, [feature], null, null, errback)
