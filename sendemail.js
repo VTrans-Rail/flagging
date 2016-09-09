@@ -2,6 +2,10 @@ function sendEmail (emailSubmission) {
     // parameters: service_id, template_id, template_parameters
   console.log('email test sent')
   document.getElementById('emailSuccess').style.display = 'block'
+  var btns = document.getElementsByClassName('btn')
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].setAttribute('disabled', 'disabled')
+  }
   // try {
   //   emailjs.send('sendgrid', 'vrs', emailSubmission)
   //   .then(function (response) {
