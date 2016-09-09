@@ -29,7 +29,8 @@ require([
 
   var FormNo = getParameterByName('FormNo') // fetch form number from URL
 
-  var formType = window.location.pathname.split(/(\w+)/)[1]
+  var formType = window.location.pathname.split(/(\w+)/)[1] // for dev
+  var formType = window.location.pathname.split(/(\w+)/)[2] // for prod
 
   if (!FormNo) {
     badFormNo('blank') // run this after getting formNo from the URL
