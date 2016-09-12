@@ -8,7 +8,7 @@
     color: red;
 }
 .container {
-  max-width: 750px;
+  /*max-width: 750px;*/
 }
 #map {
     width: 100%;
@@ -51,4 +51,28 @@
 }
 #emailFail {
   display: none;
+}
+
+.req-a {
+  background-color: #f0f0f0;
+}
+.req-b {
+  background-color: #dedede;
+  margin-bottom: 30px;
+}
+
+#req-status, #rpm-status, #vrs-status {
+  color: green;
+}
+
+.feedback > h2 {
+display: inline;
+}
+
+.feedback > p {
+display: inline;
+}
+
+.request-status {
+  text-align: center;
 }
