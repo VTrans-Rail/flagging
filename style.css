@@ -62,7 +62,7 @@
 }
 
 #req-status, #rpm-status, #vrs-status {
-  color: green;
+  color: orange;
 }
 
 .feedback {
