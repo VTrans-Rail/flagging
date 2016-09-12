@@ -212,7 +212,6 @@ require([
     } else {
       formStatus = checkForm(agentField) // check that it has a value
     }
-    console.log(formStatus)
 
     var formData = {} // set blank object for holding data from the form
 
