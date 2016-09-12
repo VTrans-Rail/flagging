@@ -65,6 +65,10 @@
   color: green;
 }
 
+.feedback {
+  padding-bottom: 25px;
+}
+
 .feedback > h2 {
 display: inline;
 }
