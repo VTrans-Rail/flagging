@@ -29,7 +29,7 @@ require([
 
   var FormNo = getParameterByName('FormNo') // fetch form number from URL
 
-  var formType = window.location.pathname.split(/(\w+)/)[1] // for dev
+  // var formType = window.location.pathname.split(/(\w+)/)[1] // for dev
   var formType = window.location.pathname.split(/(\w+)/)[2] // for prod
 
   if (!FormNo) {
@@ -89,14 +89,6 @@ require([
 
   var outFields = ['*']
 
-  var displayFields = [ // fields as field names
-    'AppDate',
-    'CompName', 'VTransProject', 'BillAddress', 'BillTown', 'BillState', 'BillZIP',
-    'CompType', 'AppName', 'AppPhone', 'AppEmail', 'WorkRR', 'WorkTown',
-    'WorkFromMP', 'WorkToMP', 'WorkDuration', 'WorkStartDate', 'WorkCompletionDate', 'WorkDescription',
-    'WorkEquipment', 'WorkCompletionDate', 'WorkAsset'
-  ]
-
   // var displayFields = [ // fields with alias names
   //   'OBJECTID', 'Form Number', 'Application Date', 'Company', 'VTrans Project?',
   //   'Billing Address', 'City', 'State', 'Zip', 'Company Type', 'Applicant Name',
@@ -142,13 +134,20 @@ require([
     }
 
     var makeSpans = [] // create one <span> for each `outField`
-    // TODO: Fix which fields are displayed (rather than ouftields = *)
-    for (var fields in results.fields) {
-      if (document.getElementById('full-info')) { // for the vtrans page
-        makeSpans.push('<strong>' + results.fields[fields].alias + ': </strong>' + '<span class="data" id="' + results.fields[fields].name + '"></span><br>')
-      } else if (document.getElementById('status-info')) {
 
-      }
+    var displayFields = [ // fields as field names
+      'AppDate',
+      'CompName', 'VTransProject', 'BillAddress', 'BillTown', 'BillState', 'BillZIP',
+      'CompType', 'AppName', 'AppPhone', 'AppEmail', 'WorkRR', 'WorkTown',
+      'WorkFromMP', 'WorkToMP', 'WorkDuration', 'WorkStartDate', 'WorkCompletionDate', 'WorkDescription',
+      'WorkEquipment', 'WorkCompletionDate', 'WorkAsset'
+    ]
+
+    var displayArray = results.fields.filter(function (field) { return (displayFields.indexOf(field.name) >= 0) })
+
+    // TODO: Fix which fields are displayed (rather than ouftields = *)
+    for (var field in displayArray) {
+      makeSpans.push('<strong>' + displayArray[field].alias + ': </strong>' + '<span class="data" id="' + displayArray[field].name + '"></span><br>')
     }
     dom.byId('full-info').innerHTML = makeSpans.join('') // populate the dom with the makeSpans and join each element with a ''
 
@@ -158,7 +157,7 @@ require([
       for (var attr in featureAttributes) {
         if (featureAttributes[attr]) { // if not blank
           var resultItems = [] // clear out the array each loop
-          if (attr.includes('Date')) { // if date, then format it accordingly
+          if (attr.indexOf('Date') !== -1) { // if date, then format it accordingly
             var d = new Date(featureAttributes[attr])
             var n = document.querySelectorAll('#' + attr)
             for (var j = 0; j < n.length; j++) {
