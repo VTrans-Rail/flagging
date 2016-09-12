@@ -14,23 +14,17 @@ function getParameterByName (name) {
   }
 }
 // ----------------------------------------------------------------
-
 // -------------------------------------------------------------------
 // ----------------- Initialize ArcGIS Javascript API Functions -----------
 // --------------------------------------------------------------------
 require([
   'dojo/dom', 'dojo/on',
   'esri/tasks/query', 'esri/tasks/QueryTask',
-  'esri/layers/FeatureLayer', 'esri/map', 'esri/symbols/SimpleMarkerSymbol',
-  'esri/renderers/SimpleRenderer', 'esri/graphic',
-  'dojo/domReady!'
-], function (dom, on, Query, QueryTask, FeatureLayer, Map, SimpleMarkerSymbol, SimpleRenderer, Graphic) {
+  'esri/graphic', 'dojo/domReady!'
+], function (dom, on, Query, QueryTask, Graphic) {
   // ---------------------------------------------------------------------
 
   var FormNo = getParameterByName('FormNo') // fetch form number from URL
-
-  var formType = window.location.pathname.split(/(\w+)/)[1] // for dev
-  // var formType = window.location.pathname.split(/(\w+)/)[2] // for prod
 
   if (!FormNo) {
     badFormNo('blank') // run this after getting formNo from the URL
@@ -50,33 +44,9 @@ require([
 
   var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/arcgis/rest/services/PM_FlaggingRequest_ALL_Hosted/FeatureServer/0' // feature service url
 
-  var RRWCFeatureLayer = new FeatureLayer(RRWCUrl, {
-    outFields: ['*']
-  }) // create FeatureLayer for updating later
-
   var feature = '' // make the feature var in the global scope to allow access later
 
-  // -------------------------------------------------------------------
-  // ------------Setup Map & symbol -------------------------------
-  // -------------------------------------------------------------
-
-  var symbol = new SimpleMarkerSymbol({ // symbol setup using JSON object from http://help.arcgis.com/en/arcgisserver/10.0/apis/rest/symbol.html
-    'color': [20, 175, 200, 150],
-    'size': 17,
-    'type': 'esriSMS',
-    'style': 'esriSMSDiamond',
-    'outline': { 'color': [255, 255, 255, 255], 'width': 1 }
-  })
-  if (document.getElementById('map')) { // only show if there is a map div
-    var map = new Map('map', {
-      center: [-72, 44],
-      zoom: 5,
-      basemap: 'hybrid'
-    })
-  }
-
   // -----------------------------------------------------
-
   // -------------------------------------------------------------------
   // ------------Set Query Parameters -------------------------------
   // -------------------------------------------------------------
@@ -104,24 +74,30 @@ require([
     }
 
     // setup the graphic of the one result feature
-    feature = new Graphic(results.features[0].geometry, symbol, results.features[0].attributes)
+    feature = new Graphic(results.features[0].geometry, null, results.features[0].attributes)
 
     var displayFields = ['AppDate']
 
     var reqStatus = ['<h2><i class="glyphicon glyphicon-ok"></i></h2><p><strong>Submitted </strong><i><span id="AppDate"></span></i></p>']
 
-    dom.byId('req-status').innerHTML = reqStatus.join('')
+    var req = dom.byId('req-status')
+    req.innerHTML = reqStatus.join('')
+    req.style.color = 'green'
 
     if (feature.attributes.RPMDecision) { // if VTrans has approved
       displayFields.push('RPMDecision', 'RPMDecisionDate')
       reqStatus = ['<h2><i class="glyphicon glyphicon-ok"></i></h2><p><strong>Approved </strong><i><span id="RPMDecisionDate"></span></i></p>']
-      dom.byId('rpm-status').innerHTML = reqStatus.join('')
+      req = dom.byId('rpm-status')
+      req.innerHTML = reqStatus.join('')
+      req.style.color = 'green'
     }
 
     if (feature.attributes.RRDecision) {
       displayFields.push('RRDecision', 'RRDecisionDate')
       reqStatus = ['<h2><i class="glyphicon glyphicon-ok"></i></h2><p><strong>Approved </strong><i><span id="RRDecisionDate"></span></i></p>']
-      dom.byId('vrs-status').innerHTML = reqStatus.join('')
+      req = dom.byId('vrs-status')
+      req.innerHTML = reqStatus.join('')
+      req.style.color = 'green'
     }
 
     var displayArray = results.fields.filter(function (field) { return (displayFields.indexOf(field.name) >= 0) })
@@ -153,159 +129,5 @@ require([
         }
       }
     }
-    if (document.getElementById('map')) {
-      var x = Number(results.features[0].geometry.x.toFixed(4)) // get the coordinates of the result
-      var y = Number(results.features[0].geometry.y.toFixed(4))
-      if (map.loaded) {
-        map.centerAndZoom([x, y], 16)
-        map.graphics.add(feature)
-      } else {
-        map.on('load', function () { // once the map is loaded, center and zoom and add point
-          map.centerAndZoom([x, y], 16)
-          map.graphics.add(feature)
-        })
-      }
-    }
-  }
-
-  // -------------------------------------------------------
-  // Tool for gathering data from the form
-  // calculating some new values
-  // passing them back into the featureclass
-  // and kicking off the email submit process
-  // -------------------------------------------------------
-
-  function submit (decision) {
-    var agentField = document.getElementById('agentName') // grab agentName DOM node
-    var formStatus = false
-    if (formType === 'vrs') { // for VRS: check flaggerName DOM node too
-      formStatus = checkForm(agentField) // check that it has a value
-      if (formStatus) {
-        var flaggerField = document.getElementById('flaggerName')
-        formStatus = checkForm(flaggerField)
-      }
-    } else {
-      formStatus = checkForm(agentField) // check that it has a value
-    }
-
-    var formData = {} // set blank object for holding data from the form
-
-    // fetch values from the form
-    // set today's date
-    if (formType === 'vtrans') {
-      formData.AgentName = document.getElementById('agentName').value
-      formData.Comments = document.getElementById('comments').value
-      formData.ApproveDate = new Date().format('m/dd/yy')
-      formData.Decision = decision
-    } else if (formType === 'vrs') {
-      formData.AgentName = document.getElementById('agentName').value
-      formData.RRFlagger = document.getElementById('flaggerName').value
-      formData.ApproveDate = new Date().format('m/dd/yy')
-      formData.Decision = decision
-    }
-
-    if (formStatus) { // if the checkForm returned true then the fields were filled out
-      sendUpdate(formData) // submit data to REST endpoint
-    } else {
-      console.log('Not everything was filled out.')
-    }
-  }
-
-  function checkForm (input) {
-    // verify that the form is filled out
-    // show error warnings if left blank
-    // remove error warnings if filled out
-
-    var checkResult = false
-
-    if (input.value) { // if the agent name is filled out
-      removeWarns()
-      return checkResult
-    } else { // if the agent name isn't filled out
-      addWarns()
-      return checkResult
-    }
-
-    function removeWarns () {
-      var exes = document.getElementsByClassName('form-control-feedback') // find all instances of feedback
-      for (var l = 0; l < exes.length; l++) {
-        exes[l].style.display = 'none' // set them to display none
-      }
-      input.parentElement.className = 'form-group' // change the class of the parent group to remove has-error has-fedback
-      document.getElementById('incomplete').style.display = 'none' // warning note text above buttons
-      checkResult = true // go back to submit()
-    }
-
-    function addWarns () {
-      input.parentElement.className += ' has-error has-feedback' // add the feedback classes to the parent
-      document.getElementById('incomplete').style.display = 'block' // turn on feedback text above button
-      var xes = document.getElementsByClassName('form-control-feedback') // turn on all feedback
-      for (var j = 0; j < xes.length; j++) {
-        xes[j].style.display = 'block'
-      }
-      checkResult = false
-    }
-  }
-
-  function sendUpdate (formData) { // this will hold the function that pushes the update
-    // updated attributes of the feature returned by the query layer
-    if (formType === 'vtrans') {
-      feature.attributes.RPMApprovalBy = formData.AgentName
-      feature.attributes.RPMComment = formData.Comments
-      feature.attributes.RPMDecisionDate = formData.ApproveDate
-      feature.attributes.RPMDecision = formData.Decision
-    } else {
-      feature.attributes.RRApprovedBy = formData.AgentName
-      feature.attributes.RRFlagger = formData.RRFlagger
-      feature.attributes.RRDecisionDate = formData.ApproveDate
-      feature.attributes.RRDecision = formData.Decision
-    }
-    // run the applyEdits tool against the featureclass with the feature data
-    try {
-      RRWCFeatureLayer.applyEdits(null, [feature], null, null, errback)
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
-  RRWCFeatureLayer.on('edits-complete', handleEditsComplete)
-
-  function handleEditsComplete (evt) {
-        // Check for errors after online edits complete
-    var errors = Array.prototype.concat(
-            evt.adds.filter(function (r) {
-              return !r.success
-            }),
-            evt.updates.filter(function (r) {
-              return !r.success
-            }),
-            evt.deletes.filter(function (r) {
-              return !r.success
-            })
-        )
-    if (errors.length) {
-      var messages = errors.map(function (e) {
-        document.getElementById('editFail').style.display = 'block'
-        return e.error.message
-      })
-      window.alert('Error editing features: ' + messages.join('\n'))
-    } else {
-      document.getElementById('editSuccess').style.display = 'block'
-      prepEmail()
-    }
-  }
-  var rpmList = 'stephen.smith@vermont.gov' // TODO: Change this to RPM users before finalizng
-
-  function prepEmail () { // a function to fetch data to send in the email
-    var emailSubmission = {
-      rpm_list: rpmList,
-      requester: feature.attributes.AppName,
-      form_no: feature.attributes.FormNo
-    }
-    sendEmail(emailSubmission)
-  };
-
-  function errback (e) {
-    console.error(e)
   }
 })
