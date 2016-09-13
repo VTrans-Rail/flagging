@@ -40,6 +40,7 @@ define([
     "application/SearchSources",
     "vendor/usng",
     "dijit/a11yclick",
+    'esri/tasks/query', 'esri/tasks/QueryTask',
     "dojo/NodeList-traverse",
     "application/wrapper/main-jquery-deps",
     "dojo/domReady!"
@@ -65,7 +66,7 @@ define([
   Search,
   modalTemplate,
   userTemplate,
-  nls, ProjectParameters, webMercatorUtils, Point, GraphicsLayer, ShareModal, localStorageHelper, Graphic, PictureMarkerSymbol, editToolbar, InfoTemplate, Popup, theme, pushpins, SearchSources, usng, a11yclick) {
+  nls, ProjectParameters, webMercatorUtils, Point, GraphicsLayer, ShareModal, localStorageHelper, Graphic, PictureMarkerSymbol, editToolbar, InfoTemplate, Popup, theme, pushpins, SearchSources, usng, a11yclick, esriQuery, QueryTask) {
   return declare([], {
     arrPendingAttachments: [],
     objFailedAttachments: {},
@@ -86,9 +87,9 @@ define([
     dateFormat: "LLL",
 
     startup: function (config, appResponse, isPreview, node) {
-      
+
       document.documentElement.lang = kernel.locale;
-      
+
       this._appResponse = appResponse;
       var localStorageSupport = new localStorageHelper();
       if (localStorageSupport.supportsStorage() && localStorage.getItem("geoform_config")) {
@@ -1982,14 +1983,14 @@ define([
       this._clearSubmissionGraphic();
       var northing = parseFloat(dom.byId('utm_northing').value);
       var easting = parseFloat(dom.byId('utm_easting').value);
-      
+
       var zoneNode = dom.byId('utm_zone_number');
       var zoneString = zoneNode.value;
-      
+
       var zoneLastChar = zoneString.substr(zoneString.length-1);
-      
+
       var zone = parseInt(zoneString, 10);
-      
+
       if(isNaN(zoneLastChar)){
         if(zoneLastChar.toLowerCase() === "s"){
           northing = -Math.abs(northing);
@@ -1998,7 +1999,7 @@ define([
       else{
         northing = Math.abs(northing);
       }
-      
+
       var converted = {};
       try {
         usng.UTMtoLL(northing, easting, zone, converted);
@@ -2247,6 +2248,8 @@ define([
       });
       featureData.geometry = {};
       featureData.geometry = new Point(Number(this.addressGeometry.x), Number(this.addressGeometry.y), this.map.spatialReference);
+      // interrupt the featureData development to do my own checks and processing
+      submitFormPostProcess(featureData)
       //code for apply-edits
       this._formLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
         // Add attachment on success
@@ -2934,4 +2937,34 @@ define([
       }
     }
   });
+  function submitFormPostProcess (featureData) {
+    // set the application date
+
+    // set the form number
+    var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/arcgis/rest/services/PM_FlaggingRequest_ALL_Hosted/FeatureServer/0' // feature service url
+    var queryTask = new QueryTask(RRWCUrl)
+    var query = new esriQuery()
+    var outFields = ['AppDate', 'FormNo']
+    query.outFields = outFields
+    query.where = '1 = 1'
+
+    // execute query and then pass result into getPhotos func and initiate
+    queryTask.execute(query)
+
+    queryTask.on("complete", processResults)
+    queryTask.on("error", function (e) { console.log("error: " + e.error.details);})
+
+    // featureData.attributes["FormNo"] = maxFormNo
+
+    function processResults (results) {
+      console.log("log");
+      var features = results.featureSet.features
+      var formNos = []
+      features.forEach(function (value, index) {
+        formNos.push(features[index].attributes["FormNo"])
+      })
+      var maxFormNo = Math.max.apply(Math, formNos)
+      featureData.attributes["FormNo"] = maxFormNo + 1
+    }
+  }
 });
