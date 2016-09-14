@@ -2249,43 +2249,45 @@ define([
       featureData.geometry = {};
       featureData.geometry = new Point(Number(this.addressGeometry.x), Number(this.addressGeometry.y), this.map.spatialReference);
       // interrupt the featureData development to do my own checks and processing
-      var formNumber = submitFormPostProcess(featureData)
-      featureData.attributes["FormNo"] = formNumber
-      console.log(featureData.attributes["FormNo"]);
-      //code for apply-edits
-      this._formLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
-        // Add attachment on success
-        if (addResults[0].success && this.isHumanEntry) {
-          if (query(".fileToSubmit", userFormNode).length === 0) {
-            this._resetAndShare();
-          } else {
-            this._openFileUploadStatusModal(query(".fileToSubmit", userFormNode));
-            var fileObjArray = [];
-            for (var i = 0; i < query(".formToSubmit", userFormNode).length; i++) {
-              fileObjArray.push(query(".formToSubmit", userFormNode)[i].id);
+      submitFormPostProcess(featureData).then(function (formNumber) {
+        featureData.attributes["FormNo"] = nextFormNo
+        console.log(featureData.attributes["FormNo"]);
+        //code for apply-edits
+        this._formLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
+          // Add attachment on success
+          if (addResults[0].success && this.isHumanEntry) {
+            if (query(".fileToSubmit", userFormNode).length === 0) {
+              this._resetAndShare();
+            } else {
+              this._openFileUploadStatusModal(query(".fileToSubmit", userFormNode));
+              var fileObjArray = [];
+              for (var i = 0; i < query(".formToSubmit", userFormNode).length; i++) {
+                fileObjArray.push(query(".formToSubmit", userFormNode)[i].id);
+              }
+              this.arrPendingAttachments = fileObjArray.reverse();
+              this._addAttachment(addResults[0].objectId, dom.byId(this.arrPendingAttachments.pop()));
             }
-            this.arrPendingAttachments = fileObjArray.reverse();
-            this._addAttachment(addResults[0].objectId, dom.byId(this.arrPendingAttachments.pop()));
+            return true;
           }
-          return true;
-        }
-        domConstruct.destroy(query(".errorMessage")[0]);
-        // open error modal if unsuccessful
-        if (!addResults[0].success || (!this.isHumanEntry && addResults[0].success)) {
+          domConstruct.destroy(query(".errorMessage")[0]);
+          // open error modal if unsuccessful
+          if (!addResults[0].success || (!this.isHumanEntry && addResults[0].success)) {
+            this._openErrorModal();
+            this._verifyHumanEntry();
+            return;
+          }
+        }), lang.hitch(this, function () {
+          // no longer editable
+          this._formLayer.setEditable(false);
+          // remove error
+          domConstruct.destroy(query(".errorMessage")[0]);
+          // open error
           this._openErrorModal();
-          this._verifyHumanEntry();
-          return;
-        }
-      }), lang.hitch(this, function () {
-        // no longer editable
-        this._formLayer.setEditable(false);
-        // remove error
-        domConstruct.destroy(query(".errorMessage")[0]);
-        // open error
-        this._openErrorModal();
-        // log for development
-        console.log(nls.user.addFeatureFailedMessage);
-      }));
+          // log for development
+          console.log(nls.user.addFeatureFailedMessage);
+        }));
+
+      })
     },
     _resetAndShare: function () {
       // remove graphic
@@ -2952,16 +2954,7 @@ define([
     query.where = '1 = 1'
 
     // execute query and then pass result into getPhotos func and initiate
-    queryTask.execute(query, processResults, errBack)
-
-    function errBack (e) {
-
-      console.error("queryTask error: " + e);
-    }
-
-    // featureData.attributes["FormNo"] = maxFormNo
-
-    function processResults (results) {
+    return queryTask.execute(query).then(function (results) {
       console.log("log");
       var features = results.featureSet.features
       var formNos = []
@@ -2970,7 +2963,7 @@ define([
       })
       var maxFormNo = Math.max.apply(Math, formNos)
       nextFormNo = maxFormNo + 1
-    }
-    return nextFormNo
+      return nextFormNo
+    })
   }
 });
