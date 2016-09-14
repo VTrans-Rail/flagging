@@ -2251,7 +2251,7 @@ define([
       // interrupt the featureData development to do my own checks and processing
       var formNumber = submitFormPostProcess(featureData)
       featureData.attributes["FormNo"] = formNumber
-      console.log(featureData);
+      console.log(featureData.attributes["FormNo"]);
       //code for apply-edits
       this._formLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
         // Add attachment on success
@@ -2952,10 +2952,12 @@ define([
     query.where = '1 = 1'
 
     // execute query and then pass result into getPhotos func and initiate
-    queryTask.execute(query)
+    queryTask.execute(query, processResults, errBack)
 
-    queryTask.on("complete", processResults)
-    queryTask.on("error", function (e) { console.log("error: " + e.error.details);})
+    function errBack (e) {
+
+      console.error("queryTask error: " + e);
+    }
 
     // featureData.attributes["FormNo"] = maxFormNo
 
@@ -2968,7 +2970,7 @@ define([
       })
       var maxFormNo = Math.max.apply(Math, formNos)
       nextFormNo = maxFormNo + 1
-      return nextFormNo
     }
+    return nextFormNo
   }
 });
