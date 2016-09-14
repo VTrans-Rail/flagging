@@ -2249,8 +2249,8 @@ define([
       featureData.geometry = {};
       featureData.geometry = new Point(Number(this.addressGeometry.x), Number(this.addressGeometry.y), this.map.spatialReference);
       // interrupt the featureData development to do my own checks and processing
-      submitFormPostProcess(featureData).then(function (formNumber) {
-        featureData.attributes["FormNo"] = nextFormNo
+      submitFormPostProcess(featureData).then(lang.hitch(this, function (formNumber) {
+        featureData.attributes["FormNo"] = formNumber
         console.log(featureData.attributes["FormNo"]);
         //code for apply-edits
         this._formLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
@@ -2287,7 +2287,7 @@ define([
           console.log(nls.user.addFeatureFailedMessage);
         }));
 
-      })
+      }))
     },
     _resetAndShare: function () {
       // remove graphic
@@ -2956,7 +2956,7 @@ define([
     // execute query and then pass result into getPhotos func and initiate
     return queryTask.execute(query).then(function (results) {
       console.log("log");
-      var features = results.featureSet.features
+      var features = results.features
       var formNos = []
       features.forEach(function (value, index) {
         formNos.push(features[index].attributes["FormNo"])
