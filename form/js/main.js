@@ -2249,7 +2249,9 @@ define([
       featureData.geometry = {};
       featureData.geometry = new Point(Number(this.addressGeometry.x), Number(this.addressGeometry.y), this.map.spatialReference);
       // interrupt the featureData development to do my own checks and processing
-      submitFormPostProcess(featureData)
+      var formNumber = submitFormPostProcess(featureData)
+      featureData.attributes["FormNo"] = formNumber
+      console.log(featureData);
       //code for apply-edits
       this._formLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
         // Add attachment on success
@@ -2938,6 +2940,7 @@ define([
     }
   });
   function submitFormPostProcess (featureData) {
+    var nextFormNo
     // set the application date
 
     // set the form number
@@ -2964,7 +2967,8 @@ define([
         formNos.push(features[index].attributes["FormNo"])
       })
       var maxFormNo = Math.max.apply(Math, formNos)
-      featureData.attributes["FormNo"] = maxFormNo + 1
+      nextFormNo = maxFormNo + 1
+      return nextFormNo
     }
   }
 });
