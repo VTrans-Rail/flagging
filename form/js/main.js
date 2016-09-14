@@ -2251,7 +2251,8 @@ define([
       // interrupt the featureData development to do my own checks and processing
       submitFormPostProcess(featureData).then(lang.hitch(this, function (formNumber) {
         featureData.attributes["FormNo"] = formNumber
-        console.log(featureData.attributes["FormNo"]);
+        var today  = new Date();
+        featureData.attributes["AppDate"] = today
         //code for apply-edits
         this._formLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
           // Add attachment on success
@@ -2942,20 +2943,20 @@ define([
     }
   });
   function submitFormPostProcess (featureData) {
-    var nextFormNo
-    // set the application date
-
     // set the form number
+
+    var nextFormNo
     var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/arcgis/rest/services/PM_FlaggingRequest_ALL_Hosted/FeatureServer/0' // feature service url
-    var queryTask = new QueryTask(RRWCUrl)
-    var query = new esriQuery()
     var outFields = ['AppDate', 'FormNo']
+
+    var queryTask = new QueryTask(RRWCUrl)
+
+    var query = new esriQuery()
     query.outFields = outFields
     query.where = '1 = 1'
 
     // execute query and then pass result into getPhotos func and initiate
     return queryTask.execute(query).then(function (results) {
-      console.log("log");
       var features = results.features
       var formNos = []
       features.forEach(function (value, index) {
