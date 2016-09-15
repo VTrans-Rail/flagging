@@ -2581,6 +2581,7 @@ define([
       domConstruct.create("a", {
         "tabindex": "0",
         className: "fa fa-envelope iconClass text-primary",
+        style: "display: none",
         id: "mailIcon"
       }, iconContainer);
       domConstruct.create("div", {
