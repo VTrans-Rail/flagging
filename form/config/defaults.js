@@ -28,7 +28,7 @@ define({
     "sharinghost": location.protocol + "//" + "www.arcgis.com",
     "units": null,
     "useSmallHeader": false,
-    "enableSharing": true,
+    "enableSharing": false,
     "defaultMapExtent": true,
     "pushpinColor": "blue",
     "nextBasemap": "hybrid",
@@ -77,6 +77,6 @@ define({
             "url": null
         }]
     },
-    "bitlyLogin": "arcgis",
-    "bitlyKey": "R_b8a169f3a8b978b9697f64613bf1db6d"
+    "bitlyLogin": "StephenSmithAOT",
+    "bitlyKey": "699cd28790d0fab0003aab03533a09406ee2fb25"
 });
