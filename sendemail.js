@@ -6,17 +6,17 @@ function sendEmail (emailSubmission) {
   for (var i = 0; i < btns.length; i++) {
     btns[i].setAttribute('disabled', 'disabled')
   }
-  // try {
-  //   emailjs.send('sendgrid', 'vrs', emailSubmission)
-  //   .then(function (response) {
-  //     console.log('successful email')
-  //   }, function (err) {
-  //     console.error('failed - error = ', err)
-  //     document.getElementById('emailFail').style.display = 'block'
-  //   })
-  // } catch (e) {
-  //   console.error(e)
-  // } finally {
-  //   // TODO: show confirmation that the email was sent
-  // }
+  try {
+    emailjs.send('sendgrid', 'vrs', emailSubmission)
+    .then(function (response) {
+      console.log('successful email')
+    }, function (err) {
+      console.error('failed - error = ', err)
+      document.getElementById('emailFail').style.display = 'block'
+    })
+  } catch (e) {
+    console.error(e)
+  } finally {
+    // TODO: show confirmation that the email was sent
+  }
 }
