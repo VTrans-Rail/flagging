@@ -1,3 +1,4 @@
+var globals = {}
 /*global $,define,document,require,moment */
 /*jslint sloppy:true,nomen:true */
 define([
@@ -2253,30 +2254,37 @@ define([
         featureData.attributes["FormNo"] = formNumber
         var today  = new Date();
         featureData.attributes["AppDate"] = today
-        this.form_url = "http://localhost:3000/status.html?FormNo=" + formNumber
-        this.req_email = featureData.attributes["AppEmail"]
+        globals.form_url = "http://localhost:3000/status.html?FormNo=" + formNumber
+        globals.req_email = featureData.attributes["AppEmail"]
+
+        function sendEmail () {
+          // sendemail script
+          // parameters: service_id, template_id, template_parameters
+          console.log('email test ')
+
+          var emailSubmission = {
+            req_email: globals.req_email,
+            form_url: globals.form_url
+          }
+
+          try {
+            emailjs.send('sendgrid', 'requestor', emailSubmission)
+            .then(function (response) {
+              console.log('successful email')
+            }, function (err) {
+              console.error('failed - error = ', err)
+              document.getElementById('emailFail').style.display = 'block'
+            })
+          } catch (e) {
+            console.error(e)
+          } finally {
+            // TODO: show confirmation that the email was sent
+          }
+        }
         //code for apply-edits
         this._formLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
-          function sendEmail () {
-            // sendemail script
-            // parameters: service_id, template_id, template_parameters
-            console.log('email test ')
 
-            // try {
-            //   emailjs.send('sendgrid', 'requestor', emailSubmission)
-            //   .then(function (response) {
-            //     console.log('successful email')
-            //   }, function (err) {
-            //     console.error('failed - error = ', err)
-            //     document.getElementById('emailFail').style.display = 'block'
-            //   })
-            // } catch (e) {
-            //   console.error(e)
-            // } finally {
-            //   // TODO: show confirmation that the email was sent
-            // }
-          };
-          lang.hitch(this, sendEmail());
+          sendEmail(addResults)
           // Add attachment on success
           if (addResults[0].success && this.isHumanEntry) {
             if (query(".fileToSubmit", userFormNode).length === 0) {
