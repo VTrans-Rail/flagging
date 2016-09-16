@@ -2256,24 +2256,36 @@ define([
         featureData.attributes["AppDate"] = today
         globals.form_url = "http://localhost:3000/status.html?FormNo=" + formNumber
         globals.req_email = featureData.attributes["AppEmail"]
+        globals.req_date = featureData.attributes["WorkStartDate"]
+        globals.today = today
 
         function sendEmail () {
           // sendemail script
           // parameters: service_id, template_id, template_parameters
-          console.log('email test ')
+
+          var email_template = "requestor"
+
+          var req_date = new moment(globals.req_date).format("DDD")
+          var submit_date = new moment(globals.today).format("DDD")
+          var daysUntil = req_date - submit_date
+
+          if (daysUntil <= 10) {
+            email_template = "exception"
+          }
 
           var emailSubmission = {
             req_email: globals.req_email,
             form_url: globals.form_url
           }
 
+
+          console.log('email test ')
           try {
-            emailjs.send('sendgrid', 'requestor', emailSubmission)
+            emailjs.send('sendgrid', email_template, emailSubmission)
             .then(function (response) {
               console.log('successful email')
             }, function (err) {
               console.error('failed - error = ', err)
-              document.getElementById('emailFail').style.display = 'block'
             })
           } catch (e) {
             console.error(e)
