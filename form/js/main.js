@@ -2280,18 +2280,18 @@ define([
 
 
           console.log('email test ')
-          try {
-            emailjs.send('sendgrid', email_template, emailSubmission)
-            .then(function (response) {
-              console.log('successful email')
-            }, function (err) {
-              console.error('failed - error = ', err)
-            })
-          } catch (e) {
-            console.error(e)
-          } finally {
-            // TODO: show confirmation that the email was sent
-          }
+          // try {
+          //   emailjs.send('sendgrid', email_template, emailSubmission)
+          //   .then(function (response) {
+          //     console.log('successful email')
+          //   }, function (err) {
+          //     console.error('failed - error = ', err)
+          //   })
+          // } catch (e) {
+          //   console.error(e)
+          // } finally {
+          //   // TODO: show confirmation that the email was sent
+          // }
         }
         //code for apply-edits
         this._formLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
