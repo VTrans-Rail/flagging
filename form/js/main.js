@@ -85,7 +85,7 @@ define([
     sortedFields: [],
     isHumanEntry: null,
     currentLocation: null,
-    dateFormat: "LLL",
+    dateFormat: "l",
 
     startup: function (config, appResponse, isPreview, node) {
 
