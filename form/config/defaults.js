@@ -77,6 +77,6 @@ define({
             "url": null
         }]
     },
-    "bitlyLogin": "StephenSmithAOT",
-    "bitlyKey": "699cd28790d0fab0003aab03533a09406ee2fb25"
+    "bitlyLogin": "a8341e480f22bf45cd2260dd94de4723dd9a4cd8",
+    "bitlyKey": "723a5ab5f5ce04993bfe988104286c7e0c619962"
 });
