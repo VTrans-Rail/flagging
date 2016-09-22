@@ -32,10 +32,9 @@ define([
         visible: true,
         dialog: null,
         url: window.location.href,
-        trackURL: "http://localhost:3000/status.html?FormNo=",
-        formNoURL: "2016999",
         image: '',
         title: window.document.title,
+        trackURL: 'http://localhost:3000/status.html?FormNo=',
         summary: '',
         hashtags: '',
         mailURL: 'mailto:%20?subject=${title}&body=%20${info}%20${url}%20${summary}',
@@ -53,8 +52,8 @@ define([
         // properties
         this.set("theme", defaults.theme);
         this.set("url", defaults.url);
-        this.set("trackURL", defaults.trackURL);
-        this.set("formNoURL", defaults.formNoURL);
+        this.set("trackURL", defaults.trackURL)
+        this.set("formNumber", options.formNumber);
         this.set("mailURL", defaults.mailURL);
         this.set("facebookURL", defaults.facebookURL);
         this.set("twitterURL", defaults.twitterURL);
@@ -188,7 +187,7 @@ define([
           url = queryUrl.substring(0, queryUrl.indexOf("?") + 1) + ioQuery.objectToQuery(newParams);
         }
         // update url
-        var statusURLConstructor = this.trackURL + this.formNoURL;
+        var statusURLConstructor = this.trackURL + this.formNumber;
         this.set("url", statusURLConstructor);
         // set url value
         dom.byId("shareMapUrlText").value = statusURLConstructor;
