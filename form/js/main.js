@@ -2282,18 +2282,32 @@ define([
 
 
           console.log('email test ')
-          // try {
-          //   emailjs.send('sendgrid', email_template, emailSubmission)
-          //   .then(function (response) {
-          //     console.log('successful email')
-          //   }, function (err) {
-          //     console.error('failed - error = ', err)
-          //   })
-          // } catch (e) {
-          //   console.error(e)
-          // } finally {
-          //   // TODO: show confirmation that the email was sent
-          // }
+
+          // move to success area later
+
+
+
+
+          try {
+            emailjs.send('sendgrid', email_template, emailSubmission)
+            .then(function (response) {
+              var DOMappendString = '<div class="alert alert-success" role="alert" style="margin-top: 25px;">Your request has been successfully emailed to VTrans staff.</div><div class="clearfix"></div>'
+              var d = document.getElementsByClassName('iconContainer')
+              var ico = d[0]
+              ico.innerHTML = ico.innerHTML + DOMappendString;
+              console.log('successful email')
+            }, function (err) {
+              var DOMappendString = '<div class="alert alert-warning" role="alert" style="margin-top: 25px;">There was an issue sending your request to VTrans. Please email <a href="mailto:stephen.smith@vermont.gov">Stephen Smith</a> and reference the <code>FormNo</code> included in the link above.</div><div class="clearfix"></div>'
+              var d = document.getElementsByClassName('iconContainer')
+              var ico = d[0]
+              ico.innerHTML = ico.innerHTML + DOMappendString;
+              console.error('failed - error = ', err)
+            })
+          } catch (e) {
+            console.error(e)
+          } finally {
+            // TODO: show confirmation that the email was sent
+          }
         }
         //code for apply-edits
         this._formLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
