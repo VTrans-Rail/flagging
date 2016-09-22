@@ -2259,6 +2259,8 @@ define([
         globals.req_date = featureData.attributes["WorkStartDate"]
         globals.today = today
 
+        globals.featureData = featureData;
+
         function sendEmail () {
           // sendemail script
           // parameters: service_id, template_id, template_parameters
@@ -2520,7 +2522,8 @@ define([
         title: this.config.details.Title || nls.user.geoformTitleText || '',
         summary: this.config.itemInfo.item.snippet || '',
         hashtags: 'esriGeoForm',
-        shareOption: this.config.enableSharing
+        shareOption: this.config.enableSharing,
+        formNumber: globals.featureData.attributes.FormNo
       });
       this._ShareModal.startup();
       // show modal
