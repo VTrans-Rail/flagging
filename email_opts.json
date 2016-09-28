@@ -1,0 +1,53 @@
+{
+   "recipients":{
+      "rpm":"Mark.Fitzgerald@vermont.gov; Kevin.Clairmont@vermont.gov; Ludwig.Pulaski@vermont.gov; Guy.Tapper@vermont.gov; Robert.Atchinson@vermont.gov",
+      "vrs":"pmartel@vrs.us.com;",
+      "gis":"stephen.smith@vermont.gov"
+   },
+   "link":{
+      "base":"https://localhost:3000/",
+      "form":"form",
+      "status":"status.html",
+      "vtrans":"vtrans.html",
+      "vrs":"vrs.html",
+      "query":"?FormNo="
+   },
+   "header-text":{
+      "user":{
+         "success":"You've successfully submitted a request for flagging.",
+         "error":"There was an error with your request for flagging.",
+         "approved":"Your request for flagging was approved."
+      },
+      "approver":{
+         "submitted":"A flagging request has been submitted.",
+         "vtrans-approved":"VTrans has approved the following flagging request.",
+         "vrs-approved":"VRS has approved the following flagging request."
+      }
+   },
+   "body-text":{
+      "user":{
+         "success":"Your request has been received.",
+         "approved":"Your request for flagging was approved.",
+         "error":{
+            "l1":"You must give at least 10 days notice.",
+            "l2":"If this is an urgent request, please reply-all to this email and request an exception.",
+            "l3":"Otherwise, please press the button below to submit a new request."
+         }
+      },
+      "approver":{
+         "submitted":"A flagging request has been submitted.",
+         "vtrans-approved":"VTrans has approved the following flagging request.",
+         "vrs-approved":"VRS has approved the following flagging request."
+      }
+   },
+   "button-text":{
+      "user":{
+        "status":"Track Request Status",
+        "resubmit":"Submit Another Request",
+        "approved":"View Your Approval"
+      },
+      "approver":{
+        "review":"Review the Request"
+      }
+   }
+}
