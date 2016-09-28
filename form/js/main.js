@@ -2260,55 +2260,7 @@ define([
         globals.today = today
 
         globals.featureData = featureData;
-
-        function sendEmail () {
-          // sendemail script
-          // parameters: service_id, template_id, template_parameters
-
-          var email_template = "requestor"
-
-          var req_date = new moment(globals.req_date).format("DDD")
-          var submit_date = new moment(globals.today).format("DDD")
-          var daysUntil = req_date - submit_date
-
-          if (daysUntil <= 10) {
-            email_template = "exception"
-          }
-
-          var emailSubmission = {
-            req_email: globals.req_email,
-            form_url: globals.form_url
-          }
-
-
-          console.log('email test ')
-
-          // move to success area later
-
-
-
-
-          try {
-            emailjs.send('sendgrid', email_template, emailSubmission)
-            .then(function (response) {
-              var DOMappendString = '<div class="alert alert-success" role="alert" style="margin-top: 25px;">Your request has been successfully emailed to VTrans staff.</div><div class="clearfix"></div>'
-              var d = document.getElementsByClassName('iconContainer')
-              var ico = d[0]
-              ico.innerHTML = ico.innerHTML + DOMappendString;
-              console.log('successful email')
-            }, function (err) {
-              var DOMappendString = '<div class="alert alert-warning" role="alert" style="margin-top: 25px;">There was an issue sending your request to VTrans. Please email <a href="mailto:stephen.smith@vermont.gov">Stephen Smith</a> and reference the <code>FormNo</code> included in the link above.</div><div class="clearfix"></div>'
-              var d = document.getElementsByClassName('iconContainer')
-              var ico = d[0]
-              ico.innerHTML = ico.innerHTML + DOMappendString;
-              console.error('failed - error = ', err)
-            })
-          } catch (e) {
-            console.error(e)
-          } finally {
-            // TODO: show confirmation that the email was sent
-          }
-        }
+        
         //code for apply-edits
         this._formLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
 
