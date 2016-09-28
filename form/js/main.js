@@ -2260,11 +2260,28 @@ define([
         globals.today = today
 
         globals.featureData = featureData;
-        
+
         //code for apply-edits
         this._formLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
 
-          sendEmail(addResults)
+          var email_type = "success"
+
+          var req_date = new moment(globals.req_date).format("DDD")
+          var submit_date = new moment(globals.today).format("DDD")
+          var daysUntil = req_date - submit_date
+
+          if (daysUntil <= 10) {
+            email_type = "exception"
+          }
+
+          var emailSubmission = {
+            req_email: globals.req_email,
+            email_type: email_type
+          }
+
+          console.log("successful add");
+
+          sendEmail(emailSubmission)
           // Add attachment on success
           if (addResults[0].success && this.isHumanEntry) {
             if (query(".fileToSubmit", userFormNode).length === 0) {
