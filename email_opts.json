@@ -1,6 +1,8 @@
 {
    "recipients":{
-      "rpm":"Mark.Fitzgerald@vermont.gov; Kevin.Clairmont@vermont.gov; Ludwig.Pulaski@vermont.gov; Guy.Tapper@vermont.gov; Robert.Atchinson@vermont.gov",
+      "rpm":"Mark.Fitzgerald@vermont.gov, Kevin.Clairmont@vermont.gov, Ludwig.Pulaski@vermont.gov, Guy.Tapper@vermont.gov,",
+      "mark":"Mark.Fitzgerald@vermont.gov",
+      "rwa": "Robert.Atchinson@vermont.gov",
       "vrs":"pmartel@vrs.us.com;",
       "gis":"stephen.smith@vermont.gov"
    },
@@ -12,7 +14,16 @@
       "vrs":"vrs.html",
       "query":"?FormNo="
    },
-   "header-text":{
+   "subject":{
+     "user":{
+       "success":"[Flagging] Your request was submitted.",
+       "error":"[Flagging] Your request has a problem.",
+       "approved":"[Flagging] Your request has been approved.",
+       "test":"[Flagging] This is only a test."
+     }
+
+   },
+   "header_text":{
       "user":{
          "success":"You've successfully submitted a request for flagging.",
          "error":"There was an error with your request for flagging.",
@@ -20,11 +31,11 @@
       },
       "approver":{
          "submitted":"A flagging request has been submitted.",
-         "vtrans-approved":"VTrans has approved the following flagging request.",
-         "vrs-approved":"VRS has approved the following flagging request."
+         "vtrans_approved":"VTrans has approved the following flagging request.",
+         "vrs_approved":"VRS has approved the following flagging request."
       }
    },
-   "body-text":{
+   "body_text":{
       "user":{
          "success":"Your request has been received.",
          "approved":"Your request for flagging was approved.",
@@ -36,11 +47,11 @@
       },
       "approver":{
          "submitted":"A flagging request has been submitted.",
-         "vtrans-approved":"VTrans has approved the following flagging request.",
-         "vrs-approved":"VRS has approved the following flagging request."
+         "vtrans_approved":"VTrans has approved the following flagging request.",
+         "vrs_approved":"VRS has approved the following flagging request."
       }
    },
-   "button-text":{
+   "button_text":{
       "user":{
         "status":"Track Request Status",
         "resubmit":"Submit Another Request",
