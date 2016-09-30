@@ -2274,14 +2274,15 @@ define([
             email_type = "exception"
           }
 
-          var emailSubmission = {
+          var emailFormParams = {
             req_email: globals.req_email,
-            email_type: email_type
+            email_type: email_type,
+            source: "form"
           }
 
           console.log("successful add");
 
-          sendEmail(emailSubmission)
+          sendEmail(emailFormParams)
           // Add attachment on success
           if (addResults[0].success && this.isHumanEntry) {
             if (query(".fileToSubmit", userFormNode).length === 0) {
