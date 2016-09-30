@@ -7,7 +7,7 @@
       "gis":"stephen.smith@vermont.gov"
    },
    "link":{
-      "base":"https://localhost:3000/",
+      "base":"https://vtrans-rail.github.io/flagging/",
       "form":"form",
       "status":"status.html",
       "vtrans":"vtrans.html",
