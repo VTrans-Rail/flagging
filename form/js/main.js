@@ -2276,9 +2276,10 @@ define([
 
           var emailFormParams = {
             req_email: globals.req_email,
+            req_name: globals.featureData.attributes["AppName"],
             email_type: email_type,
             source: "form",
-            form_number = globals.featureData.attributes["FormNo"]
+            form_number: globals.featureData.attributes["FormNo"]
           }
 
           console.log("successful add");
