@@ -1,3 +1,5 @@
+var feature = '' // make the feature var in the global scope to allow access later
+var decision = ''
 // --------------- get querystring value ----------------------------
 // this function gets the dotnum of the crossing the user was viewing from
 // the url so that it can be used for query tasks in the report page
@@ -53,8 +55,6 @@ require([
   var RRWCFeatureLayer = new FeatureLayer(RRWCUrl, {
     outFields: ['*']
   }) // create FeatureLayer for updating later
-
-  var feature = '' // make the feature var in the global scope to allow access later
 
   on(dom.byId('approve'), 'click', function () { submit('Approve') })
   on(dom.byId('reject'), 'click', function () { submit('Reject') })
@@ -200,7 +200,8 @@ require([
   // and kicking off the email submit process
   // -------------------------------------------------------
 
-  function submit (decision) {
+  function submit (click) {
+    decision = click
     var agentField = document.getElementById('agentName') // grab agentName DOM node
     var formStatus = false
     if (formType === 'vrs') { // for VRS: check flaggerName DOM node too
@@ -319,15 +320,16 @@ require([
       prepEmail()
     }
   }
-  var rpmList = 'stephen.smith@vermont.gov' // TODO: Change this to RPM users before finalizng
 
   function prepEmail () { // a function to fetch data to send in the email
-    var emailSubmission = {
-      rpm_list: rpmList,
-      requester: feature.attributes.AppName,
-      form_no: feature.attributes.FormNo
+    var emailFormParams = {
+      req_email: feature.attributes.AppEmail,
+      req_name: feature.attributes.AppName,
+      email_type: decision,
+      source: 'vtrans',
+      form_number: feature.attributes.FormNo
     }
-    sendEmail(emailSubmission)
+    sendEmail(emailFormParams)
   };
 
   function errback (e) {
