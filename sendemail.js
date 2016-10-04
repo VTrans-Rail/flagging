@@ -1,3 +1,5 @@
+/* global $, emailjs */
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "sendEmail" }] */
 function sendEmail (emailFormemails) {
   // import json file options vis http://stackoverflow.com/questions/2177548/load-json-into-variable
   var json = (function () {
@@ -107,8 +109,7 @@ function sendEmail (emailFormemails) {
     } else if (emailFormemails.email_type === 'exception') {
       emails.push(formExceptionemails)
     }
-  }
-  else if (emailFormemails.source === 'vtrans') {
+  } else if (emailFormemails.source === 'vtrans') {
     if (emailFormemails.email_type === 'Approve') {
       emails.push(vtransApprovedemails)
     } else if (emailFormemails.email_type === 'Reject') {
@@ -137,7 +138,7 @@ function sendEmail (emailFormemails) {
         console.log(emails[i])
         emailjs.send('sendgrid', 'email', emails[i])
       .then(function (response) {
-        console.log('successful email')
+        console.log('successful email' + response)
       }, function (err) {
         console.error('failed - error = ', err)
         // document.getElementById('emailFail').style.display = 'block'
