@@ -19,6 +19,7 @@
        "success":"[Flagging] Your request was submitted.",
        "error":"[Flagging] Your request has a problem.",
        "approved":"[Flagging] Your request has been approved.",
+       "rejected":"[Flagging] Your request was rejected.",
        "test":"[Flagging] This is only a test."
      }
 
@@ -27,7 +28,8 @@
       "user":{
          "success":"You've successfully submitted a request for flagging.",
          "error":"There was an error with your request for flagging.",
-         "approved":"Your request for flagging was approved."
+         "approved":"Your request for flagging was approved.",
+         "rejected":"Your request for flagging was rejected."
       },
       "approver":{
          "submitted":"A flagging request has been submitted.",
@@ -39,6 +41,11 @@
       "user":{
          "success":"Your request has been received.",
          "approved":"Your request for flagging was approved.",
+         "rejected":{
+           "l1":"Your request for flagging was rejected",
+           "l2":"If you would like your request re-evaluated, please reply-all to this email and explain why.",
+           "l3":"Otherwise, please press the button below to submit a new request."
+         },
          "error":{
             "l1":"You must give at least 10 days notice.",
             "l2":"If this is an urgent request, please reply-all to this email and request an exception.",
