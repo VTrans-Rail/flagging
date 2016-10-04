@@ -2282,8 +2282,6 @@ define([
             form_number: globals.featureData.attributes["FormNo"]
           }
 
-          console.log("successful add");
-
           sendEmail(emailFormParams)
           // Add attachment on success
           if (addResults[0].success && this.isHumanEntry) {

@@ -125,9 +125,6 @@ function sendEmail (emailFormemails) {
   send(emails)
 
   function send (emails) {
-    console.log(emails)
-    console.log('email test sent')
-
     // document.getElementById('emailSuccess').style.display = 'block'
     // var btns = document.getElementsByClassName('btn')
     // for (var i = 0; i < btns.length; i++) {
@@ -135,7 +132,6 @@ function sendEmail (emailFormemails) {
     // }
     try {
       for (var i = 0; i < emails.length; i++) {
-        console.log(emails[i])
         emailjs.send('sendgrid', 'email', emails[i])
       .then(function (response) {
         console.log('successful email' + response)
