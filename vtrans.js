@@ -331,7 +331,6 @@ require([
     }
     sendEmail(emailFormParams)
   };
-
   function errback (e) {
     console.error(e)
   }
