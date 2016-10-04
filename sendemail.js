@@ -16,13 +16,14 @@ function sendEmail (emailFormemails) {
 
   var formExceptionemails = {
     to: emailFormemails.req_email,
-    from_name: 'VTrans Rail Division',
+    from_name: 'VTrans Rail Section',
     from_email: json.recipients.mark,
     reply_to: json.recipients.mark,
     cc: json.recipients.rpm,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
     header: json.header_text.user.error,
+    user_name: emailFormemails.req_name,
     body1: json.body_text.user.error.l1,
     body2: json.body_text.user.error.l2,
     body3: json.body_text.user.error.l3,
@@ -32,13 +33,14 @@ function sendEmail (emailFormemails) {
 
   var formSuccessUseremails = {
     to: emailFormemails.req_email,
-    from_name: 'VTrans Rail Division',
+    from_name: 'VTrans Rail Section',
     from_email: json.recipients.mark,
     reply_to: json.recipients.mark,
     cc: null,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
     header: json.header_text.user.success,
+    user_name: emailFormemails.req_name,
     body1: json.body_text.user.success,
     body2: null,
     body3: null,
@@ -55,11 +57,46 @@ function sendEmail (emailFormemails) {
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
     header: json.header_text.approver.submitted,
+    user_name: "Rail Property Management Team"
     body1: json.body_text.approver.submitted,
     body2: null,
     body3: null,
     link: json.link.base + json.link.vtrans + json.link.query + emailFormemails.form_number,
     button: json.button_text.approver.review
+  }
+
+  var vtransApprovedemails = {
+    to: json.recipients.gis,
+    from_name: emailFormemails.req_name,
+    from_email: emailFormemails.req_email,
+    reply_to: emailFormemails.req_email,
+    cc: json.recipients.rpm,
+    bcc: json.recipients.gis + ', ' + json.recipients.rwa,
+    subject: json.subject.user.test,
+    header: json.header_text.approver.vtrans_approved,
+    user_name: "Vermont Rail Systems"
+    body1: json.body_text.approver.vtrans_approved,
+    body2: null,
+    body3: null,
+    link: json.link.base + json.link.vrs + json.link.query + emailFormemails.form_number,
+    button: json.button_text.approver.review
+  }
+
+  var vtransRejectedemails = {
+    to: emailFormemails.req_email,
+    from_name: 'VTrans Rail Section',
+    from_email: json.recipients.mark,
+    reply_to: json.recipients.mark,
+    cc: json.recipients.rpm,
+    bcc: json.recipients.gis + ', ' + json.recipients.rwa,
+    subject: json.subject.user.test,
+    header: json.header_text.user.rejected,
+    user_name: emailFormemails.req_name,
+    body1: json.body_text.user.rejected.l1,
+    body2: json.body_text.user.rejected.l2,
+    body3: json.body_text.user.rejected.l3,
+    link: json.link.base + json.link.form,
+    button: json.button_text.user.resubmit
   }
 
   var emails = [] // array of emails to send
@@ -71,13 +108,13 @@ function sendEmail (emailFormemails) {
       emails.push(formExceptionemails)
     }
   }
-  // else if (emailFormemails.source === 'vtrans') {
-  //   if (decision === 'approved') {
-  //
-  //   } else if (decision === 'rejected') {
-  //
-  //   }
-  // } else if (emailFormemails.source === 'vrs') {
+  else if (emailFormemails.source === 'vtrans') {
+    if (emailFormemails.email_type === 'Approve') {
+      emails.push(vtransApprovedemails)
+    } else if (emailFormemails.email_type === 'Reject') {
+      emails.push(vtransRejectedemails)
+    }
+  } // else if (emailFormemails.source === 'vrs') {
   //   if (decision === 'approved') {
   //
   //   } else if (decision === 'rejected') {
