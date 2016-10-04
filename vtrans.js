@@ -1,3 +1,4 @@
+/* global sendEmail */
 var feature = '' // make the feature var in the global scope to allow access later
 var decision = ''
 // --------------- get querystring value ----------------------------
