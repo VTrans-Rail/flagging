@@ -57,7 +57,7 @@ function sendEmail (emailFormemails) {
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
     header: json.header_text.approver.submitted,
-    user_name: "Rail Property Management Team"
+    user_name: 'Rail Property Management Team',
     body1: json.body_text.approver.submitted,
     body2: null,
     body3: null,
@@ -74,7 +74,7 @@ function sendEmail (emailFormemails) {
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
     header: json.header_text.approver.vtrans_approved,
-    user_name: "Vermont Rail Systems"
+    user_name: 'Vermont Rail Systems',
     body1: json.body_text.approver.vtrans_approved,
     body2: null,
     body3: null,
