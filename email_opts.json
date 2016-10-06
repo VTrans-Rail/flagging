@@ -48,7 +48,7 @@
          },
          "error":{
             "l1":"You must give at least 10 days notice.",
-            "l2":"If this is an urgent request, please reply-all to this email and request an exception.",
+            "l2":"If this is an urgent request, please reply-all to this email and request an emergency exception.",
             "l3":"Otherwise, please press the button below to submit a new request."
          }
       },
