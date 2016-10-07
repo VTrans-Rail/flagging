@@ -2998,3 +2998,12 @@ define([
     })
   }
 });
+function showContact () {
+  var div = document.getElementById('contact')
+  if (div.style.display === "none") {
+    _gaq.push(["_trackEvent", "Help Link"]);
+    div.style.display = "block";
+  } else {
+    div.style.display = "none"
+  }
+}
