@@ -206,12 +206,19 @@ require([
     var agentField = document.getElementById('agentName') // grab agentName DOM node
     var formStatus = false
     if (formType === 'vrs') { // for VRS: check flaggerName DOM node too
-      formStatus = checkForm(agentField) // check that it has a value
-      if (formStatus) {
-        var flaggerField = document.getElementById('flaggerName')
-        formStatus = checkForm(flaggerField)
+      var checkResult // var for checking each vrs field
+      var invalidCount = 0 // increment when invalid
+      var controls = document.getElementsByClassName('form-control')
+      for (var i = 0; i < 3; i++) { // 3 is the textarea which we don't care about
+        checkResult = checkForm(controls[i])
+        if (!checkResult) { // if checkForm comes back true, set formStatus to true
+          invalidCount++
+        }
       }
-    } else {
+      if (!invalidCount) {
+        formStatus = true
+      }
+    } else { // for vtrans page, just check agent
       formStatus = checkForm(agentField) // check that it has a value
     }
 
