@@ -132,6 +132,8 @@ require([
       document.getElementById('alertBot').style.display = 'block'
       document.getElementById('agentName').value = feature.attributes.RRApprovedBy
       document.getElementById('flaggerName').value = feature.attributes.RRFlagger
+      document.getElementById('flaggerPhone').value = feature.attributes.RRFlaggerPhone
+      document.getElementById('VRSComment').value = feature.attributes.RRComment
     }
 
     var makeSpans = [] // create one <span> for each `outField`
@@ -234,6 +236,8 @@ require([
     } else if (formType === 'vrs') {
       formData.AgentName = document.getElementById('agentName').value
       formData.RRFlagger = document.getElementById('flaggerName').value
+      formData.flaggerPhone = document.getElementById('flaggerPhone').value
+      formData.VRSComment = document.getElementById('VRSComment').value
       formData.ApproveDate = new Date().format('m/dd/yy')
       formData.Decision = decision
     }
@@ -291,6 +295,8 @@ require([
     } else {
       feature.attributes.RRApprovedBy = formData.AgentName
       feature.attributes.RRFlagger = formData.RRFlagger
+      feature.attributes.RRFlaggerPhone = formData.flaggerPhone
+      feature.attributes.RRComment = formData.RRComment
       feature.attributes.RRDecisionDate = formData.ApproveDate
       feature.attributes.RRDecision = formData.Decision
     }
