@@ -76,13 +76,16 @@ require([
     // setup the graphic of the one result feature
     feature = new Graphic(results.features[0].geometry, null, results.features[0].attributes)
 
-    var displayFields = ['AppDate']
+    var displayFields = ['AppDate', 'FormNo', 'RRFlaggerPhone', 'RRFlagger']
 
     var reqStatus = ['<h2><i class="glyphicon glyphicon-ok"></i></h2><p><strong>Submitted </strong><i><span id="AppDate"></span></i></p>']
 
     var req = dom.byId('req-status')
     req.innerHTML = reqStatus.join('')
     req.style.color = 'green'
+
+    var reqnum = dom.byId('reqnum')
+    reqnum.innerHTML = feature.attributes.FormNo
 
     if (feature.attributes.RPMDecision) { // if VTrans has approved
       displayFields.push('RPMDecision', 'RPMDecisionDate')
@@ -98,6 +101,7 @@ require([
       req = dom.byId('vrs-status')
       req.innerHTML = reqStatus.join('')
       req.style.color = 'green'
+      var approved = document.getElementById('approved').style = 'display: block'
     }
 
     var displayArray = results.fields.filter(function (field) { return (displayFields.indexOf(field.name) >= 0) })
