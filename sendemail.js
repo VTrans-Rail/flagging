@@ -25,7 +25,7 @@ function sendEmail (emailFormemails) {
     cc: json.recipients.rpm,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
-    header: json.header_text.user.error + ' (Req #: ' + emailFormemails.form_number + ')',
+    header: json.header_text.user.error + ' (Req # ' + emailFormemails.form_number + ')',
     user_name: emailFormemails.req_name,
     body1: json.body_text.user.error.l1,
     body2: json.body_text.user.error.l2,
@@ -42,7 +42,7 @@ function sendEmail (emailFormemails) {
     cc: null,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
-    header: json.header_text.user.success + ' (Req #: ' + emailFormemails.form_number + ')',
+    header: json.header_text.user.success + ' (Req # ' + emailFormemails.form_number + ')',
     user_name: emailFormemails.req_name,
     body1: json.body_text.user.success,
     body2: null,
@@ -59,7 +59,7 @@ function sendEmail (emailFormemails) {
     cc: null,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
-    header: json.header_text.approver.submitted + ' (Req #: ' + emailFormemails.form_number + ')',
+    header: json.header_text.approver.submitted + ' (Req # ' + emailFormemails.form_number + ')',
     user_name: 'Rail Property Management Team',
     body1: json.body_text.approver.submitted,
     body2: null,
@@ -76,7 +76,7 @@ function sendEmail (emailFormemails) {
     cc: json.recipients.rpm,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
-    header: json.header_text.approver.vtrans_approved + ' (Req #: ' + emailFormemails.form_number + ')',
+    header: json.header_text.approver.vtrans_approved + ' (Req # ' + emailFormemails.form_number + ')',
     user_name: 'Vermont Rail Systems',
     body1: json.body_text.approver.vtrans_approved,
     body2: null,
@@ -93,7 +93,7 @@ function sendEmail (emailFormemails) {
     cc: json.recipients.rpm,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
-    header: json.header_text.user.rejected + ' (Req #: ' + emailFormemails.form_number + ')',
+    header: json.header_text.user.rejected + ' (Req # ' + emailFormemails.form_number + ')',
     user_name: emailFormemails.req_name,
     body1: json.body_text.user.rejected.l1,
     body2: json.body_text.user.rejected.l2,
@@ -101,6 +101,40 @@ function sendEmail (emailFormemails) {
     link: json.link.base + json.link.form,
     button: json.button_text.user.resubmit
   }
+
+  var vrsApprovedemails = {
+    to: emailFormemails.req_email,
+    from_name: 'VTrans Rail Section',
+    from_email: json.recipients.mark,
+    reply_to: json.recipients.mark,
+    cc: json.recipients.rpm + ',' + json.recipients.vrs,
+    bcc: json.recipients.gis + ', ' + json.recipients.rwa,
+    subject: json.subject.user.test,
+    header: json.header_text.user.approved + ' (Req # ' + emailFormemails.form_number + ')',
+    user_name: emailFormemails.req_name,
+    body1: json.body_text.user.approved,
+    body2: null,
+    body3: null,
+    link: json.link.base + json.link.vrs + json.link.query + emailFormemails.form_number,
+    button: json.button_text.user.approved
+  }
+
+  // var vrsRejectedemails = {
+  //   to: emailFormemails.req_email,
+  //   from_name: 'VTrans Rail Section',
+  //   from_email: json.recipients.mark,
+  //   reply_to: json.recipients.mark,
+  //   cc: json.recipients.rpm,
+  //   bcc: json.recipients.gis + ', ' + json.recipients.rwa,
+  //   subject: json.subject.user.test,
+  //   header: json.header_text.user.rejected + ' (Req # ' + emailFormemails.form_number + ')',
+  //   user_name: emailFormemails.req_name,
+  //   body1: json.body_text.user.rejected.l1,
+  //   body2: json.body_text.user.rejected.l2,
+  //   body3: json.body_text.user.rejected.l3,
+  //   link: json.link.base + json.link.form,
+  //   button: json.button_text.user.resubmit
+  // }
 
   var emails = [] // array of emails to send
 
@@ -116,13 +150,13 @@ function sendEmail (emailFormemails) {
     } else if (emailFormemails.email_type === 'Reject') {
       emails.push(vtransRejectedemails)
     }
-  } // else if (emailFormemails.source === 'vrs') {
-  //   if (decision === 'approved') {
-  //
-  //   } else if (decision === 'rejected') {
-  //
-  //   }
-  // }
+  } else if (emailFormemails.source === 'vrs') {
+    if (emailFormemails.email_type === 'Approve') {
+      emails.push(vrsApprovedemails)
+    } else if (emailFormemails.email_type === 'Reject') {
+      emails.push(vtransRejectedemails)
+    }
+  }
   send(emails)
 
   function send (emails) {
