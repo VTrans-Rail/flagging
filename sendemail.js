@@ -7,8 +7,8 @@ function sendEmail (emailFormemails) {
     $.ajax({
       'async': false,
       'global': false,
-      'url': '/flagging/email_opts.json', // prod
-      // 'url':'/email_opts.json' //dev
+      // 'url': '/flagging/email_opts.json', // prod
+      'url': '/email_opts.json', // dev
       'dataType': 'json',
       'success': function (data) {
         json = data
@@ -25,7 +25,7 @@ function sendEmail (emailFormemails) {
     cc: json.recipients.rpm,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
-    header: json.header_text.user.error,
+    header: json.header_text.user.error + ' (Req #: ' + emailFormemails.form_number + ')',
     user_name: emailFormemails.req_name,
     body1: json.body_text.user.error.l1,
     body2: json.body_text.user.error.l2,
@@ -42,7 +42,7 @@ function sendEmail (emailFormemails) {
     cc: null,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
-    header: json.header_text.user.success,
+    header: json.header_text.user.success + ' (Req #: ' + emailFormemails.form_number + ')',
     user_name: emailFormemails.req_name,
     body1: json.body_text.user.success,
     body2: null,
@@ -59,7 +59,7 @@ function sendEmail (emailFormemails) {
     cc: null,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
-    header: json.header_text.approver.submitted,
+    header: json.header_text.approver.submitted + ' (Req #: ' + emailFormemails.form_number + ')',
     user_name: 'Rail Property Management Team',
     body1: json.body_text.approver.submitted,
     body2: null,
@@ -76,7 +76,7 @@ function sendEmail (emailFormemails) {
     cc: json.recipients.rpm,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
-    header: json.header_text.approver.vtrans_approved,
+    header: json.header_text.approver.vtrans_approved + ' (Req #: ' + emailFormemails.form_number + ')',
     user_name: 'Vermont Rail Systems',
     body1: json.body_text.approver.vtrans_approved,
     body2: null,
@@ -93,7 +93,7 @@ function sendEmail (emailFormemails) {
     cc: json.recipients.rpm,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.test,
-    header: json.header_text.user.rejected,
+    header: json.header_text.user.rejected + ' (Req #: ' + emailFormemails.form_number + ')',
     user_name: emailFormemails.req_name,
     body1: json.body_text.user.rejected.l1,
     body2: json.body_text.user.rejected.l2,
@@ -126,25 +126,26 @@ function sendEmail (emailFormemails) {
   send(emails)
 
   function send (emails) {
+    console.log(emails)
     // document.getElementById('emailSuccess').style.display = 'block'
     // var btns = document.getElementsByClassName('btn')
     // for (var i = 0; i < btns.length; i++) {
     //   btns[i].setAttribute('disabled', 'disabled')
     // }
-    try {
-      for (var i = 0; i < emails.length; i++) {
-        emailjs.send('sendgrid', 'email', emails[i])
-      .then(function (response) {
-        console.log('successful email' + response)
-      }, function (err) {
-        console.error('failed - error = ', err)
-        // document.getElementById('emailFail').style.display = 'block'
-      })
-      }
-    } catch (e) {
-      console.error(e)
-    } finally {
-      // TODO: show confirmation that the email was sent
-    }
+    // try {
+    //   for (var i = 0; i < emails.length; i++) {
+    //     emailjs.send('sendgrid', 'email', emails[i])
+    //   .then(function (response) {
+    //     console.log('successful email' + response)
+    //   }, function (err) {
+    //     console.error('failed - error = ', err)
+    //     // document.getElementById('emailFail').style.display = 'block'
+    //   })
+    //   }
+    // } catch (e) {
+    //   console.error(e)
+    // } finally {
+    //   // TODO: show confirmation that the email was sent
+    // }
   }
 }
