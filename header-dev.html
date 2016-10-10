@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="fragment" content="!">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Keywords" content="GeoForm, GeoForm Template, Template, Map, Esri">
+    <meta name="description" content="GeoForm is a configurable template for form based data editing of a Feature Service. This application allows users to enter data through a form instead of a map’s pop-up while leveraging the power of the Web Map and editable Feature Services.">
+    <meta name="author" content="esri">
+    <!-- Facebook -->
+    <meta property="og:title" content="GeoForm">
+    <meta property="og:image" content="images/item.png">
+    <meta property="og:site_name" content="esri">
+    <!-- Chrome for Android -->
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <title>Flagging Request Form</title>
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" type="text/css" href="form/js/vendor/bootswatch/readable/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="js/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.18/esri/css/esri.css">
+    <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.18/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" type="text/css" href="form/js/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="form/css/style.css">
+    <link id="rtlCSS" rel="stylesheet" />
+    <script type="text/javascript" src="http://localhost:35729/livereload.js">
+    </script>
+    <!-- emailjs script and init -->
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("user_acgfykkRilLjCWxMZUpsY");
+        })();
+    </script>
+    <script type="text/javascript" src="../sendemail.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.0/moment.min.js"></script>
+    <script>
+        moment().format();
+    </script>
+    <script type="text/javascript" src="../date.format.js"></script>
+    <link href="js/vendor/select2/select2.min.css" rel="stylesheet" />
+    <link href="js/vendor/touch-spinner/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css" />
+    <script src="form/js/vendor/jquery.min.js"></script>
+    <script src="form/js/vendor/moment-with-langs.min.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/vendor/html5shiv.min.js"></script>
+    <script src="js/vendor/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body id="geoform" class="claro geoform-readable">
+    <a id="top"><!-- Top of page --></a>
+    <div class="loading-indicator">
+        <div class="icon-loading"></div>
+        <div class="loading-error">
+            <div class="alert alert-danger"><span class="icon-frown"></span> <span id="loading_message"></span>
+            </div>
+        </div>
+    </div>
+    <div id="fullscreen_container" class="fullscreen-container"></div>
+    <div id="parentContainter" class="app-content"><div id="jumbotronNode" class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-10 col-lg-offset-1">
+                <img alt="" id="appLogo" class="img-responsive" src="data:image/jpeg;base64,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">
+                <div class="clearfix"></div>
+                <h1 id="appTitle">RR Flagging Request Form</h1>
+                <p id="appDescription">
+                  <!-- begin copy -->
+                  <div>
+                  <hr>
+                  <h2>Instructions:</h2>
+                  <hr>
+                  <h4>
+                    To work in the railroad right-of-way, please complete this form.
+                  </h4>
+                  <h4>
+                    Your request must be recieved at least 10 days before your work start date.
+                  </h4>
+                  <br>
+                  <a onclick="showContact()" style="cursor: pointer">
+                    <h5>Click here if you're having trouble completing this form.</h5>
+                  </a>
+                    <div id="contact" style="display: none; background-color: lightyellow; padding: 10px;;">
+                      <h5>
+                        Call 802-828-5993 or
+                        <a href="mailto:robert.atchinson@vermont.gov?CC=stephen.smith@vermont.gov&Subject=%5BFlagging%5D%20Support%20Needed&Body=Hello%2C%0AI%20am%20having%20trouble%20filling%20out%20the%20form.%0A%0AHere%27s%20what%20I%20did%3A%0A%0AHere%27s%20what%20happened%20next%3A">
+                          email
+                        </a>
+                        Robert Atchinson at
+                        <span style="font-weight: lighter">
+                          robert.atchinson@vermont.gov.
+                        </span>
+                      </h5>
+                    </div>
+                  <script type="text/javascript">
+                  function showContact () {
+                    var div = document.getElementById('contact')
+                    if (div.style.display === "none") {
+                      _gaq.push(["_trackEvent", "Help Link"]);
+                      div.style.display = "block";
+                    } else {
+                      div.style.display = "none"
+                    }
+                  }
+                  </script>
+                  <hr>
+                  <h3>
+                    <span class="glyphicon glyphicon-font" style="padding-right: 8px;"></span>
+                    <mark>Fill out</mark><span class="well well-sm small">all the fields
+                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+                    </span>
+                  </h3>
+                  <h3>
+                    <span class="glyphicon glyphicon-search" style="padding-right: 8px;"></span>
+                    <mark>Search</mark> for the worksite location on the map
+                  </h3>
+                  <h3>
+                    <span class="glyphicon glyphicon-hand-up" style="padding-right: 8px;"></span><mark>Click</mark> the map to place a pin
+                    <img src="http://vtrans.maps.arcgis.com/apps/GeoForm/images/pins/blue.png" style="padding-left: 8px;"></h3>
+                    <h3><span class="glyphicon glyphicon-floppy-disk" style="padding-right: 8px;"></span><mark>Click &nbsp;</mark><a class="btn btn-primary" href="#submitButton">Submit Entry</a> when you're done</h3>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="row" style="display: table;">
+                      <div class="col-sm-6 col-lg-6">
+                        <div class="panel panel-info">
+                          <div class="panel-heading">
+                            <h3 class="panel-title"><span class="glyphicon glyphicon-globe" style="padding-right: 10px;"></span> Map Help</h3>
+                          </div>
+                          <div class="panel-body">
+                            <span class="glyphicon glyphicon-search" style="padding-right: 5px;"></span> Search like: <code>Barton, VT</code>
+                            <br>
+                            <span class="glyphicon glyphicon-fullscreen" style="padding-right: 5px;"></span> Click to enlarge the map
+                            <br>
+                            <span class="glyphicon glyphicon-remove" style="padding-right: 5px;"></span> Click to close the map
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6">
+                        <div class="panel panel-danger">
+                          <div class="panel-heading">
+                            <h3 class="panel-title">
+                              <span class="glyphicon glyphicon-exclamation-sign" style="padding-right: 10px;"></span>The Process
+                              <br>
+                            </h3>
+                          </div>
+                          <div class="panel-body">
+                            <p class="text-danger" style="margin:0;"><span class="glyphicon glyphicon-pencil" style="padding-right: 10px;"></span>
+                              You will receive an email with a tracking link shortly after submitting.
+                              <br>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <br>
+                    <div class="text-center">
+                      <a class="btn btn-success btn-lg" href="#userForm">Let's Get Started!</a>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                  </div>
+                  <!-- end copy   -->
+                </p>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-lg-10 col-lg-offset-1 errorMessageDiv">
+            <div id="errorMessageDiv"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-12 col-lg-10 col-lg-offset-1" id="selectLayer" style="display: none;">
+             <h2 class="geoformSection">
+                ${formSection} Select Form</h2>
+               <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="multipleLayers">
+                    </div>
+                </div></div>
+
+        </div>
+
+        <div class="col-md-12 col-lg-10 col-lg-offset-1">
+            <h2 class="geoformSection">
+                1. Enter Information</h2>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <form role="form" id="userForm"><div class="form-group geoFormQuestionare mandatory"><label for="AppName" class="control-label" id="AppName_label_0">Applicant Name<small class="requireFieldStyle">(required)</small></label><input type="text" class="form-control" data-input-type="String" maxlength="255" id="AppName" data-display-type="text" aria-required="true" required="" data-default-value=" "></div><div class="form-group geoFormQuestionare"><label for="AppPhone" class="control-label" id="AppPhone_label_1">Applicant Phone Number</label><input type="text" class="form-control" data-input-type="String" maxlength="20" id="AppPhone" data-display-type="text"></div><div class="form-group geoFormQuestionare mandatory"><label for="AppEmail" class="control-label" id="AppEmail_label_2">Applicant E-mail<small class="requireFieldStyle">(required)</small></label><div class="input-group"><span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span><input type="text" class="form-control" data-input-type="String" maxlength="255" id="AppEmail" data-display-type="email" aria-required="true" required="" data-default-value=" "></div></div><div class="form-group geoFormQuestionare"><label for="CompName" class="control-label" id="CompName_label_3">Company</label><input type="text" class="form-control" data-input-type="String" maxlength="255" id="CompName" data-display-type="text"></div><div class="form-group geoFormQuestionare"><label for="BillAddress" class="control-label" id="BillAddress_label_4">Billing Address</label><input type="text" class="form-control" data-input-type="String" maxlength="255" id="BillAddress" data-display-type="text"></div><div class="form-group geoFormQuestionare"><label for="BillTown" class="control-label" id="BillTown_label_5">City</label><input type="text" class="form-control" data-input-type="String" maxlength="255" id="BillTown" data-display-type="text"></div><div class="form-group geoFormQuestionare"><label for="BillState" class="control-label" id="BillState_label_6">State</label><input type="text" class="form-control" data-input-type="String" maxlength="100" id="BillState" data-display-type="text"></div><div class="form-group geoFormQuestionare"><label for="BillZIP" class="control-label" id="BillZIP_label_7">Zip</label><input type="text" class="form-control" data-input-type="String" maxlength="20" id="BillZIP" data-display-type="text"></div><div class="form-group geoFormQuestionare mandatory"><label for="WorkStartDate" class="control-label" id="WorkStartDate_label_8">Work Start Date<small class="requireFieldStyle">(required)</small></label><div class="input-group date"><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span><input type="text" class="form-control hasDatetimepicker" data-input-type="Date" id="WorkStartDate" aria-required="true" required="" data-default-value="-2209161600000"></div></div><div class="form-group geoFormQuestionare"><label for="WorkDescription" class="control-label" id="WorkDescription_label_9">Brief Work Description</label><input type="text" class="form-control" data-input-type="String" maxlength="255" id="WorkDescription" data-display-type="text"></div><div class="form-group geoFormQuestionare"><label for="WorkDuration" class="control-label" id="WorkDuration_label_10">Duration in Foul Zone</label><input type="text" class="form-control" data-input-type="String" maxlength="100" id="WorkDuration" data-display-type="text"></div><div class="form-group geoFormQuestionare"><label for="WorkEquipment" class="control-label" id="WorkEquipment_label_11">Equipment in foul zone</label><input type="text" class="form-control" data-input-type="String" maxlength="255" id="WorkEquipment" data-display-type="text"></div><div class="form-group geoFormQuestionare"><label for="WorkCompletionDate" class="control-label" id="WorkCompletionDate_label_12">Expected Completion Date</label><div class="input-group date"><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span><input type="text" class="form-control hasDatetimepicker" data-input-type="Date" id="WorkCompletionDate"></div></div><div class="form-group geoFormQuestionare"><label for="VTransProject" class="control-label" id="VTransProject_label_13">VTrans Project?</label><select class="selectDomain form-control" id="VTransProject"><option value="">Select…</option><option value="Y">Yes</option><option value="N">No</option></select></div></form>
+              </div>
+            </div>
+            <h2 id="select_location" class="geoformSection">
+                2. Select Location</h2>
+            <p id="locationOptionDescriptor">Specify the location for this entry by clicking/tapping the map or by using one of the following options.</p>
+            <div id="location_panel" class="panel panel-default">
+                <div class="panel-heading" id="location_nav">
+                    <ul class="nav nav-pills" id="location_pills">
+                        <li data-tab-id="enableSearch" style="display: block;" class="active"><a href="#address" data-toggle="tab">Search</a>
+                        </li>
+                        <li data-tab-id="enableLatLng" style="display: block;"><a href="#coordinates" data-toggle="tab">Lat/Lon</a>
+                        </li>
+                        <li data-tab-id="enableUSNG" style="display: none;"><a href="#usng" data-toggle="tab">USNG</a>
+                        </li>
+                        <li data-tab-id="enableMGRS" style="display: none;"><a href="#mgrs" data-toggle="tab">MGRS</a>
+                        </li>
+                        <li data-tab-id="enableUTM" style="display: none;"><a href="#utm" data-toggle="tab">UTM</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="location_panel_body" class="panel-body">
+                    <div id="location_tabs" class="tab-content">
+                        <div id="address" class="tab-pane active">
+                          <div class="form-inline">
+                            <div class="form-group">
+                              <div role="presentation" class="arcgisSearch" id="search-widget" widgetid="search-widget" style="display: block;">
+  <div role="presentation" class="searchGroup" data-dojo-attach-point="containerNode">
+    <div data-dojo-attach-point="expandNode" class="searchExpandContainer">
+      <div class="searchAnimate">
+        <div role="button" title="Search in" id="search-widget_menu_button" class="searchBtn searchToggle" tabindex="0" data-dojo-attach-point="sourcesBtnNode">
+          <span aria-hidden="true" role="presentation" class="searchIcon esri-icon-down-arrow"></span><span class="sourceName" data-dojo-attach-point="sourceNameNode">Esri World Geocoder</span>
+        </div>
+        <div class="searchInputGroup">
+          <form data-dojo-attach-point="formNode">
+            <input maxlength="128" autocomplete="off" type="text" tabindex="0" class="searchInput" value="" aria-haspopup="true" id="search-widget_input" data-dojo-attach-point="inputNode" role="textbox" placeholder="Find address or place" title="Find address or place">
+          </form>
+          <div role="button" class="searchClear" tabindex="0" data-dojo-attach-point="clearNode"><span aria-hidden="true" class="searchIcon esri-icon-close searchClose"></span><span aria-hidden="true" class="searchIcon esri-icon-loading-indicator searchSpinner"></span>
+          </div>
+          <div data-dojo-attach-point="suggestionsNode" class="searchMenu suggestionsMenu"></div>
+        </div>
+      </div>
+    </div>
+    <div role="button" title="Search" class="searchBtn searchSubmit" tabindex="0" data-dojo-attach-point="submitNode">
+      <span aria-hidden="true" role="presentation" class="searchIcon esri-icon-search"></span>
+      <span class="searchButtonText">Search</span>
+    </div>
+    <div data-dojo-attach-point="sourcesNode" class="searchMenu sourcesMenu"></div>
+    <div data-dojo-attach-point="noResultsMenuNode" class="searchMenu noResultsMenu"></div>
+    <div class="searchClearFloat"></div>
+  </div>
+</div>
+                            </div>
+                              <div class="form-group">
+                                <button title="Locate Me" id="geolocate_button" class="btn btn-default" data-loading-text="Locating…"><span class="fa fa-location-arrow"></span> <span>Locate Me</span></button>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="coordinates" class="tab-pane">
+                            <div class="form-group">
+                                <label for="lat_coord">Latitude (Y)</label>
+                                <input id="lat_coord" type="text" pattern="-?\d{1,3}\.\d+" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="lng_coord">Longitude (X)</label>
+                                <input id="lng_coord" type="text" pattern="-?\d{1,3}\.\d+" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <button id="cordsSubmit" type="button" class="btn btn-default"><span class="glyphicon glyphicon-map-marker"></span> Set Location</button>
+                            </div>
+                        </div>
+                        <div id="usng" class="tab-pane">
+                            <div class="form-group">
+                                <label for="usng_coord">USNG</label>
+                                <input id="usng_coord" type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <button id="usng_submit" type="button" class="btn btn-default"><span class="glyphicon glyphicon-map-marker"></span> Set Location</button>
+                            </div>
+                        </div>
+                        <div id="mgrs" class="tab-pane">
+                            <div class="form-group">
+                                <label for="mgrs_coord">MGRS</label>
+                                <input id="mgrs_coord" type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <button id="mgrs_submit" type="button" class="btn btn-default"><span class="glyphicon glyphicon-map-marker"></span> Set Location</button>
+                            </div>
+                        </div>
+                        <div id="utm" class="tab-pane">
+                            <div class="form-group">
+                                <label for="utm_northing">Northing</label>
+                                <input id="utm_northing" type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="utm_easting">Easting</label>
+                                <input id="utm_easting" type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="utm_zone_number">Zone Number</label>
+                                <input id="utm_zone_number" type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <button id="utm_submit" type="button" class="btn btn-default"><span class="glyphicon glyphicon-map-marker"></span> Set Location</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div id="coordinatesContainer">
+                <small class="text-muted" id="coordinatesValue">Latitude: 43.88752, &nbsp;Longitude: -72.43635</small>
+            </div>
+            <div class="gf-map panel panel-default" id="map_container">
+                <div id="mapDiv" class="map-div map" data-zoom="8" data-scale="2311162.217155" data-loaded=""><div class="basemapToggle-button"><div class="BasemapToggle" role="presentation" style="display: block;" id="BasemapToggle" widgetid="BasemapToggle">
+    <div class="basemapContainer">
+        <div data-dojo-attach-point="_toggleNode" title="Toggle basemap" role="button" class="toggleButton topo" tabindex="0"><div class="basemapImageContainer"><div class="basemapImage"><div class="basemapBG" style="background-image:url(http://js.arcgis.com/3.18/esri/images/basemap/topo.jpg)" title="Topographic"></div></div><div title="Topographic" class="basemapTitle">Topographic</div><div></div></div></div>
+    </div>
+</div></div><div id="mapDiv_root" class="esriMapContainer panel" style="width: 718px; height: 348px; direction: ltr;"><div id="mapDiv_container" class="esriMapContainer" style="position: absolute; cursor: default; clip: auto;"><div id="mapDiv_layers" class="esriMapLayers"><div id="mapDiv_World_Imagery_6611" style="position: absolute; width: 718px; height: 348px; overflow: visible; transform: translate(0px, 0px); display: block;"><div style="position: absolute; width: 718px; height: 348px; overflow: visible; transition: -webkit-transform 500ms ease;"><img id="mapDiv_World_Imagery_6611_tile_8_0_0" alt="" class="layerTile" src="http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/8/92/74" style="width: 256px; height: 256px; visibility: inherit; transform: translate(-165px, -57px);"><img id="mapDiv_World_Imagery_6611_tile_8_1_0" alt="" class="layerTile" src="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/8/93/74" style="width: 256px; height: 256px; visibility: inherit; transform: translate(-165px, 199px);"><img id="mapDiv_World_Imagery_6611_tile_8_0_1" alt="" class="layerTile" src="http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/8/92/75" style="width: 256px; height: 256px; visibility: inherit; transform: translate(91px, -57px);"><img id="mapDiv_World_Imagery_6611_tile_8_1_1" alt="" class="layerTile" src="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/8/93/75" style="width: 256px; height: 256px; visibility: inherit; transform: translate(91px, 199px);"><img id="mapDiv_World_Imagery_6611_tile_8_0_2" alt="" class="layerTile" src="http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/8/92/76" style="width: 256px; height: 256px; visibility: inherit; transform: translate(347px, -57px);"><img id="mapDiv_World_Imagery_6611_tile_8_1_2" alt="" class="layerTile" src="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/8/93/76" style="width: 256px; height: 256px; visibility: inherit; transform: translate(347px, 199px);"><img id="mapDiv_World_Imagery_6611_tile_8_0_3" alt="" class="layerTile" src="http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/8/92/77" style="width: 256px; height: 256px; visibility: inherit; transform: translate(603px, -57px);"><img id="mapDiv_World_Imagery_6611_tile_8_1_3" alt="" class="layerTile" src="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/8/93/77" style="width: 256px; height: 256px; visibility: inherit; transform: translate(603px, 199px);"></div></div><div data-reference="true" id="mapDiv_World_Boundaries_and_Places_1145" style="position: absolute; width: 718px; height: 348px; overflow: visible; transform: translate(0px, 0px); display: block;"><div style="position: absolute; width: 718px; height: 348px; overflow: visible; transition: -webkit-transform 500ms ease;"><img id="mapDiv_World_Boundaries_and_Places_1145_tile_8_0_0" alt="" class="layerTile" src="http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/8/92/74" style="width: 256px; height: 256px; visibility: inherit; transform: translate(-165px, -57px);"><img id="mapDiv_World_Boundaries_and_Places_1145_tile_8_1_0" alt="" class="layerTile" src="http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/8/93/74" style="width: 256px; height: 256px; visibility: inherit; transform: translate(-165px, 199px);"><img id="mapDiv_World_Boundaries_and_Places_1145_tile_8_0_1" alt="" class="layerTile" src="http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/8/92/75" style="width: 256px; height: 256px; visibility: inherit; transform: translate(91px, -57px);"><img id="mapDiv_World_Boundaries_and_Places_1145_tile_8_1_1" alt="" class="layerTile" src="http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/8/93/75" style="width: 256px; height: 256px; visibility: inherit; transform: translate(91px, 199px);"><img id="mapDiv_World_Boundaries_and_Places_1145_tile_8_0_2" alt="" class="layerTile" src="http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/8/92/76" style="width: 256px; height: 256px; visibility: inherit; transform: translate(347px, -57px);"><img id="mapDiv_World_Boundaries_and_Places_1145_tile_8_1_2" alt="" class="layerTile" src="http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/8/93/76" style="width: 256px; height: 256px; visibility: inherit; transform: translate(347px, 199px);"><img id="mapDiv_World_Boundaries_and_Places_1145_tile_8_0_3" alt="" class="layerTile" src="http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/8/92/77" style="width: 256px; height: 256px; visibility: inherit; transform: translate(603px, -57px);"><img id="mapDiv_World_Boundaries_and_Places_1145_tile_8_1_3" alt="" class="layerTile" src="http://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/8/93/77" style="width: 256px; height: 256px; visibility: inherit; transform: translate(603px, 199px);"></div></div><svg overflow="hidden" width="718" height="348" id="mapDiv_gc" style="will-change: transform; overflow: visible; position: absolute;"><g id="PM_FlaggingRequest_ALL_Hosted_8762_layer" data-geometry-type="point" data-suspended="" data-hidden="" style="display: none;"><g></g></g><g id="graphicsLayer0_layer" style="display: block;"><g></g></g><g id="graphicsLayer1_layer" opacity="0.8" style="display: block;"><g></g></g><defs></defs><g id="mapDiv_graphics_layer" style="display: block;"><g></g></g></svg></div></div><div class="esriControlsBR"><span class="esriAttribution" tabindex="" style="max-width: 323px; cursor: default;"><span class="esriAttributionList"><span class="esriAttributionItem" style="display: inline;">Earthstar Geographics<span class="esriAttributionDelim"> | </span></span><span class="esriAttributionLastItem" style="display: inline;">Esri, HERE, DeLorme<span class="esriAttributionDelim"> | </span></span></span></span><div tabindex="0" title="Esri" class="logo-sm"></div></div><div class="esriPopup esriPopupHidden light"><div class="esriPopupWrapper" style="position: absolute;"><div class="sizer" style="width: 300px;"><div class="titlePane" style="-webkit-user-select: none;"><div class="spinner hidden" title="Searching..."></div><div class="title"></div><div class="titleButton prev hidden" title="Previous feature"></div><div class="titleButton next hidden" title="Next feature"></div><div class="titleButton maximize" title="Maximize"></div><div class="titleButton close" title="Close"></div></div></div><div class="sizer content" style="width: 300px;"><div class="contentPane" style="max-height: 100px;"></div></div><div class="sizer" style="width: 300px;"><div class="actionsPane"><div class="actionList hidden"><a title="Zoom" to="" class="action zoomTo" href="javascript:void(0);"><span>Zoom to</span></a></div></div></div><div class="pointer hidden"></div></div><div class="outerPointer hidden"></div></div><div id="mapDiv_zoom_slider" class="esriSimpleSlider esriSimpleSliderVertical esriSimpleSliderTL" style="z-index: 30;"><div class="esriSimpleSliderIncrementButton" tabindex="0" role="button" title="Zoom In"><span>+</span></div><div class="esriSimpleSliderDecrementButton" tabindex="0" role="button" title="Zoom Out"><span>–</span></div></div></div><div tabindex="0" class="fullScreenButtonContainer"><span id="fullscreen_icon" title="Full Screen" class="glyphicon glyphicon-fullscreen fullScreenImage"></span></div></div>
+            </div>
+            <h2 class="geoformSection">3. Complete Form</h2>
+            <p>Add this information to the map.</p>
+            <div id="connection_status"></div>
+            <div id="pending_edits"></div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="submit-area">
+                    <div tabindex="0" id="submitButton" data-loading-text="Submitting…" class="btn btn-primary">Submit Application Form</div>
+                  <a tabindex="0" id="viewSubmissionsButton" class="btn btn-default hidden" href="viewer.html?appid=0e7cf371140140f781843cd6c1bbee33">View Submissions</a>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+    <hr>
+    <footer>
+        <div class="panel-body text-center"><a href="#top">Back to top</a>
+        </div>
+    </footer>
+</div>
+<div class="clearfix"></div></div>
+    <script type="text/javascript">
+        var package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+        var dojoConfig = {
+            // The locationPath logic below may look confusing but all its doing is
+            // enabling us to load the api from a CDN and load local modules from the correct location.
+            packages: [{
+                name: "application",
+                location: package_path + '/js'
+            }, {
+                name: "config",
+                location: package_path + '/config'
+            }, {
+                name: "arcgis_templates",
+                location: package_path + '/..'
+            }, {
+                name: "vendor",
+                location: package_path + '/js/vendor'
+            }, {
+                name: "views",
+                location: package_path + '/views'
+            }]
+        };
+        // Have to handle a locale parameter before dojo is loaded
+        if (location.search.match(/locale=([\w-]+)/)) {
+          dojoConfig.locale = RegExp.$1;
+        }
+    </script>
+    <script type="text/javascript" src="//js.arcgis.com/3.18"></script>
+    <script type="text/javascript" src="js/vendor/offline/offline.min.js"></script>
+    <script type="text/javascript" src="js/vendor/IndexedDBShim.min.js"></script>
+    <script type="text/javascript">
+        require(["config/templateConfig", "application/template", "application/main"], function (templateOptions, Template, Main) {
+            // start template
+            var myTemplate = new Template(templateOptions);
+            // create my main application. Start placing your logic in the main.js file.
+            var myApp = new Main();
+            // create my main application. Start placing your logic in the main.js file.
+            myTemplate.startup().then(function (config) {
+                //The config object contains the following properties: helper services, (optionally)
+                //i18n, appid, webmap and any custom values defined by the application.
+                //In this example we have one called theme.
+                var appResponse = config.appResponse;
+                if(config.appResponse){
+                  delete config.appResponse;
+                }
+                if (config.edit && config.appid) {
+                    // get the app builder code
+                    require(["application/builder/builder"], function (builderMode) {
+                        // create configuration app builder
+                        var builder = new builderMode(config, appResponse);
+                        // start it
+                        builder.startup().otherwise(function (error) {
+                            // something went wrong. Let's report it.
+                            myApp.reportError(error);
+                        });
+                    });
+                } else {
+                    // lets go!
+                    myApp.startup(config, appResponse);
+                }
+            }, function (error) {
+                // something went wrong. Let's report it.
+                myApp.reportError(error);
+            });
+        });
+    </script>
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-215788-4']);
+         //_gaq.push(['_setDomainName', 'esri.com']);
+        _gaq.push(['_trackPageview']);
+        _gaq.push(['_trackPageLoadTime']);
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+
+
+<div class="offline-ui offline-ui-up"><div class="offline-ui-content"></div><a href="" class="offline-ui-retry"></a></div><!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body" id="myModal_modal_body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal --></body>
+
+<!-- <body>
+  <div class="col-md-12 col-lg-10 col-lg-offset-1">
+   <div class="">
+        <hr>
+        <h2>Instructions:</h2>
+        <hr>
+        <h4>
+          To work in the railroad right-of-way, please complete and submit this form 10 days before your work start date!
+        </h4>
+        <hr>
+        <h3>
+          <span class="glyphicon glyphicon-font" style="padding-right: 8px;"></span>
+          <mark>Fill out</mark>
+          <span class="well well-sm small">all the fields
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+          </span></h3>
+        <h3>
+          <span class="glyphicon glyphicon-search" style="padding-right: 8px;"></span>
+          <mark>Search</mark> for the worksite location on the map</h3>
+
+        <h3>
+          <span class="glyphicon glyphicon-hand-up" style="padding-right: 8px;"></span>
+          <mark>Click</mark> the map to place a pin <img src="http://vtrans.maps.arcgis.com/apps/GeoForm/images/pins/blue.png" style="padding-left: 8px;">
+        </h3>
+        <h3>
+          <span class="glyphicon glyphicon-floppy-disk" style="padding-right: 8px;"></span>
+          <mark>Click &nbsp;</mark><a class="btn btn-primary" href="#submitButton">Submit Entry</a> when you're done
+        </h3>
+        <br>
+        <hr>
+        <br>
+        <div class="row" style="display: table;">
+
+            <div class="col-sm-6 col-lg-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-globe" style="padding-right: 10px;"></span> Map Help</h3>
+                    </div>
+                    <div class="panel-body"> <span class="glyphicon glyphicon-search" style="padding-right: 5px;"></span> Search like: <code>Barton, VT</code>
+                        <br>
+                        <span class="glyphicon glyphicon-fullscreen" style="padding-right: 5px;"></span> Click to enlarge the map
+                        <br>
+                        <span class="glyphicon glyphicon-remove" style="padding-right: 5px;"></span> Click to close the map </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-6">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                          <span class="glyphicon glyphicon-exclamation-sign" style="padding-right: 10px;"></span>The Process<br></please>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <p class="text-danger" style="margin:0;"><span class="glyphicon glyphicon-pencil" style="padding-right: 10px;"></span> You will receive an email with a tracking link shortly after submitting.
+                            <br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <hr>
+        <br>
+        <div class="text-center"> <a class="btn btn-success btn-lg" href="#userForm">Let's Get Started!</a> </div>
+        <br>
+        <hr>
+        <br>
+    </div>
+  </div> -->
+    <!-- <div class="col-md-12 col-lg-10 col-lg-offset-1">
+                    <img alt="" id="appLogo" class="img-responsive" src="data:image/jpeg;base64,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">
+                    <div class="clearfix"></div>
+                    <h1 id="appTitle">RR Flagging Request Form</h1>
+                    <p id="appDescription"><div class="container">	<hr>	<h2>Instructions:</h2>	<hr>	<h4>		To work in the railroad right-of-way, please complete and submit this form 10 days before your work start date!</h4>
+                    <hr>	<h3><span class="glyphicon glyphicon-font" style="padding-right: 8px;"></span><mark>Fill out</mark><span class="well well-sm small">all the fields
+                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span></h3>	<h3><span class="glyphicon glyphicon-search" style="padding-right: 8px;">
+                    </span><mark>Search</mark> for the worksite location on the map</h3>
+                    <h3><span class="glyphicon glyphicon-hand-up" style="padding-right: 8px;"></span><mark>Click</mark> the map to place a pin <img src="http://vtrans.maps.arcgis.com/apps/GeoForm/images/pins/blue.png" style="padding-left: 8px;"></h3>	<h3><span class="glyphicon glyphicon-floppy-disk" style="padding-right: 8px;"></span><mark>Click &nbsp;</mark><a class="btn btn-primary" href="#submitButton">Submit Entry</a> when you're done</h3>	<br>	<hr>	<br>	<div class="row" style="display: table;">		<div class="col-sm-6 col-lg-6">			<div class="panel panel-info">				<div class="panel-heading">					<h3 class="panel-title"><span class="glyphicon glyphicon-globe" style="padding-right: 10px;"></span> Map Help</h3>				</div>				<div class="panel-body">					<span class="glyphicon glyphicon-search" style="padding-right: 5px;"></span> Search like: <code>Barton, VT</code>					<br>					<span class="glyphicon glyphicon-fullscreen" style="padding-right: 5px;"></span> Click to enlarge the map					<br>					<span class="glyphicon glyphicon-remove" style="padding-right: 5px;"></span> Click to close the map				</div>			</div>		</div>		<div class="col-sm-6 col-md-6">			<div class="panel panel-danger">				<div class="panel-heading">					<h3 class="panel-title"><span class="glyphicon glyphicon-exclamation-sign" style="padding-right: 10px;"></span><please review="" your="" information="" carefully,="" as="" it="" is="" not="" easy="" to="" edit="" after="" submitting.="" you="" will="" receive="" an="" acceptance="" email="" soon.=""> The Process<br></please></h3>				</div>				<div class="panel-body">					<p class="text-danger" style="margin:0;"><span class="glyphicon glyphicon-pencil" style="padding-right: 10px;"></span> You will receive an email with a tracking link shortly after submitting.<br></p>				</div>			</div>		</div>	</div>	<hr>	<br>	<div class="text-center">		<a class="btn btn-success btn-lg" href="#userForm">Let's Get Started!</a>	</div>	<br>	<hr>	<br></div></p>
+                    <div class="clearfix"></div>
+                </div> -->
+<!-- </body> -->
+
+</html>
