@@ -1,3 +1,4 @@
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "showContact" }] */
 // --------------- get querystring value ----------------------------
 // this function gets the dotnum of the crossing the user was viewing from
 // the url so that it can be used for query tasks in the report page
@@ -138,8 +139,6 @@ require([
         wip.style = 'display: none'
       }
     }
-
-    var displayArray = results.fields.filter(function (field) { return (displayFields.indexOf(field.name) >= 0) })
 
     var resultCount = results.features.length // number of attributes returned
     for (var i = 0; i < resultCount; i++) { // loop through each attribute
