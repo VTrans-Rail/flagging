@@ -114,6 +114,14 @@
 
     <div class="row">
 
+      <div id="wip" style="display: block">
+        <h3>Your request for flagging is still being reviewed</h3>
+        <p>
+          You will receive an email when a decision has been made on your request.
+        </p>
+      </div>
+    </div>
+
     <div id="approved" style="display: none">
       <h3>Your request for flagging has been approved</h3>
       <p>
@@ -125,6 +133,40 @@
       <p style="color:firebrick">
         In case of an emergency, contact <strong>Rutland Dispatch </strong>at<strong> 888-265-2735</strong>.
       </p>
+    </div>
+
+    <div id="rejected" style="display: none">
+      <h3>Your request for flagging has been rejected</h3>
+      <p>
+        Below are the comments which were supplied by VTrans Property Management and Vermont Rail Systems:
+      </p>
+      <p>
+        <strong>VTrans Comment:</strong> <br>
+        <span id="RPMComment"></span> <br>
+        <strong>VRS Comment:</strong> <br>
+        <span id='RRComment'></span>
+      </p>
+      <p>
+        Please feel free to submit another request that addresses the above comments.
+      </p>
+      <a onclick="showContact()" style="cursor: pointer">
+        <h5 style="padding-bottom: 15px; padding-top: 10px;">Click here if you're having trouble completing this form.</h5>
+      </a>
+        <div id="contact" style="display: none; background-color: lightyellow; padding: 10px;">
+          <h5>
+            Call 802-828-5993 or
+            <a href="mailto:robert.atchinson@vermont.gov?CC=stephen.smith@vermont.gov&Subject=%5BFlagging%5D%20Support%20Needed&Body=Hello%2C%0AI%20am%20having%20trouble%20filling%20out%20the%20form.%0A%0AHere%27s%20what%20I%20did%3A%0A%0AHere%27s%20what%20happened%20next%3A">
+              email
+            </a>
+            Robert Atchinson at
+            <span style="font-weight: lighter">
+              robert.atchinson@vermont.gov.
+            </span>
+          </h5>
+        </div>
+      <a href="//localhost:3000/form" target="_blank">
+      <button type="button" class="btn btn-primary">Submit Another Request</button>
+      </a>
     </div>
   </div>
 
