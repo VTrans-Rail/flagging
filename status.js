@@ -13,6 +13,15 @@ function getParameterByName (name) {
     return arr[arr.length - 1]
   }
 }
+
+function showContact () {
+  var div = document.getElementById('contact')
+  if (div.style.display === 'none') {
+    div.style.display = 'block'
+  } else {
+    div.style.display = 'none'
+  }
+}
 // ----------------------------------------------------------------
 // -------------------------------------------------------------------
 // ----------------- Initialize ArcGIS Javascript API Functions -----------
@@ -87,21 +96,47 @@ require([
     var reqnum = dom.byId('reqnum')
     reqnum.innerHTML = feature.attributes.FormNo
 
-    if (feature.attributes.RPMDecision) { // if VTrans has approved
-      displayFields.push('RPMDecision', 'RPMDecisionDate')
-      reqStatus = ['<h2><i class="glyphicon glyphicon-ok"></i></h2><p><strong>Approved </strong><i><span id="RPMDecisionDate"></span></i></p>']
-      req = dom.byId('rpm-status')
-      req.innerHTML = reqStatus.join('')
-      req.style.color = 'green'
+    var wip = document.getElementById('wip')
+
+    var rejected = document.getElementById('rejected')
+
+    if (feature.attributes.RPMDecision) { // if VTrans has decided
+      if (feature.attributes.RPMDecision === 'Reject') {
+        displayFields.push('RPMDecision', 'RPMDecisionDate', 'RPMComment')
+        reqStatus = ['<h2><i class="glyphicon glyphicon-remove"></i></h2><p><strong>Rejected </strong><i><span id="RPMDecisionDate"></span></i></p>']
+        req = dom.byId('rpm-status')
+        req.innerHTML = reqStatus.join('')
+        req.style.color = 'firebrick'
+        wip.style = 'display: none'
+        rejected.style = 'display: block;'
+      } else {
+        displayFields.push('RPMDecision', 'RPMDecisionDate')
+        reqStatus = ['<h2><i class="glyphicon glyphicon-ok"></i></h2><p><strong>Approved </strong><i><span id="RPMDecisionDate"></span></i></p>']
+        req = dom.byId('rpm-status')
+        req.innerHTML = reqStatus.join('')
+        req.style.color = 'green'
+      }
     }
 
     if (feature.attributes.RRDecision) {
-      displayFields.push('RRDecision', 'RRDecisionDate')
-      reqStatus = ['<h2><i class="glyphicon glyphicon-ok"></i></h2><p><strong>Approved </strong><i><span id="RRDecisionDate"></span></i></p>']
-      req = dom.byId('vrs-status')
-      req.innerHTML = reqStatus.join('')
-      req.style.color = 'green'
-      var approved = document.getElementById('approved').style = 'display: block'
+      if (feature.attributes.RRDecision === 'Reject') {
+        displayFields.push('RRDecision', 'RRDecisionDate', 'RRComment')
+        reqStatus = ['<h2><i class="glyphicon glyphicon-remove"></i></h2><p><strong>Rejected </strong><i><span id="RPMDecisionDate"></span></i></p>']
+        req = dom.byId('vrs-status')
+        req.innerHTML = reqStatus.join('')
+        req.style.color = 'firebrick'
+        wip.style = 'display: none'
+        rejected.style = 'display: block;'
+      } else {
+        displayFields.push('RRDecision', 'RRDecisionDate')
+        reqStatus = ['<h2><i class="glyphicon glyphicon-ok"></i></h2><p><strong>Approved </strong><i><span id="RRDecisionDate"></span></i></p>']
+        req = dom.byId('vrs-status')
+        req.innerHTML = reqStatus.join('')
+        req.style.color = 'green'
+        var approved = document.getElementById('approved')
+        approved.style = 'display: block'
+        wip.style = 'display: none'
+      }
     }
 
     var displayArray = results.fields.filter(function (field) { return (displayFields.indexOf(field.name) >= 0) })
