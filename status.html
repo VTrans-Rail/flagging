@@ -84,16 +84,15 @@
         </div>
     </div>
     <div class="container main">
-
       <h1>Request Status</h1>
       <p>
-        <strong>Below is the current status of your request.</strong>
+        <strong>Below is the current status of request #<span id="reqnum"></span>.</strong>
       </p>
     </div>
   </div>
   <!-- end jumbotron -->
 
-  <div class="request-status main">
+  <div class="row request-status main">
       <div class="col-md-4 col-sm-6 col-lg-4 req-a">
         <h2>Your Request</h2>
         <div class="feedback" id="req-status">
@@ -110,7 +109,29 @@
         <div class="feedback" id="vrs-status">
             <h2><i class="glyphicon glyphicon-question-sign"></i></h2><p><strong> Pending Review</strong></p>
         </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+    <div id="approved" style="display: none">
+      <h3>Your request for flagging has been approved</h3>
+      <p>
+        <strong>Please print this page and bring it with you</strong>
+      </p>
+      <p>
+        Your flagger will be <strong><span id="RRFlagger"></span></strong>. They will contact you
+        within 24 hours of your requested work start date to coordinate a meeting place and start time.
+        If you need to reach them for any other reason, their phone number is
+        <strong><span id="RRFlaggerPhone"></span></strong>.
+      </p>
+      <p style="color:firebrick">
+        In case of an emergency, contact <strong>Rutland Dispatch </strong>at<strong> 888-265-2735</strong>.
+      </p>
+    </div>
   </div>
+
+
   <!-- container -->
 
   </div><!-- end overall container -->
