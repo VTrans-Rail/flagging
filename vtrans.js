@@ -1,6 +1,9 @@
 /* global sendEmail */
 var feature = '' // make the feature var in the global scope to allow access later
 var decision = ''
+// var formType = window.location.pathname.split(/(\w+)/)[1] // for dev
+var formType = window.location.pathname.split(/(\w+)/)[2] // for prod
+
 // --------------- get querystring value ----------------------------
 // this function gets the dotnum of the crossing the user was viewing from
 // the url so that it can be used for query tasks in the report page
@@ -31,9 +34,6 @@ require([
   // ---------------------------------------------------------------------
 
   var FormNo = getParameterByName('FormNo') // fetch form number from URL
-
-  // var formType = window.location.pathname.split(/(\w+)/)[1] // for dev
-  var formType = window.location.pathname.split(/(\w+)/)[2] // for prod
 
   if (!FormNo) {
     badFormNo('blank') // run this after getting formNo from the URL
@@ -340,7 +340,7 @@ require([
       req_email: feature.attributes.AppEmail,
       req_name: feature.attributes.AppName,
       email_type: decision,
-      source: 'vtrans',
+      source: formType,
       form_number: feature.attributes.FormNo
     }
     sendEmail(emailFormParams)
