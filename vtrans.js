@@ -2,7 +2,7 @@
 var feature = '' // make the feature var in the global scope to allow access later
 var decision = ''
 // var formType = window.location.pathname.split(/(\w+)/)[1] // for dev
-var formType = window.location.pathname.split(/(\w+)/)[2] // for prod
+var formType = window.location.pathname.match(/v\w+/)[0] // for prod
 
 // --------------- get querystring value ----------------------------
 // this function gets the dotnum of the crossing the user was viewing from
