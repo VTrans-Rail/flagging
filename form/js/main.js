@@ -2254,7 +2254,7 @@ define([
         featureData.attributes["FormNo"] = formNumber
         var today  = new Date();
         featureData.attributes["AppDate"] = today
-        globals.form_url = "http://localhost:3000/status.html?FormNo=" + formNumber
+        globals.form_url = "https://vtrans-rail.github.io/flagging/status.html?FormNo=" + formNumber
         globals.req_email = featureData.attributes["AppEmail"]
         globals.req_date = featureData.attributes["WorkStartDate"]
         globals.today = today
