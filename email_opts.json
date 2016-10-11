@@ -21,8 +21,13 @@
        "approved":"[Flagging] Your request has been approved.",
        "rejected":"[Flagging] Your request was rejected.",
        "test":"[Flagging] This is only a test."
+     },
+     "approver":{
+       "submitted":"[Flagging] A new request was submitted.",
+       "approved":"[Flagging] VTrans has approved a new request.",
+       "rejected":"[Flagging] VRS rejected a request.",
+       "test":"[Flagging] This is only a test."
      }
-
    },
    "header_text":{
       "user":{
