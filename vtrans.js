@@ -28,9 +28,9 @@ require([
   'dojo/dom', 'dojo/on',
   'esri/tasks/query', 'esri/tasks/QueryTask',
   'esri/layers/FeatureLayer', 'esri/map', 'esri/symbols/SimpleMarkerSymbol',
-  'esri/renderers/SimpleRenderer', 'esri/graphic',
+  'esri/renderers/SimpleRenderer', 'esri/graphic', 'esri/arcgis/utils',
   'dojo/domReady!'
-], function (dom, on, Query, QueryTask, FeatureLayer, Map, SimpleMarkerSymbol, SimpleRenderer, Graphic) {
+], function (dom, on, Query, QueryTask, FeatureLayer, Map, SimpleMarkerSymbol, SimpleRenderer, Graphic, arcgisUtils) {
   // ---------------------------------------------------------------------
 
   var FormNo = getParameterByName('FormNo') // fetch form number from URL
@@ -64,19 +64,36 @@ require([
   // ------------Setup Map & symbol -------------------------------
   // -------------------------------------------------------------
 
+  var webMapItemID = 'ff0fe051ac8d40038e95730063802b9c'
+
+  // var symbol = new SimpleMarkerSymbol({ // symbol setup using JSON object from http://help.arcgis.com/en/arcgisserver/10.0/apis/rest/symbol.html
+  //   'color': [20, 175, 200, 150],
+  //   'size': 17,
+  //   'type': 'esriSMS',
+  //   'style': 'esriSMSDiamond',
+  //   'outline': { 'color': [255, 255, 255, 255], 'width': 1 }
+  // })
+
   var symbol = new SimpleMarkerSymbol({ // symbol setup using JSON object from http://help.arcgis.com/en/arcgisserver/10.0/apis/rest/symbol.html
-    'color': [20, 175, 200, 150],
-    'size': 17,
+    'color': [0, 112, 255, 194],
+    'size': 25,
     'type': 'esriSMS',
     'style': 'esriSMSDiamond',
-    'outline': { 'color': [255, 255, 255, 255], 'width': 1 }
+    'outline': {
+      'color': [0, 197, 255, 255],
+      'width': 3,
+      'type': 'esriSLS',
+      'style': 'esriSLSSolid'
+    }
   })
+
   if (document.getElementById('map')) { // only show if there is a map div
-    var map = new Map('map', {
-      center: [-72, 44],
-      zoom: 5,
-      basemap: 'hybrid'
-    })
+    // var map = new Map('map', {
+    //   center: [-72, 44],
+    //   zoom: 5,
+    //   basemap: 'hybrid'
+    // })
+
   }
 
   // -----------------------------------------------------
@@ -182,17 +199,20 @@ require([
       }
     }
     if (document.getElementById('map')) {
-      var x = Number(results.features[0].geometry.x.toFixed(4)) // get the coordinates of the result
-      var y = Number(results.features[0].geometry.y.toFixed(4))
-      if (map.loaded) {
-        map.centerAndZoom([x, y], 16)
-        map.graphics.add(feature)
-      } else {
-        map.on('load', function () { // once the map is loaded, center and zoom and add point
-          map.centerAndZoom([x, y], 16)
+      arcgisUtils.createMap(webMapItemID, 'map').then(function (response) {
+        var map = response.map
+        var x = Number(results.features[0].geometry.x.toFixed(4)) // get the coordinates of the result
+        var y = Number(results.features[0].geometry.y.toFixed(4))
+        if (map.loaded) {
+          map.centerAndZoom([x, y], 18)
           map.graphics.add(feature)
-        })
-      }
+        } else {
+          map.on('load', function () { // once the map is loaded, center and zoom and add point
+            map.centerAndZoom([x, y], 18)
+            map.graphics.add(feature)
+          })
+        }
+      })
     }
   }
 
