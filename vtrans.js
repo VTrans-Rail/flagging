@@ -64,7 +64,7 @@ require([
   // ------------Setup Map & symbol -------------------------------
   // -------------------------------------------------------------
 
-  var webMapItemID = 'ff0fe051ac8d40038e95730063802b9c'
+  var webMapItemID = 'b1fe89a19dbe4204969c5c29328dd4c1'
 
   // var symbol = new SimpleMarkerSymbol({ // symbol setup using JSON object from http://help.arcgis.com/en/arcgisserver/10.0/apis/rest/symbol.html
   //   'color': [20, 175, 200, 150],
