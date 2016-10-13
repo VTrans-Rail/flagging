@@ -107,16 +107,6 @@ require([
 
   var outFields = ['*']
 
-  // var displayFields = [ // fields with alias names
-  //   'OBJECTID', 'Form Number', 'Application Date', 'Company', 'VTrans Project?',
-  //   'Billing Address', 'City', 'State', 'Zip', 'Company Type', 'Applicant Name',
-  //   'Applicant Phone Number', 'Applicant E-mail', 'Railroad', 'VRLID', 'Work Town',
-  //   'Starting Mile Post', 'Ending Mile Post', 'Duration in Foul Zone', 'Work Start Date',
-  //   'Brief Work Description', 'Equipment in foul zone', 'Expected Completion Date',
-  //   'Asset Type', 'Asset Number', 'RPM Decision', 'RPM Decision Date', 'RPM Approver',
-  //   'RPM Comment', 'RR Decision ', 'RR Decision Date', 'RR Approver', 'Assigned Flagger'
-  // ]
-
   query.outFields = outFields
   query.returnGeometry = true
   query.outSpatialReference = {'wkid': 4326}
@@ -155,12 +145,31 @@ require([
 
     var makeSpans = [] // create one <span> for each `outField`
 
-    var displayFields = [ // fields as field names
+    // var displayFields = [ // fields as field names
+    //   'AppDate',
+    //   'CompName', 'VTransProject', 'BillAddress', 'BillTown', 'BillState', 'BillZIP',
+    //   'CompType', 'AppName', 'AppPhone', 'AppEmail', 'WorkRR', 'WorkTown',
+    //   'WorkFromMP', 'WorkToMP', 'WorkDuration', 'WorkStartDate', 'WorkCompletionDate', 'WorkDescription',
+    //   'WorkEquipment', 'WorkCompletionDate', 'WorkAsset'
+    // ]
+
+    var displayFields = [ // shorter list until geoprocessing is setup
       'AppDate',
-      'CompName', 'VTransProject', 'BillAddress', 'BillTown', 'BillState', 'BillZIP',
-      'CompType', 'AppName', 'AppPhone', 'AppEmail', 'WorkRR', 'WorkTown',
-      'WorkFromMP', 'WorkToMP', 'WorkDuration', 'WorkStartDate', 'WorkCompletionDate', 'WorkDescription',
-      'WorkEquipment', 'WorkCompletionDate', 'WorkAsset'
+      'AppName',
+      'AppPhone',
+      'AppEmail',
+      'CompName',
+      'BillAddress',
+      'BillTown',
+      'BillState',
+      'BillZIP',
+      'WorkStartDate',
+      'WorkDuration',
+      'WorkCompletionDate',
+      'WorkDescription',
+      'WorkEquipment',
+      'WorkCompletionDate',
+      'VTransProject'
     ]
 
     var displayArray = results.fields.filter(function (field) { return (displayFields.indexOf(field.name) >= 0) })
