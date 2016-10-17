@@ -260,14 +260,14 @@ require([
     if (formType === 'vtrans') {
       formData.AgentName = document.getElementById('agentName').value
       formData.Comments = document.getElementById('comments').value
-      formData.ApproveDate = new Date().format('m/dd/yy')
+      formData.ApproveDate = new Date()
       formData.Decision = decision
     } else if (formType === 'vrs') {
       formData.AgentName = document.getElementById('agentName').value
       formData.RRFlagger = document.getElementById('flaggerName').value
       formData.flaggerPhone = document.getElementById('flaggerPhone').value
       formData.VRSComment = document.getElementById('VRSComment').value
-      formData.ApproveDate = new Date().format('m/dd/yy')
+      formData.ApproveDate = new Date()
       formData.Decision = decision
     }
 
