@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>INT</title>
+    <script type="text/javascript" src="http://localhost:35729/livereload.js"></script>
+    <script type="text/javascript">
+        function getInt () {
+
+            var http = new XMLHttpRequest();
+            var url = "http://www.missionintegers.com/next-int"
+
+            http.open("POST", url, true)
+
+            http.onreadystatechange = function() {
+                console.log(http.responseText);
+            }
+            http.send()
+            // console.log(int);
+        }
+    </script>
+</head>
+
+<body>
+    <button type="button" name="button" onclick="getInt()">Get Int</button>
+
+</body>
+
+</html>
