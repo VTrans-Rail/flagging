@@ -85,7 +85,7 @@ define([
     sortedFields: [],
     isHumanEntry: null,
     currentLocation: null,
-    dateFormat: "l",
+    dateFormat: "LL",
 
     startup: function (config, appResponse, isPreview, node) {
 
@@ -2205,7 +2205,7 @@ define([
         if (currentField.value !== "") {
           if (domClass.contains(currentField, "hasDatetimepicker")) {
             var picker = $(currentField.parentNode).data('DateTimePicker');
-            var d = picker.date();
+            var d = picker.date().add(12, 'h'); // add 12h to GMT timezone to make it noon and avoid dates jumping backwards due to localization to Eastern timezone
             // need to get time of date in ms for service
             value = d.valueOf();
           } else {
