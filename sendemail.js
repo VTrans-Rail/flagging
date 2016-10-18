@@ -8,7 +8,7 @@ function sendEmail (emailFormemails) {
       'async': false,
       'global': false,
       'url': '/flagging/email_opts.json', // prod change me!
-      // 'url': '/email_opts.json', // dev
+      // 'url': '/email_opts_dev.json', // dev
       'dataType': 'json',
       'success': function (data) {
         json = data
@@ -47,7 +47,7 @@ function sendEmail (emailFormemails) {
     body1: json.body_text.user.success,
     body2: null,
     body3: null,
-    link: json.link.base + json.link.status + json.link.query + emailFormemails.form_number,
+    link: json.link.base + json.link.status + json.link.query + emailFormemails.form_id,
     button: json.button_text.user.status
   }
 
@@ -64,12 +64,12 @@ function sendEmail (emailFormemails) {
     body1: json.body_text.approver.submitted,
     body2: null,
     body3: null,
-    link: json.link.base + json.link.vtrans + json.link.query + emailFormemails.form_number,
+    link: json.link.base + json.link.vtrans + json.link.query + emailFormemails.form_id,
     button: json.button_text.approver.review
   }
 
   var vtransApprovedemails = {
-    to: json.recipients.gis, // vrs
+    to: json.recipients.vrs,
     from_name: 'VTrans Rail Section',
     from_email: json.recipients.mark,
     reply_to: json.recipients.mark,
@@ -81,7 +81,7 @@ function sendEmail (emailFormemails) {
     body1: json.body_text.approver.vtrans_approved,
     body2: null,
     body3: null,
-    link: json.link.base + json.link.vrs + json.link.query + emailFormemails.form_number,
+    link: json.link.base + json.link.vrs + json.link.query + emailFormemails.form_id,
     button: json.button_text.approver.review
   }
 
@@ -107,7 +107,7 @@ function sendEmail (emailFormemails) {
     from_name: 'VTrans Rail Section',
     from_email: json.recipients.mark,
     reply_to: json.recipients.mark,
-    cc: json.recipients.rpm + ',' + json.recipients.gis, // vrs
+    cc: json.recipients.rpm + ',' + json.recipients.vrs,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.approved,
     header: json.header_text.user.approved + ' (Req # ' + emailFormemails.form_number + ')',
@@ -115,7 +115,7 @@ function sendEmail (emailFormemails) {
     body1: json.body_text.user.approved,
     body2: null,
     body3: null,
-    link: json.link.base + json.link.status + json.link.query + emailFormemails.form_number,
+    link: json.link.base + json.link.status + json.link.query + emailFormemails.form_id,
     button: json.button_text.user.approved
   }
 
