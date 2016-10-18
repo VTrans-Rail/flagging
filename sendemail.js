@@ -7,8 +7,8 @@ function sendEmail (emailFormemails) {
     $.ajax({
       'async': false,
       'global': false,
-      // 'url': '/flagging/email_opts.json', // prod change me!
-      'url': '/flagging/email_opts_dev.json', // prod dev!!! what
+      'url': '/flagging/email_opts.json', // prod change me!
+      // 'url': '/flagging/email_opts_dev.json', // prod dev!!! what
       // 'url': '/email_opts_dev.json', // dev
       'dataType': 'json',
       'success': function (data) {
