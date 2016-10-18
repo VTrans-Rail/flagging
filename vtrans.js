@@ -370,7 +370,8 @@ require([
       req_name: feature.attributes.AppName,
       email_type: decision,
       source: formType,
-      form_number: feature.attributes.FormID
+      form_id: feature.attributes.FormID,
+      form_number: feature.attributes.FormNo
     }
     sendEmail(emailFormParams)
   };
