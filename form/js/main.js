@@ -2280,7 +2280,8 @@ define([
             req_name: globals.featureData.attributes["AppName"],
             email_type: email_type,
             source: "form",
-            form_number: globals.featureData.attributes["FormNo"]
+            form_number: globals.featureData.attributes["FormNo"],
+            form_id: globals.featureData.attributes["FormID"]
           }
 
           sendEmail(emailFormParams)
@@ -2508,7 +2509,7 @@ define([
         summary: this.config.itemInfo.item.snippet || '',
         hashtags: 'esriGeoForm',
         shareOption: this.config.enableSharing,
-        formNumber: globals.featureData.attributes.FormNo
+        formNumber: globals.featureData.attributes.FormID
       });
       this._ShareModal.startup();
       // show modal
