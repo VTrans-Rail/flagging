@@ -12,7 +12,7 @@
       "status":"status.html",
       "vtrans":"vtrans.html",
       "vrs":"vrs.html",
-      "query":"?FormNo="
+      "query":"?FormID="
    },
    "subject":{
      "user":{

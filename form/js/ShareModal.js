@@ -34,7 +34,7 @@ define([
         url: window.location.href,
         image: '',
         title: window.document.title,
-        trackURL: 'https://vtrans-rail.github.io/flagging/status.html?FormNo=',
+        trackURL: 'https://vtrans-rail.github.io/flagging/status.html?FormID=',
         summary: '',
         hashtags: '',
         mailURL: 'mailto:%20?subject=${title}&body=%20${info}%20${url}%20${summary}',
