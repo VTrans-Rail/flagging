@@ -2251,10 +2251,11 @@ define([
       featureData.geometry = new Point(Number(this.addressGeometry.x), Number(this.addressGeometry.y), this.map.spatialReference);
       // interrupt the featureData development to do my own checks and processing
       submitFormPostProcess(featureData).then(lang.hitch(this, function (formNumber) {
-        featureData.attributes["FormNo"] = formNumber
+        featureData.attributes["FormNo"] = formNumber[0]
+        featureData.attributes["FormID"] = formNumber[1]
         var today  = new Date();
         featureData.attributes["AppDate"] = today
-        globals.form_url = "https://vtrans-rail.github.io/flagging/status.html?FormNo=" + formNumber
+        globals.form_url = "https://vtrans-rail.github.io/flagging/status.html?FormNo=" + formNumber[1]
         globals.req_email = featureData.attributes["AppEmail"]
         globals.req_date = featureData.attributes["WorkStartDate"]
         globals.today = today
@@ -2975,7 +2976,7 @@ define([
   function submitFormPostProcess (featureData) {
     // set the form number
 
-    var nextFormNo
+    var nextFormNo, nextFormID
     var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/arcgis/rest/services/PM_FlaggingRequest_ALL_Hosted/FeatureServer/0' // feature service url
     var outFields = ['AppDate', 'FormNo']
 
@@ -2994,7 +2995,9 @@ define([
       })
       var maxFormNo = Math.max.apply(Math, formNos)
       nextFormNo = maxFormNo + 1
-      return nextFormNo
+      nextFormID = (nextFormNo * 100000).toString(16)
+      var ids = [nextFormNo, nextFormID]
+      return ids
     })
   }
 });
