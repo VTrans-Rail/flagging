@@ -167,18 +167,18 @@ function sendEmail (emailFormemails) {
     // for (var i = 0; i < btns.length; i++) {
     //   btns[i].setAttribute('disabled', 'disabled')
     // }
-    // try {
-    //   for (var i = 0; i < emails.length; i++) {
-    //     emailjs.send('sendgrid', 'email', emails[i])
-    //   .then(function (response) {
-    //     console.log('successful email' + response)
-    //   }, function (err) {
-    //     console.error('failed - error = ', err)
-    //     // document.getElementById('emailFail').style.display = 'block'
-    //   })
-    //   }
-    // } catch (e) {
-    //   console.error(e)
-    // }
+    try {
+      for (var i = 0; i < emails.length; i++) {
+        emailjs.send('sendgrid', 'email', emails[i])
+      .then(function (response) {
+        console.log('successful email' + response)
+      }, function (err) {
+        console.error('failed - error = ', err)
+        // document.getElementById('emailFail').style.display = 'block'
+      })
+      }
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
