@@ -34,9 +34,9 @@ require([
 ], function (dom, on, Query, QueryTask, Graphic) {
   // ---------------------------------------------------------------------
 
-  var FormNo = getParameterByName('FormNo') // fetch form number from URL
+  var FormID = getParameterByName('FormID') // fetch form number from URL
 
-  if (!FormNo) {
+  if (!FormID) {
     badFormNo('blank') // run this after getting formNo from the URL
   }
 
@@ -70,7 +70,7 @@ require([
   query.returnGeometry = true
   query.outSpatialReference = {'wkid': 4326}
 
-  query.where = 'FormNo=' + FormNo
+  query.where = 'FormID=' + FormID
 
   // execute query and then pass result into getPhotos func and initiate
   queryTask.execute(query, showResults)
