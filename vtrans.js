@@ -33,10 +33,10 @@ require([
 ], function (dom, on, Query, QueryTask, FeatureLayer, Map, SimpleMarkerSymbol, SimpleRenderer, Graphic, arcgisUtils) {
   // ---------------------------------------------------------------------
 
-  var FormNo = getParameterByName('FormNo') // fetch form number from URL
+  var FormID = getParameterByName('FormID') // fetch form number from URL
 
-  if (!FormNo) {
-    badFormNo('blank') // run this after getting formNo from the URL
+  if (!FormID) {
+    badFormNo('blank') // run this after getting FormID from the URL
   }
 
   function badFormNo (problem) {
@@ -111,14 +111,14 @@ require([
   query.returnGeometry = true
   query.outSpatialReference = {'wkid': 4326}
 
-  query.where = 'FormNo=' + FormNo
+  query.where = 'FormID=\'' + FormID + '\''
 
   // execute query and then pass result into getPhotos func and initiate
   queryTask.execute(query, showResults)
   // -----------------------------------------------------
 
   function showResults (results) {
-    // check if the formNo is invalid, returning null results
+    // check if the FormID is invalid, returning null results
     if (results.features.length === 0) {
       badFormNo('noResults')
       return
@@ -370,7 +370,7 @@ require([
       req_name: feature.attributes.AppName,
       email_type: decision,
       source: formType,
-      form_number: feature.attributes.FormNo
+      form_number: feature.attributes.FormID
     }
     sendEmail(emailFormParams)
   };

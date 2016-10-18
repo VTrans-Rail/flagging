@@ -70,7 +70,7 @@ require([
   query.returnGeometry = true
   query.outSpatialReference = {'wkid': 4326}
 
-  query.where = 'FormID=' + FormID
+  query.where = 'FormID=\'' + FormID + '\''
 
   // execute query and then pass result into getPhotos func and initiate
   queryTask.execute(query, showResults)
