@@ -51,7 +51,8 @@ require([
     }
   }
 
-  var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/arcgis/rest/services/PM_FlaggingRequest_ALL_Hosted/FeatureServer/0' // feature service url
+  // var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/arcgis/rest/services/PM_FlaggingRequest_ALL_Hosted/FeatureServer/0' // feature service url
+  var RRWCUrl = 'http://vtransmap01.aot.state.vt.us/arcgis/rest/services/Rail/PM_FlaggingRequests/FeatureServer/0' // feature service url
 
   var RRWCFeatureLayer = new FeatureLayer(RRWCUrl, {
     outFields: ['*']
@@ -260,14 +261,14 @@ require([
     if (formType === 'vtrans') {
       formData.AgentName = document.getElementById('agentName').value
       formData.Comments = document.getElementById('comments').value
-      formData.ApproveDate = new Date()
+      formData.ApproveDate = new Date().getTime()
       formData.Decision = decision
     } else if (formType === 'vrs') {
       formData.AgentName = document.getElementById('agentName').value
       formData.RRFlagger = document.getElementById('flaggerName').value
       formData.flaggerPhone = document.getElementById('flaggerPhone').value
       formData.VRSComment = document.getElementById('VRSComment').value
-      formData.ApproveDate = new Date()
+      formData.ApproveDate = new Date().getTime()
       formData.Decision = decision
     }
 
@@ -331,7 +332,9 @@ require([
     }
     // run the applyEdits tool against the featureclass with the feature data
     try {
-      RRWCFeatureLayer.applyEdits(null, [feature], null, null, errback)
+      delete feature.attributes.GlobalID
+      var applyGraphic = new Graphic(null, null, feature.attributes, null)
+      RRWCFeatureLayer.applyEdits(null, [applyGraphic], null, null, errback)
     } catch (e) {
       console.error(e)
     }
