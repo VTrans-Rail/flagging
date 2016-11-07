@@ -52,7 +52,8 @@ require([
     }
   }
 
-  var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/arcgis/rest/services/PM_FlaggingRequest_ALL_Hosted/FeatureServer/0' // feature service url
+  // var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/arcgis/rest/services/PM_FlaggingRequest_ALL_Hosted/FeatureServer/0' // feature service url
+  var RRWCUrl = 'http://vtransmap01.aot.state.vt.us/arcgis/rest/services/Rail/PM_FlaggingRequests/FeatureServer/0' // feature service url
 
   var feature = '' // make the feature var in the global scope to allow access later
 
@@ -122,7 +123,7 @@ require([
     if (feature.attributes.RRDecision) {
       if (feature.attributes.RRDecision === 'Reject') {
         displayFields.push('RRDecision', 'RRDecisionDate', 'RRComment')
-        reqStatus = ['<h2><i class="glyphicon glyphicon-remove"></i></h2><p><strong>Rejected </strong><i><span id="RPMDecisionDate"></span></i></p>']
+        reqStatus = ['<h2><i class="glyphicon glyphicon-remove"></i></h2><p><strong>Rejected </strong><i><span id="RRDecisionDate"></span></i></p>']
         req = dom.byId('vrs-status')
         req.innerHTML = reqStatus.join('')
         req.style.color = 'firebrick'
