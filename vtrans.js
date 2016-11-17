@@ -52,7 +52,7 @@ require([
   }
 
   // var RRWCUrl = 'https://services1.arcgis.com/NXmBVyW5TaiCXqFs/arcgis/rest/services/PM_FlaggingRequest_ALL_Hosted/FeatureServer/0' // feature service url
-  var RRWCUrl = 'http://vtransmap01.aot.state.vt.us/arcgis/rest/services/Rail/PM_FlaggingRequests/FeatureServer/0' // feature service url
+  var RRWCUrl = 'https://vtransmap01.aot.state.vt.us/arcgis/rest/services/Rail/PM_FlaggingRequests/FeatureServer/0' // feature service url
 
   var RRWCFeatureLayer = new FeatureLayer(RRWCUrl, {
     outFields: ['*']
