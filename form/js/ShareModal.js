@@ -188,6 +188,7 @@ define([
         }
         // update url
         var statusURLConstructor = this.trackURL + this.formNumber;
+        console.log("ShareModal: " + this.formNumber);
         this.set("url", statusURLConstructor);
         // set url value
         dom.byId("shareMapUrlText").value = statusURLConstructor;

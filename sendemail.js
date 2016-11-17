@@ -18,6 +18,8 @@ function sendEmail (emailFormemails) {
     return json
   })()
 
+  console.log('SendEmail: ' + emailFormemails.form_id)
+
   var formExceptionemails = {
     to: emailFormemails.req_email,
     from_name: 'VTrans Rail Section',
