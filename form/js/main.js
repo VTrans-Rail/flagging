@@ -2253,7 +2253,7 @@ define([
       submitFormPostProcess(featureData).then(lang.hitch(this, function (formNumber) {
         featureData.attributes["FormNo"] = formNumber[0]
         featureData.attributes["FormID"] = formNumber[1]
-        var today  = new Date();
+        var today  = new Date().getTime();
         featureData.attributes["AppDate"] = today
         globals.form_url = "https://vtrans-rail.github.io/flagging/status.html?FormID=" + formNumber[1]
         globals.req_email = featureData.attributes["AppEmail"]
