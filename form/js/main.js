@@ -2997,7 +2997,6 @@ define([
       var maxFormNo = Math.max.apply(Math, formNos)
       nextFormNo = maxFormNo + 1
       nextFormID = (nextFormNo * 100000).toString(16)
-      console.log("PostProcess: " + nextFormID);
       var ids = [nextFormNo, nextFormID]
       return ids
     })
