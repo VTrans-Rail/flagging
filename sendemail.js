@@ -70,7 +70,7 @@ function sendEmail (emailFormemails) {
   }
 
   var vtransApprovedemails = {
-    to: json.recipients.vrs,
+    to: json.recipients.gis,
     from_name: 'VTrans Rail Section',
     from_email: json.recipients.mark,
     reply_to: json.recipients.mark,
@@ -108,7 +108,7 @@ function sendEmail (emailFormemails) {
     from_name: 'VTrans Rail Section',
     from_email: json.recipients.mark,
     reply_to: json.recipients.mark,
-    cc: json.recipients.rpm + ',' + json.recipients.vrs,
+    cc: json.recipients.rpm + ',' + json.recipients.gis,
     bcc: json.recipients.gis + ', ' + json.recipients.rwa,
     subject: json.subject.user.approved,
     header: json.header_text.user.approved + ' (Req # ' + emailFormemails.form_number + ')',
